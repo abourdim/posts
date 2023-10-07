@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop-DIY V6.0 — README</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --teal: #0d7377;
+  --teal-dark: #095456;
+  --gold: #c9963b;
+  --cream: #faf6ef;
+  --dark: #1a1a2e;
+  --text: #2c2c2c;
+  --text2: #777;
+}
+body {
+  font-family: 'Courier Prime', monospace;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: repeating-conic-gradient(var(--teal) 0% 25%, transparent 0% 50%) 0 0 / 60px 60px;
+  opacity: 0.02;
+  pointer-events: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+/* Header bar */
+.hdr {
+  background: var(--teal);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hdr h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18px;
+}
+.hdr h1 span {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px;
+  background: var(--gold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+.hdr-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-left: 16px;
+}
+.hdr-nav a:hover { opacity: 1; text-decoration: underline; }
+.gold-bar { height: 3px; background: var(--gold); border-radius: 0 0 10px 10px; margin-bottom: 24px; }
+/* Content */
+h1 { font-family: 'Permanent Marker', cursive; font-size: 24px; color: var(--teal); margin: 24px 0 12px; }
+h2 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18px;
+  color: var(--teal);
+  margin: 28px 0 10px;
+  padding: 6px 12px;
+  background: var(--teal);
+  color: #fff;
+  border-radius: 6px;
+}
+h3 {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--gold);
+  margin: 20px 0 8px;
+  padding-left: 8px;
+  border-left: 3px solid var(--gold);
+}
+p { margin: 8px 0; font-size: 13px; }
+ul { margin: 8px 0 8px 20px; font-size: 13px; }
+li { margin: 4px 0; }
+strong { color: var(--teal-dark); }
+code {
+  background: #e8f5f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px;
+  color: var(--teal-dark);
+}
+a { color: var(--teal); }
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12px;
+}
+.doc-table th {
+  background: var(--teal);
+  color: #fff;
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 11px;
+}
+.doc-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #e8e0d4;
+}
+.doc-table tr:nth-child(even) td { background: #f5f0e8; }
+/* Footer */
+.ftr {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e0d4;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text2);
+}
+.ftr a { color: var(--teal); text-decoration: none; margin: 0 8px; }
+@media (max-width: 600px) {
+  .container { padding: 16px 12px; }
+  .hdr { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hdr">
+  <h1 style="margin:0;">WORKSHOP-DIY <span>V6.0</span></h1>
+  <nav class="hdr-nav">
+    <a href="index.html">🏠 Accueil</a>
+    <a href="workshop-post-gen.html">🚀 App</a>
+    <a href="README.html">📋 README</a>
+    <a href="WIKI.html">📖 Wiki</a>
+    <a href="cheatsheet.html">📄 Cheat Sheet</a>
+  </nav>
+</div>
+<div class="gold-bar"></div>
+
+<h1>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</h1>
+
+<h1>Workshop-DIY — Générateur de Posts V6.0</h1>
+
+<p>Outil multi-mode de création de visuels pour <strong>Workshop-DIY</strong> (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur. PWA installable.</p>
+
+<h2>5 Modes de Création</h2>
+
+<h3>🎨 Visuels — 58 Styles</h3>
+<p>Le mode principal. Génère des visuels Facebook avec texte, logo, doodles et footer.</p>
+<p>5 catégories: Classique (15), Kiddy (10), Formes (10), Andalous (13), Intense (10).</p>
+<p>Thumbnails live, favoris ⭐, historique Préc/Suiv (30 posts), style auto/manuel.</p>
+
+<h3>🐄 Cowsay — 35 Animaux × 16 Fonds</h3>
+<p>ASCII art en image. 35 animaux, 16 arrière-plans, 3 bulles (dire/penser/crier), 6 formats (terminal, git, code, BSOD, fortune 50+50 citations FR/AR), modes solo/duo/custom/combo.</p>
+
+<h3>💬 Chat / SMS — 6 Styles</h3>
+<p>Fausses conversations: iMessage, WhatsApp, Messenger, SMS, Discord, Telegram. Max 8 bulles, personnages personnalisables, cadre iPhone, timestamps. Contenu FR/AR.</p>
+
+<h3>😂 Mème — 12 Templates</h3>
+<p>Drake, Galaxy Brain, Distracted, Bouton Rouge, Scroll, Expanding, Change My Mind, This is Fine, Success Kid, Aliens Guy, Two Buttons, Stonks. Upload image perso. Textes rapides FR/AR.</p>
+
+<h3>📱 Notification — 6 Styles OS</h3>
+<p>iOS Light/Dark, Android Light/Dark, Windows 11, macOS. 12 icônes, textes rapides FR/AR.</p>
+
+<h2>Fonctionnalités</h2>
+
+<h3>Live Preview</h3>
+<p>Tous les champs dans tous les modes régénèrent l'image en temps réel.</p>
+
+<h3>Bilingue FR / 🇩🇿 AR</h3>
+<ul>
+<li>30 messages FR + 30 messages AR (فصحى)</li>
+<li>50 fortune cookies FR + 50 AR (حكم وأمثال)</li>
+<li>Quick texts FR/AR dans les 5 modes</li>
+<li>Placeholders arabes quand lang=AR</li>
+<li>4 polices arabes: Cairo, Amiri (calligraphie), Tajawal (moderne), Noto Kufi (géométrique)</li>
+<li>Attribution auto par style: Amiri pour Andalous, Tajawal pour Kiddy</li>
+<li>RTL complet dans tous les modes</li>
+</ul>
+
+<h3>Texte Libre (✏️)</h3>
+<p>Texte draggable sur l'image. 9 polices (dont 3 arabes), couleur/taille, multi-textes, undo/clear.</p>
+
+<h3>Galerie & Export/Import</h3>
+<ul>
+<li>🖼️ Galerie visuelle (thumbnails 200px, max 100, persistée)</li>
+<li>📥 Export JSON (settings + favoris + galerie + compteur + QR)</li>
+<li>📤 Import JSON (restauration entre machines, fusion sans doublons)</li>
+<li>Compteur total de posts générés</li>
+<li>🗑 Reset données</li>
+</ul>
+
+<h3>PWA / Installation</h3>
+<p>Manifest intégré, Service Worker cache-first, bouton 📲. Fonctionne offline.</p>
+
+<h3>Raccourcis Clavier</h3>
+<p>Ctrl+Enter (générer), Ctrl+S (PNG), Ctrl+Shift+R (aléatoire).</p>
+
+<h3>Autres</h3>
+<ul>
+<li>3 formats: Carré 1080×1080, Paysage 1200×630, Story 1080×1920</li>
+<li>4 sources: Intégré, Manuel, Groq (IA gratuite), Claude (IA Anthropic)</li>
+<li>QR Code drag & drop, URL/couleur/taille personnalisables</li>
+<li>Batch export par mode (58+35+12+6+6)</li>
+<li>Favoris ⭐ persistés, aide modal ❓, thème clair/sombre</li>
+</ul>
+
+<h2>Statistiques</h2>
+
+<ul>
+<li>5 modes, 117 variantes totales</li>
+<li>60 messages (30 FR + 30 AR), 100 fortune cookies (50+50)</li>
+<li>4 polices arabes, 9 polices overlay</li>
+<li>~6300 lignes, 318 KB, fichier unique</li>
+<li>0 dépendance serveur</li>
+</ul>
+
+<h2>Contact</h2>
+
+<ul>
+<li>workshop-diy.org · contact@workshop-diy.org · 06 19 51 51 73</li>
+<li>Chelles 77500 · https://abourdim.github.io/apps/</li>
+</ul>
+
+
+<div class="ftr">
+  <a href="index.html">🏠 Accueil</a>
+  <a href="workshop-post-gen.html">🚀 App</a>
+  <a href="README.html">📋 README</a>
+  <a href="WIKI.html">📖 Wiki</a>
+  <a href="cheatsheet.html">📄 Cheat Sheet</a>
+  <p style="margin-top:8px;">Workshop-DIY V6.0 · workshop-diy.org · بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+</div>
+
+</div>
+</body>
+</html>

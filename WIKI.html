@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop-DIY V6.0 — Wiki</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --teal: #0d7377;
+  --teal-dark: #095456;
+  --gold: #c9963b;
+  --cream: #faf6ef;
+  --dark: #1a1a2e;
+  --text: #2c2c2c;
+  --text2: #777;
+}
+body {
+  font-family: 'Courier Prime', monospace;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: repeating-conic-gradient(var(--teal) 0% 25%, transparent 0% 50%) 0 0 / 60px 60px;
+  opacity: 0.02;
+  pointer-events: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+/* Header bar */
+.hdr {
+  background: var(--teal);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hdr h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18px;
+}
+.hdr h1 span {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px;
+  background: var(--gold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+.hdr-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-left: 16px;
+}
+.hdr-nav a:hover { opacity: 1; text-decoration: underline; }
+.gold-bar { height: 3px; background: var(--gold); border-radius: 0 0 10px 10px; margin-bottom: 24px; }
+/* Content */
+h1 { font-family: 'Permanent Marker', cursive; font-size: 24px; color: var(--teal); margin: 24px 0 12px; }
+h2 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18px;
+  color: var(--teal);
+  margin: 28px 0 10px;
+  padding: 6px 12px;
+  background: var(--teal);
+  color: #fff;
+  border-radius: 6px;
+}
+h3 {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--gold);
+  margin: 20px 0 8px;
+  padding-left: 8px;
+  border-left: 3px solid var(--gold);
+}
+p { margin: 8px 0; font-size: 13px; }
+ul { margin: 8px 0 8px 20px; font-size: 13px; }
+li { margin: 4px 0; }
+strong { color: var(--teal-dark); }
+code {
+  background: #e8f5f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px;
+  color: var(--teal-dark);
+}
+a { color: var(--teal); }
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12px;
+}
+.doc-table th {
+  background: var(--teal);
+  color: #fff;
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 11px;
+}
+.doc-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #e8e0d4;
+}
+.doc-table tr:nth-child(even) td { background: #f5f0e8; }
+/* Footer */
+.ftr {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e0d4;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text2);
+}
+.ftr a { color: var(--teal); text-decoration: none; margin: 0 8px; }
+@media (max-width: 600px) {
+  .container { padding: 16px 12px; }
+  .hdr { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hdr">
+  <h1 style="margin:0;">WORKSHOP-DIY <span>V6.0</span></h1>
+  <nav class="hdr-nav">
+    <a href="index.html">🏠 Accueil</a>
+    <a href="workshop-post-gen.html">🚀 App</a>
+    <a href="README.html">📋 README</a>
+    <a href="WIKI.html">📖 Wiki</a>
+    <a href="cheatsheet.html">📄 Cheat Sheet</a>
+  </nav>
+</div>
+<div class="gold-bar"></div>
+
+<h1>Workshop-DIY — Guide d'Utilisation V6.0</h1>
+
+<h2>Démarrage Rapide</h2>
+
+<p>1. Ouvrez <code>workshop-post-gen.html</code> (ou installez via 📲)</p>
+<p>2. Choisissez un mode: 🎨 🐄 💬 😂 📱</p>
+<p>3. Modifiez le texte — l'image se met à jour en temps réel</p>
+<p>4. ⬇ PNG pour télécharger ou 📤 pour partager</p>
+
+<h2>Modes</h2>
+
+<h3>🎨 Visuels</h3>
+<p>Sujet → style (58 choix ou auto) → favoris ⭐ → historique Préc/Suiv.</p>
+
+<h3>🐄 Cowsay</h3>
+<p>Message → animal (35) → fond (16) → bulle/format. Mode Duo, Custom ASCII, Combo.</p>
+
+<h3>💬 Chat</h3>
+<p>Bulles auto-fill (4). Ajouter/supprimer/swap. Noms et avatars personnalisables. Cadre iPhone, timestamps.</p>
+
+<h3>😂 Mème</h3>
+<p>Texte haut/bas (live). 12 templates ou image uploadée (📷). Textes rapides.</p>
+
+<h3>📱 Notif</h3>
+<p>Titre/message/sous-texte (live). 6 styles OS, 12 icônes. Textes rapides.</p>
+
+<h2>Langue Arabe 🇩🇿</h2>
+
+<p>Basculez via ⚙️ → 🇩🇿 العربية. Tout change automatiquement:</p>
+<ul>
+<li>Messages et textes rapides en arabe dans les 5 modes</li>
+<li>Placeholders arabes dans tous les champs</li>
+<li>Fortune cookies: 50 حكم وأمثال</li>
+<li>Chat: bulles et noms en arabe (كريم/ورشة)</li>
+<li>4 polices: Cairo, Amiri (calligraphie), Tajawal (moderne), Noto Kufi (géométrique)</li>
+<li>Polices auto selon le style: Amiri pour Andalous, Tajawal pour Kiddy</li>
+<li>RTL complet</li>
+</ul>
+
+<h2>Texte Libre (✏️)</h2>
+
+<p>1. Cliquez ✏️ dans la barre d'actions</p>
+<p>2. Tapez texte, choisissez police (9 dont 3 arabes)/couleur/taille</p>
+<p>3. Entrée ou "Appliquer"</p>
+<p>4. Glissez pour positionner. ↩ undo, 🗑 clear.</p>
+
+<h2>Galerie & Transfert</h2>
+
+<h3>Galerie</h3>
+<p>⚙️ → 🖼️ Galerie. Thumbnails avec mode/style/date. Supprimer au survol.</p>
+
+<h3>Transférer entre machines</h3>
+<p>1. ⚙️ → 📥 Exporter JSON</p>
+<p>2. Transférer le fichier</p>
+<p>3. ⚙️ → 📤 Importer JSON</p>
+<p>Fusionne sans doublons. Restaure favoris, galerie, paramètres, compteur.</p>
+
+<h2>Paramètres (⚙️)</h2>
+
+<ul>
+<li>Format: Carré / Paysage / Story</li>
+<li>Langue: 🇫🇷 Français / 🇩🇿 العربية</li>
+<li>Source: Intégré / Manuel / Groq / Claude</li>
+<li>Données: Export/Import JSON, Galerie, Reset</li>
+</ul>
+
+<h2>Raccourcis</h2>
+
+<ul>
+<li><strong>Ctrl+Enter</strong>: Générer</li>
+<li><strong>Ctrl+S</strong>: Télécharger PNG</li>
+<li><strong>Ctrl+Shift+R</strong>: Aléatoire</li>
+</ul>
+
+<h2>Actions</h2>
+
+<p>⬇ PNG · 📤 Partager · 📋 Texte · ↻ Régénérer · 🎲 Aléatoire · ✏️ Texte libre · 📦 Batch · QR</p>
+
+<h2>FAQ</h2>
+
+<p><strong>Ça marche hors ligne?</strong> Oui via PWA (sauf IA et polices Google).</p>
+
+<p><strong>Comment transférer entre machines?</strong> Export/Import JSON dans ⚙️.</p>
+
+<p><strong>Le batch export est lent?</strong> Normal, ~30s pour 58 images.</p>
+
+<p><strong>Image perso pour mème?</strong> Mode Mème → 📷 Uploader une image.</p>
+
+<p><strong>Polices arabes?</strong> Auto selon style. Amiri pour calligraphie, Tajawal pour enfants, Noto Kufi géométrique.</p>
+
+
+<div class="ftr">
+  <a href="index.html">🏠 Accueil</a>
+  <a href="workshop-post-gen.html">🚀 App</a>
+  <a href="README.html">📋 README</a>
+  <a href="WIKI.html">📖 Wiki</a>
+  <a href="cheatsheet.html">📄 Cheat Sheet</a>
+  <p style="margin-top:8px;">Workshop-DIY V6.0 · workshop-diy.org · بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+</div>
+
+</div>
+</body>
+</html>

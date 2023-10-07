@@ -1,0 +1,19 @@
+feat: Workshop-DIY V4.1 — Galerie, Export/Import JSON, live preview complet — Build 2026-03-04 10:18
+
+NOUVELLES FONCTIONNALITÉS:
+- Galerie visuelle: historique des posts générés (thumbnails 200px, max 100)
+- Export JSON: backup complet (settings, favoris, galerie, compteur, QR)
+- Import JSON: restauration avec fusion intelligente, zéro doublons
+- Compteur total de posts générés, persisté
+- Debounce 2s pour éviter le spam galerie pendant saisie live
+- Bouton reset données (avec confirmation)
+
+V4.0 RAPPEL:
+- PWA: manifest + Service Worker + bouton 📲
+- Upload image personnalisée pour mèmes
+- 35 animaux cowsay (+10), 12 templates mème (+4)
+- Texte libre draggable (✏️) avec undo/clear
+- Raccourcis clavier: Ctrl+Enter, Ctrl+S, Ctrl+Shift+R
+- Live preview: tous les champs dans tous les modes
+
+STATS: 5 modes, 58+35+12+6+6 variantes, ~6150 lignes, 310 KB

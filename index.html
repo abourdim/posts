@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop-DIY — بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --teal: #0d7377;
+  --teal-dark: #095456;
+  --gold: #c9963b;
+  --gold-light: #f0c96e;
+  --cream: #faf6ef;
+  --dark: #1a1a2e;
+  --text: #2c2c2c;
+  --text2: #777;
+}
+
+body {
+  font-family: 'Courier Prime', monospace;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Geometric pattern overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    repeating-conic-gradient(var(--teal) 0% 25%, transparent 0% 50%) 0 0 / 60px 60px;
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.bismillah {
+  font-family: 'Cairo', serif;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.logo-wrap {
+  margin-bottom: 20px;
+}
+
+.logo-wrap img {
+  height: 64px;
+  filter: drop-shadow(0 2px 8px rgba(13,115,119,0.2));
+}
+
+h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(28px, 5vw, 42px);
+  color: var(--teal);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+h1 span {
+  font-family: 'Courier Prime', monospace;
+  font-size: 14px;
+  color: var(--gold);
+  vertical-align: middle;
+  margin-left: 8px;
+  background: var(--teal);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--text2);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 36px 0;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.divider span {
+  font-size: 20px;
+}
+
+/* Cards */
+.card-grid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e8e0d4;
+  border-radius: 16px;
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--teal);
+  border-radius: 4px 0 0 4px;
+  transform: scaleY(0);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(13,115,119,0.12);
+  border-color: var(--teal);
+}
+
+.card:hover::before {
+  transform: scaleY(1);
+}
+
+.card-main {
+  border: 2px solid var(--teal);
+  background: linear-gradient(135deg, #ffffff 0%, #f0fafa 100%);
+}
+
+.card-main::before {
+  width: 6px;
+  background: linear-gradient(to bottom, var(--teal), var(--gold));
+  transform: scaleY(1);
+}
+
+.card-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.card-main .card-icon { font-size: 48px; }
+
+.card-title {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18px;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+
+.card-main .card-title {
+  font-size: 22px;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+.card-badge {
+  display: inline-block;
+  background: var(--teal);
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.card-badge.gold {
+  background: var(--gold);
+}
+
+/* Stats row */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.stat {
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e8e0d4;
+  border-radius: 12px;
+  padding: 16px 8px;
+}
+
+.stat-num {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 28px;
+  color: var(--teal);
+  display: block;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+/* Quick start */
+.steps {
+  counter-reset: step;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 12px 0 12px 52px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  border-bottom: 1px solid #f0ebe3;
+}
+
+.steps li:last-child { border-bottom: none; }
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 36px;
+  height: 36px;
+  background: var(--teal);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: 'Courier Prime', monospace;
+}
+
+/* Contact footer */
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid #e8e0d4;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.footer-links a {
+  color: var(--teal);
+  text-decoration: none;
+}
+.footer-links a:hover { text-decoration: underline; }
+
+.footer-copy {
+  font-size: 11px;
+  color: var(--text2);
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header { animation: fadeUp 0.6s ease both; }
+.card { animation: fadeUp 0.6s ease both; }
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.15s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.25s; }
+.stats { animation: fadeUp 0.6s ease both; animation-delay: 0.3s; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .container { padding: 24px 16px; }
+  .card { padding: 20px; }
+  .stats { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+    <div class="logo-wrap">
+      <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'">
+    </div>
+    <h1>WORKSHOP-DIY <span>V6.0</span></h1>
+    <p class="subtitle">Créez des visuels percutants pour votre page Facebook. 5 modes, 100+ styles, IA intégrée, zéro installation.</p>
+  </div>
+
+  <!-- Main CTA -->
+  <div class="card-grid">
+    <a href="workshop-post-gen.html" class="card card-main">
+      <span class="card-icon">🚀</span>
+      <div class="card-title">Lancer le Générateur</div>
+      <div class="card-desc">Ouvrir l'application — 5 modes de création, 58 styles visuels, 35 animaux ASCII, mèmes, chats, notifications. Tout en un seul fichier.</div>
+      <span class="card-badge">OUVRIR L'APP</span>
+    </a>
+  </div>
+
+  <div class="divider"><span>🛠️</span></div>
+
+  <!-- 5 Modes -->
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+    <a href="workshop-post-gen.html" class="card">
+      <span class="card-icon">🎨</span>
+      <div class="card-title">Visuels</div>
+      <div class="card-desc">58 styles professionnels répartis en 5 catégories: Classique, Kiddy, Formes, Andalous, Intense.</div>
+      <span class="card-badge">58 STYLES</span>
+    </a>
+    <a href="workshop-post-gen.html" class="card">
+      <span class="card-icon">🐄</span>
+      <div class="card-title">Cowsay</div>
+      <div class="card-desc">35 animaux ASCII, 16 arrière-plans terminal, mode duo, formats spéciaux (git, BSOD, fortune).</div>
+      <span class="card-badge">35 ANIMAUX</span>
+    </a>
+    <a href="workshop-post-gen.html" class="card">
+      <span class="card-icon">💬</span>
+      <div class="card-title">Chat / SMS</div>
+      <div class="card-desc">Fausses conversations iMessage, WhatsApp, Messenger, Discord, Telegram. Cadre téléphone réaliste.</div>
+      <span class="card-badge">6 STYLES</span>
+    </a>
+    <a href="workshop-post-gen.html" class="card">
+      <span class="card-icon">😂</span>
+      <div class="card-title">Mème</div>
+      <div class="card-desc">12 templates classiques avec texte Impact. Textes rapides Workshop-DIY pré-écrits.</div>
+      <span class="card-badge gold">12 TEMPLATES</span>
+    </a>
+    <a href="workshop-post-gen.html" class="card">
+      <span class="card-icon">📱</span>
+      <div class="card-title">Notification</div>
+      <div class="card-desc">Fausses notifications iOS, Android, Windows, macOS. Très réaliste, idéal pour Facebook.</div>
+      <span class="card-badge gold">6 OS</span>
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Modes</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">58</span>
+      <span class="stat-label">Styles</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">25</span>
+      <span class="stat-label">Animaux</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">50</span>
+      <span class="stat-label">Citations</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Serveur requis</span>
+    </div>
+  </div>
+
+  <div class="divider"><span>📖</span></div>
+
+  <!-- Documentation -->
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+    <a href="README.html" class="card">
+      <span class="card-icon">📋</span>
+      <div class="card-title">README</div>
+      <div class="card-desc">Documentation technique complète. Toutes les fonctionnalités, formats, et paramètres.</div>
+    </a>
+    <a href="WIKI.html" class="card">
+      <span class="card-icon">📖</span>
+      <div class="card-title">Wiki / Guide</div>
+      <div class="card-desc">Guide d'utilisation détaillé. Workflows, raccourcis, FAQ, et conseils.</div>
+    </a>
+  </div>
+
+  <div class="divider"><span>⚡</span></div>
+
+  <!-- Quick Start -->
+  <div class="card" style="cursor:default;">
+    <div class="card-title" style="margin-bottom:16px;">🚀 Démarrage Rapide</div>
+    <ol class="steps">
+      <li>Ouvrez <strong>workshop-post-gen.html</strong> dans votre navigateur</li>
+      <li>Choisissez un mode dans les onglets: 🎨 🐄 💬 😂 📱</li>
+      <li>Tapez un sujet ou message, choisissez un style</li>
+      <li>Cliquez <strong>GÉNÉRER</strong> — l'image s'affiche instantanément</li>
+      <li>Téléchargez avec <strong>⬇ PNG</strong> ou partagez avec <strong>📤 Partager</strong></li>
+    </ol>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-links">
+      <a href="https://workshop-diy.org">🔗 workshop-diy.org</a>
+      <a href="/cdn-cgi/l/email-protection#10737f7e6471736450677f627b63787f603d7479693e7f6277">📧 <span class="__cf_email__" data-cfemail="f1929e9f85909285b1869e839a82999e81dc959888df9e8396">[email&#160;protected]</span></a>
+      <span>📞 06 19 51 51 73</span>
+      <span>📍 Chelles 77500</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://abourdim.github.io/apps/">🌐 Apps</a>
+      <a href="workshop-post-gen.html">🚀 Générateur</a>
+      <a href="README.html">📋 README</a>
+      <a href="WIKI.html">📖 Wiki</a>
+    </div>
+    <p class="footer-
