@@ -383,10 +383,15 @@ body::before {
       </button>
     </div>
 
-    <div id="apiKeySection" style="display:none;">
-      <div class="section-title">▸ CLÉ API ANTHROPIC</div>
-      <input type="password" class="topic-input" id="apiKeyInput" placeholder="sk-ant-..." style="min-height:40px;font-size:13px;font-family:'Courier Prime',monospace;">
-      <p style="font-size:11px;color:var(--text2);margin-top:6px;opacity:0.6;">Requise pour l'hébergement externe. Stockée localement uniquement.</p>
+    <div class="section-title">▸ SOURCE</div>
+    <div class="size-toggle" style="flex-wrap:wrap;">
+      <button class="size-btn active" data-mode="builtin" onclick="setAiMode('builtin')">📦 Intégré</button>
+      <button class="size-btn" data-mode="groq" onclick="setAiMode('groq')">🤖 Groq</button>
+      <button class="size-btn" data-mode="claude" onclick="setAiMode('claude')">✨ Claude</button>
+    </div>
+    <div id="aiKeySection" style="display:none;margin-top:10px;">
+      <input type="password" class="topic-input" id="aiKeyInput" placeholder="" style="min-height:40px;font-size:13px;font-family:'Courier Prime',monospace;">
+      <p id="aiKeyHint" style="font-size:11px;color:var(--text2);margin-top:6px;opacity:0.6;"></p>
     </div>
 
     <button class="generate-btn" id="generateBtn" onclick="generate()">
@@ -417,25 +422,23 @@ body::before {
 </div>
 
 <script>
-// ============================================================
-// CONFIG & STATE
-// ============================================================
+
 const STYLES = [
-  { id:'journal', name:'Journal Déchiré', icon:'📜', category:'paper' },
-  { id:'chalkboard', name:'Tableau Noir', icon:'🖍️', category:'dark' },
-  { id:'cardboard', name:'Carton & Scotch', icon:'📦', category:'paper' },
-  { id:'blueprint', name:'Plan Technique', icon:'📐', category:'dark' },
-  { id:'corkboard', name:'Tableau Liège', icon:'📌', category:'paper' },
-  { id:'workbench', name:'Établi Atelier', icon:'🔨', category:'paper' },
-  { id:'fridge', name:'Art du Frigo', icon:'🧲', category:'paper' },
-  { id:'beforeafter', name:'Avant / Après', icon:'⚡', category:'split' },
-  { id:'stickynote', name:'Post-it Écran', icon:'💛', category:'paper' },
-  { id:'kidwriting', name:'Écriture Enfant', icon:'✏️', category:'paper' },
-  { id:'fortune', name:'Fortune Cookie', icon:'🥠', category:'paper' },
-  { id:'safety', name:'Panneau Danger', icon:'⚠️', category:'bold' },
-  { id:'polaroid', name:'Polaroid Souvenir', icon:'📸', category:'paper' },
-  { id:'lunchbox', name:'Mot du Déjeuner', icon:'🍱', category:'paper' },
-  { id:'graffiti', name:'Graffiti Garage', icon:'🎨', category:'dark' },
+  { id:'journal', name:'Journal', icon:'\ud83d\udcdc', category:'paper' },
+  { id:'chalkboard', name:'Tableau Noir', icon:'\ud83d\udd8d\ufe0f', category:'dark' },
+  { id:'cardboard', name:'Carton & Scotch', icon:'\ud83d\udce6', category:'paper' },
+  { id:'blueprint', name:'Plan Technique', icon:'\ud83d\udcd0', category:'dark' },
+  { id:'corkboard', name:'Tableau Liege', icon:'\ud83d\udccc', category:'paper' },
+  { id:'workbench', name:'Etabli', icon:'\ud83d\udd28', category:'paper' },
+  { id:'fridge', name:'Art du Frigo', icon:'\ud83e\uddf2', category:'paper' },
+  { id:'beforeafter', name:'Avant / Apres', icon:'\u26a1', category:'split' },
+  { id:'stickynote', name:'Post-it Ecran', icon:'\ud83d\udc9b', category:'paper' },
+  { id:'kidwriting', name:'Ecriture Enfant', icon:'\u270f\ufe0f', category:'paper' },
+  { id:'fortune', name:'Fortune Cookie', icon:'\ud83e\udd60', category:'paper' },
+  { id:'safety', name:'Panneau Danger', icon:'\u26a0\ufe0f', category:'bold' },
+  { id:'polaroid', name:'Polaroid', icon:'\ud83d\udcf8', category:'paper' },
+  { id:'lunchbox', name:'Mot Dejeuner', icon:'\ud83c\udf71', category:'paper' },
+  { id:'graffiti', name:'Graffiti Garage', icon:'\ud83c\udfa8', category:'dark' },
 ];
 
 let state = {
@@ -443,6 +446,7 @@ let state = {
   selectedSize: 'square',
   autoStyle: true,
   generating: false,
+  aiMode: 'builtin',
 };
 
 const CONTACT = {
@@ -452,21 +456,16 @@ const CONTACT = {
   city: 'Chelles 77500',
 };
 
-const WORKSHOP_CONTEXT = `Workshop-DIY est une association basée à Chelles (77500) spécialisée en Robotique & Éducation STEM pour les enfants.
-Projets: kits robots ESP32, robots Maqueen suiveurs de ligne, introduction à Linux pour enfants, capteurs physiques (MPU6050), jardins intelligents avec capteurs, projets micro:bit, Arduino, apps éducatives (IA, caméras, lecture, entraînement cérébral).
-Slogan: "Explorez, Créez, Innovez"`;
+const WORKSHOP_CONTEXT = "Workshop-DIY est une association basee a Chelles (77500) specialisee en Robotique et Education STEM pour enfants. Projets: kits robots ESP32, robots Maqueen, Linux pour enfants, capteurs (MPU6050), jardins intelligents, micro:bit, Arduino, apps educatives. Slogan: Explorez, Creez, Innovez.";
 
-// ============================================================
-// INIT STYLE GRID
-// ============================================================
 function initStyleGrid() {
-  const grid = document.getElementById('styleGrid');
-  STYLES.forEach(s => {
-    const card = document.createElement('div');
+  var grid = document.getElementById('styleGrid');
+  STYLES.forEach(function(s) {
+    var card = document.createElement('div');
     card.className = 'style-card' + (s.id === state.selectedStyle ? ' active' : '');
     card.dataset.id = s.id;
-    card.innerHTML = `<span class="icon">${s.icon}</span><span class="name">${s.name}</span>`;
-    card.onclick = () => selectStyle(s.id);
+    card.innerHTML = '<span class="icon">' + s.icon + '</span><span class="name">' + s.name + '</span>';
+    card.onclick = function() { selectStyle(s.id); };
     grid.appendChild(card);
   });
 }
@@ -475,145 +474,193 @@ function selectStyle(id) {
   state.selectedStyle = id;
   state.autoStyle = false;
   document.getElementById('autoStyleCheck').checked = false;
-  document.querySelectorAll('.style-card').forEach(c => {
+  document.querySelectorAll('.style-card').forEach(function(c) {
     c.classList.toggle('active', c.dataset.id === id);
   });
 }
 
 function setSize(size) {
   state.selectedSize = size;
-  document.querySelectorAll('.size-btn').forEach(b => {
+  document.querySelectorAll('.size-btn[data-size]').forEach(function(b) {
     b.classList.toggle('active', b.dataset.size === size);
   });
+}
+
+function setAiMode(mode) {
+  state.aiMode = mode;
+  document.querySelectorAll('[data-mode]').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  var ks = document.getElementById('aiKeySection');
+  var ki = document.getElementById('aiKeyInput');
+  var kh = document.getElementById('aiKeyHint');
+  if (mode === 'groq') {
+    ks.style.display = 'block'; ki.placeholder = 'gsk_...';
+    kh.textContent = 'Gratuit sur groq.com/console';
+  } else if (mode === 'claude') {
+    ks.style.display = 'block'; ki.placeholder = 'sk-ant-...';
+    kh.textContent = 'console.anthropic.com';
+  } else { ks.style.display = 'none'; }
 }
 
 document.getElementById('autoStyleCheck').addEventListener('change', function() {
   state.autoStyle = this.checked;
 });
 
-// ============================================================
-// ENVIRONMENT DETECTION & API
-// ============================================================
-function isClaudeArtifact() {
-  try {
-    return window.location.hostname.includes('claude') ||
-           window.location.hostname.includes('anthropic') ||
-           window.parent !== window;
-  } catch(e) { return true; }
-}
+const MESSAGE_BANK = [
+  {headline:"Leurs mains peuvent changer le monde",message:"Chaque enfant porte en lui un inventeur. Donnez-lui des outils, pas juste des \u00e9crans. Un tournevis aujourd'hui, une fus\u00e9e demain.",cta:"Inscrivez-les maintenant",doodles:["\ud83d\ude80","\ud83d\udd27","\u2b50","\ud83e\udde0"],styles:["journal","polaroid","lunchbox"]},
+  {headline:"Construire c'est grandir",message:"Un enfant qui bricole d\u00e9veloppe sa confiance, sa logique et sa cr\u00e9ativit\u00e9. Le maker en lui n'attend que vous pour se r\u00e9veiller.",cta:"R\u00e9veillez le maker",doodles:["\ud83d\udd28","\ud83d\udca1","\ud83c\udf1f","\ud83c\udfaf"],styles:["chalkboard","workbench","cardboard"]},
+  {headline:"Stop aux \u00e9crans, place aux robots",message:"Et si votre enfant programmait son propre robot au lieu de regarder des vid\u00e9os ? Avec un ESP32 et un peu de curiosit\u00e9, tout devient possible.",cta:"D\u00e9couvrez nos ateliers",doodles:["\ud83e\udd16","\ud83d\udcf1","\u26a1","\ud83d\udd29"],styles:["beforeafter","safety","stickynote"]},
+  {headline:"Le g\u00e9nie de votre enfant dort",message:"Il suffit d'un premier projet pour tout d\u00e9clencher. La robotique apprend la patience, la logique, et la fiert\u00e9 de cr\u00e9er quelque chose de r\u00e9el.",cta:"Premier pas ici",doodles:["\ud83d\udca4","\u2728","\ud83e\udde9","\ud83c\udfc6"],styles:["fortune","kidwriting","journal"]},
+  {headline:"Offrez-leur un super pouvoir",message:"Savoir coder et construire, c'est le super pouvoir du 21\u00e8me si\u00e8cle. Nos ateliers transforment la curiosit\u00e9 en comp\u00e9tences concr\u00e8tes.",cta:"Offrez-leur l'avenir",doodles:["\ud83e\uddb8","\ud83d\udcbb","\ud83d\udd2c","\ud83c\udf0d"],styles:["graffiti","safety","blueprint"]},
+  {headline:"Un Arduino, mille possibilit\u00e9s",message:"Avec une simple carte Arduino, votre enfant peut cr\u00e9er des jeux, des robots, des syst\u00e8mes intelligents. L'imagination est la seule limite.",cta:"Commencez l'aventure",doodles:["\ud83d\udcdf","\ud83c\udfae","\ud83e\udd16","\ud83d\udca1"],styles:["blueprint","cardboard","workbench"]},
+  {headline:"Ils apprennent en s'amusant",message:"Nos ateliers STEM ne sont pas des cours. Ce sont des aventures o\u00f9 vos enfants d\u00e9couvrent la science en construisant, en testant, en riant.",cta:"Rejoignez l'aventure",doodles:["\ud83d\ude04","\ud83d\udd2c","\ud83c\udfa8","\ud83c\udfb2"],styles:["fridge","kidwriting","stickynote"]},
+  {headline:"Le bricolage rend intelligent",message:"Des \u00e9tudes montrent que les enfants qui bricolent d\u00e9veloppent mieux leur pens\u00e9e critique. Offrez-leur cette chance d\u00e8s maintenant.",cta:"Ateliers \u00e0 Chelles",doodles:["\ud83e\udde0","\ud83d\udcda","\ud83d\udd27","\ud83d\udcc8"],styles:["chalkboard","journal","corkboard"]},
+  {headline:"Papa, Maman, regardez ce que j'ai fait !",message:"Il n'y a pas de plus belle phrase. Donnez \u00e0 votre enfant l'occasion de vous \u00e9pater avec ses cr\u00e9ations.",cta:"Cr\u00e9ez des souvenirs",doodles:["\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67","\ud83e\udd16","\u2764\ufe0f","\ud83c\udf08"],styles:["polaroid","fridge","lunchbox"]},
+  {headline:"De joueur \u00e0 cr\u00e9ateur",message:"Votre enfant adore la technologie ? Transformez cette passion en comp\u00e9tence. Programmer un robot, c'est mille fois plus enrichissant que scroller.",cta:"Transformez la passion",doodles:["\ud83c\udfae","\u27a1\ufe0f","\ud83d\udee0\ufe0f","\ud83c\udf1f"],styles:["beforeafter","graffiti","stickynote"]},
+  {headline:"Chaque maker commence quelque part",message:"On ne na\u00eet pas ing\u00e9nieur, on le devient. Nos kits ESP32 \u00e0 33\u20ac sont la porte d'entr\u00e9e parfaite pour les jeunes curieux.",cta:"Kit robot ESP32",doodles:["\ud83d\udeaa","\ud83e\udd16","\ud83d\udcb0","\ud83c\udfaf"],styles:["cardboard","workbench","safety"]},
+  {headline:"Planter, coder, grandir",message:"Notre atelier jardin intelligent apprend aux enfants \u00e0 cultiver des plantes avec des capteurs. La nature rencontre la technologie !",cta:"Jardinez connect\u00e9",doodles:["\ud83c\udf31","\ud83d\udce1","\ud83d\udca7","\ud83c\udf3b"],styles:["corkboard","journal","kidwriting"]},
+  {headline:"Linux \u00e0 6 ans, pourquoi pas ?",message:"Avec des commandes amusantes comme cowsay et fortune, vos enfants d\u00e9couvrent l'informatique en rigolant. Premier pas vers le code.",cta:"Initiez-les au code",doodles:["\ud83d\udc27","\ud83d\udcbb","\ud83d\ude02","\u2328\ufe0f"],styles:["blueprint","chalkboard","stickynote"]},
+  {headline:"Des robots suiveurs de ligne",message:"Programmer un robot Maqueen pour suivre un parcours, c'est apprendre la logique, les capteurs et la r\u00e9solution de probl\u00e8mes. D\u00e8s 6 ans !",cta:"Robotique d\u00e8s 6 ans",doodles:["\ud83e\udd16","\u3030\ufe0f","\ud83c\udfce\ufe0f","\ud83e\uddd2"],styles:["cardboard","safety","beforeafter"]},
+  {headline:"Laissez-les construire",message:"L'apprentissage par la pratique est 10 fois plus efficace. Nos ateliers mettent les outils entre les mains de vos enfants.",cta:"Apprenez en faisant",doodles:["\ud83c\udfd7\ufe0f","\ud83d\udcd6","\ud83d\udd27","\ud83e\uddea"],styles:["workbench","graffiti","fortune"]},
+  {headline:"L'erreur est leur meilleur prof",message:"Dans nos ateliers, on encourage l'\u00e9chec. Car chaque erreur est une le\u00e7on. Votre enfant apprend la r\u00e9silience en construisant.",cta:"\u00c9chouer pour r\u00e9ussir",doodles:["\u274c","\u2705","\ud83d\udcaa","\ud83c\udf31"],styles:["chalkboard","journal","polaroid"]},
+  {headline:"Investissez dans leurs mains",message:"Un enfant qui sait construire ne sera jamais d\u00e9muni. Les comp\u00e9tences manuelles sont le meilleur h\u00e9ritage que vous pouvez offrir.",cta:"Investissez maintenant",doodles:["\ud83e\udd32","\ud83d\udd28","\ud83d\udc8e","\ud83c\udf93"],styles:["blueprint","lunchbox","corkboard"]},
+  {headline:"Souder, coder, imaginer",message:"\u00c0 Workshop-DIY, les enfants apprennent \u00e0 souder des circuits, programmer des microcontr\u00f4leurs et donner vie \u00e0 leurs id\u00e9es les plus folles.",cta:"Donnez vie aux id\u00e9es",doodles:["\u26a1","\ud83d\udcbb","\ud83d\udcad","\ud83d\udd25"],styles:["safety","graffiti","workbench"]},
+  {headline:"Micro:bit, macro impact",message:"Avec une simple carte micro:bit, votre enfant explore la programmation, les capteurs et le monde num\u00e9rique. Petit appareil, grands r\u00eaves.",cta:"Explorez micro:bit",doodles:["\ud83d\udcdf","\ud83c\udf0d","\ud83d\ude80","\ud83e\uddd2"],styles:["journal","chalkboard","fortune"]},
+  {headline:"Curieux aujourd'hui, ing\u00e9nieur demain",message:"La curiosit\u00e9 est le moteur de l'innovation. Nourrissez celle de votre enfant avec nos ateliers de robotique et d'\u00e9lectronique.",cta:"Nourrissez la curiosit\u00e9",doodles:["\ud83d\udd0d","\ud83c\udf93","\ud83e\udd16","\ud83d\udd2e"],styles:["polaroid","kidwriting","journal"]},
+  {headline:"Z\u00e9ro \u00e9cran, 100% cr\u00e9ation",message:"Nos ateliers sont une bulle sans \u00e9cran o\u00f9 vos enfants utilisent leurs mains, leur t\u00eate et leur imagination pour cr\u00e9er du r\u00e9el.",cta:"Rejoignez la bulle",doodles:["\ud83d\udeab","\ud83d\udcf1","\u270b","\ud83d\udca1"],styles:["beforeafter","safety","stickynote"]},
+  {headline:"Le code est la nouvelle \u00e9criture",message:"Tout comme lire et \u00e9crire, coder est devenu essentiel. Initiez vos enfants d\u00e8s maintenant avec des projets ludiques et concrets.",cta:"Initiez-les au code",doodles:["\u2328\ufe0f","\ud83d\udcdd","\ud83e\uddd2","\ud83c\udf10"],styles:["blueprint","chalkboard","graffiti"]},
+  {headline:"33\u20ac pour changer une vie",message:"Notre kit robot ESP32 complet \u00e0 33\u20ac ouvre les portes de la robotique, du code et de l'\u00e9lectronique. Le meilleur investissement.",cta:"Commandez le kit",doodles:["\ud83d\udcb0","\ud83e\udd16","\ud83c\udf81","\ud83d\udd13"],styles:["cardboard","safety","fortune"]},
+  {headline:"Pas de jouets, des outils",message:"Ils ont besoin d'outils. D'apprendre \u00e0 construire plut\u00f4t que consommer. Workshop-DIY transforme les consommateurs en cr\u00e9ateurs.",cta:"Cr\u00e9ateurs, pas consommateurs",doodles:["\ud83e\uddf8","\u27a1\ufe0f","\ud83d\udd27","\ud83d\udcaa"],styles:["graffiti","beforeafter","lunchbox"]},
+  {headline:"Faites confiance \u00e0 leurs petites mains",message:"Un enfant de 6 ans peut programmer un robot. Un enfant de 8 ans peut souder un circuit. Faites-leur confiance, ils vont vous surprendre.",cta:"Surprenez-vous",doodles:["\ud83e\udd32","\ud83d\ude32","\ud83c\udfc5","\ud83d\udd2c"],styles:["kidwriting","fridge","polaroid"]},
+  {headline:"Explorez, Cr\u00e9ez, Innovez",message:"C'est notre devise. Chaque atelier Workshop-DIY est une occasion d'explorer un nouveau monde, cr\u00e9er quelque chose d'unique et innover.",cta:"Explorez avec nous",doodles:["\ud83d\udd0d","\ud83c\udfa8","\ud83d\udca1","\ud83d\ude80"],styles:["polaroid","journal","blueprint"]},
+  {headline:"Le futur appartient aux makers",message:"Dans un monde qui change, ceux qui savent cr\u00e9er, r\u00e9parer et inventer auront toujours leur place. Pr\u00e9parez vos enfants.",cta:"Pr\u00e9parez l'avenir",doodles:["\ud83d\udd2e","\ud83d\udee0\ufe0f","\ud83c\udf0d","\ud83e\uddd2"],styles:["graffiti","blueprint","safety"]},
+  {headline:"Samedi matin : atelier robot",message:"Pendant que d'autres regardent des dessins anim\u00e9s, vos enfants pourraient construire leur premier robot. Le choix vous appartient.",cta:"Choisissez le making",doodles:["\ud83d\udcc5","\ud83e\udd16","\ud83d\udcfa","\ud83d\udcaa"],styles:["beforeafter","chalkboard","stickynote"]},
+  {headline:"Leur premier circuit, leur premi\u00e8re victoire",message:"Quand la LED s'allume pour la premi\u00e8re fois, c'est une victoire. Petite pour vous, immense pour eux. C'est l\u00e0 que tout commence.",cta:"Allumez la premi\u00e8re LED",doodles:["\ud83d\udca1","\ud83c\udfc6","\u26a1","\ud83d\ude0a"],styles:["polaroid","fortune","lunchbox"]},
+  {headline:"Bienvenue dans l'atelier du futur",message:"Workshop-DIY \u00e0 Chelles accueille vos enfants dans un espace d\u00e9di\u00e9 \u00e0 la d\u00e9couverte et la cr\u00e9ation. Le futur se fabrique ici.",cta:"Bienvenue chez nous",doodles:["\ud83c\udfe0","\ud83d\udd2c","\ud83e\udd16","\ud83d\udccd"],styles:["corkboard","workbench","blueprint"]},
+];
 
-function initApiKeySection() {
-  if (!isClaudeArtifact()) {
-    document.getElementById('apiKeySection').style.display = 'block';
-    // Try to restore saved key
-    try {
-      const saved = window.sessionStorage?.getItem?.('wdiy_apikey');
-      if (saved) document.getElementById('apiKeyInput').value = saved;
-    } catch(e) {}
-  }
-}
-
-async function callClaudeAPI(prompt) {
-  const inArtifact = isClaudeArtifact();
-
-  const headers = { "Content-Type": "application/json" };
-
-  if (!inArtifact) {
-    const apiKey = document.getElementById('apiKeyInput')?.value?.trim();
-    if (!apiKey) {
-      throw new Error("Veuillez entrer votre clé API Anthropic.");
+function getBuiltinMessage(topic) {
+  var topicLower = (topic || '').toLowerCase();
+  var keywords = {
+    robot:[0,2,3,10,13,27], arduino:[5,10], esp32:[10,22], code:[12,21,22],
+    linux:[12], jardin:[11], plante:[11], capteur:[24], micro:[18], maqueen:[13],
+    souder:[17], led:[28], neopixel:[28], buzzer:[28], famille:[8,25], parent:[8,9],
+    ecran:[2,20,27], kit:[10,22], erreur:[15], nature:[11], wifi:[29],
+    atelier:[6,29], premier:[3,28], creat:[25], jouet:[23], avenir:[4,26],
+    futur:[26,29], bricolag:[1,7], confiance:[24], maker:[1,10,26],
+  };
+  var candidates = [];
+  for (var kw in keywords) {
+    if (topicLower.indexOf(kw) !== -1) {
+      keywords[kw].forEach(function(i) { if (candidates.indexOf(i)===-1) candidates.push(i); });
     }
-    headers["x-api-key"] = apiKey;
+  }
+  if (candidates.length === 0) {
+    candidates = MESSAGE_BANK.map(function(_, i) { return i; });
+  }
+  var idx = candidates[Math.floor(Math.random() * candidates.length)];
+  var msg = MESSAGE_BANK[idx];
+  var style = state.selectedStyle;
+  if (state.autoStyle && msg.styles && msg.styles.length) {
+    style = msg.styles[Math.floor(Math.random() * msg.styles.length)];
+  }
+  return Object.assign({}, msg, { style: style });
+}
+
+function buildPrompt(topic) {
+  var styleList = STYLES.map(function(s){return s.id;}).join(', ');
+  var styleInstr = state.autoStyle
+    ? 'Choisis le style visuel le plus impactant parmi: ' + styleList
+    : 'Style choisi: ' + state.selectedStyle;
+  var styleVal = state.autoStyle ? '{le style choisi}' : state.selectedStyle;
+  return 'Tu es un expert en communication pour une association de robotique et STEM pour enfants.\n\n'
+    + WORKSHOP_CONTEXT + '\n\n'
+    + 'SUJET DU POST: "' + topic + '"\n\n'
+    + 'Genere un post Facebook visuel en FRANCAIS pour encourager les parents a pousser leurs enfants vers le making, la robotique et le STEM.\n\n'
+    + styleInstr + '\n\n'
+    + 'Reponds UNIQUEMENT en JSON valide (pas de backticks, pas de texte avant/apres):\n'
+    + '{"style":"' + styleVal + '","headline":"{titre accrocheur 3-8 mots}","message":"{message inspirant 2-3 phrases}","cta":"{appel a action 3-6 mots}","doodles":["{emoji1}","{emoji2}","{emoji3}","{emoji4}"]}';
+}
+
+async function callGroq(prompt) {
+  var key = document.getElementById('aiKeyInput').value.trim();
+  if (!key) throw new Error("Entrez votre cle API Groq (gratuite sur groq.com/console)");
+  var resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {"Content-Type":"application/json","Authorization":"Bearer "+key},
+    body: JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"user",content:prompt}],max_tokens:800,temperature:0.8}),
+  });
+  if (!resp.ok) { var e=await resp.json().catch(function(){return {};}); throw new Error(e.error&&e.error.message||"Erreur Groq: "+resp.status); }
+  var data = await resp.json();
+  return data.choices[0].message.content;
+}
+
+async function callClaude(prompt) {
+  var key = document.getElementById('aiKeyInput').value.trim();
+  var headers = {"Content-Type":"application/json"};
+  var inArtifact = false;
+  try { inArtifact = window.parent !== window; } catch(e) { inArtifact = true; }
+  if (!inArtifact) {
+    if (!key) throw new Error("Entrez votre cle API Anthropic (console.anthropic.com)");
+    headers["x-api-key"] = key;
     headers["anthropic-version"] = "2023-06-01";
     headers["anthropic-dangerous-direct-browser-access"] = "true";
-    // Save key for session
-    try { window.sessionStorage?.setItem?.('wdiy_apikey', apiKey); } catch(e) {}
   }
-
-  const body = JSON.stringify({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1000,
-    messages: [{ role: "user", content: prompt }],
+  var resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method:"POST", headers:headers,
+    body: JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]}),
   });
-
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers,
-    body,
-  });
-
-  if (!response.ok) {
-    const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.error?.message || `API error: ${response.status}`);
-  }
-
-  return await response.json();
+  if (!resp.ok) { var e=await resp.json().catch(function(){return {};}); throw new Error(e.error&&e.error.message||"Erreur Claude: "+resp.status); }
+  var data = await resp.json();
+  return data.content.map(function(c){return c.text||'';}).join('');
 }
 
-// ============================================================
-// AI GENERATION
-// ============================================================
+function parseAiResponse(text) {
+  text = text.replace(/```json|```/g, '').trim();
+  var start = text.indexOf('{');
+  var end = text.lastIndexOf('}');
+  if (start===-1||end===-1) throw new Error("Reponse IA invalide");
+  return JSON.parse(text.substring(start, end+1));
+}
+
 async function generate() {
-  const topic = document.getElementById('topicInput').value.trim();
-  if (!topic) {
-    showError("Veuillez entrer un sujet ou une idée.");
-    return;
-  }
+  var topic = document.getElementById('topicInput').value.trim();
+  if (!topic) { showError("Veuillez entrer un sujet ou une idee."); return; }
   if (state.generating) return;
   state.generating = true;
-  hideError();
-  showLoading(true);
+  hideError(); showLoading(true);
   document.getElementById('generateBtn').disabled = true;
-  document.getElementById('generateBtn').innerHTML = '<span class="spinner"></span> GÉNÉRATION...';
-
+  document.getElementById('generateBtn').innerHTML = '<span class="spinner"></span> GENERATION...';
   try {
-    const styleList = STYLES.map(s => s.id).join(', ');
-    const prompt = `Tu es un expert en communication pour une association de robotique et STEM pour enfants.
-
-${WORKSHOP_CONTEXT}
-
-SUJET DU POST: "${topic}"
-
-Génère un post Facebook visuel en FRANÇAIS pour encourager les parents à pousser leurs enfants vers le making, la robotique et le STEM.
-
-${state.autoStyle ? `Choisis le style visuel le plus impactant parmi: ${styleList}` : `Style choisi: ${state.selectedStyle}`}
-
-Réponds UNIQUEMENT en JSON valide (pas de backticks, pas de texte avant/après):
-{
-  "style": "${state.autoStyle ? '{le style choisi}' : state.selectedStyle}",
-  "headline": "{titre accrocheur en 3-8 mots, percutant et émotionnel}",
-  "message": "{message inspirant de 2-3 phrases pour les parents, émotionnel et motivant, qui pousse à l'action}",
-  "cta": "{appel à l'action court, 3-6 mots}",
-  "doodles": ["{emoji1}", "{emoji2}", "{emoji3}", "{emoji4}"]
-}`;
-
-    const data = await callClaudeAPI(prompt);
-    let text = data.content.map(c => c.text || '').join('');
-    text = text.replace(/```json|```/g, '').trim();
-    const result = JSON.parse(text);
-
+    var result;
+    if (state.aiMode === 'builtin') {
+      await new Promise(function(r){setTimeout(r,400);});
+      result = getBuiltinMessage(topic);
+    } else {
+      var prompt = buildPrompt(topic);
+      var rawText = state.aiMode === 'groq' ? await callGroq(prompt) : await callClaude(prompt);
+      result = parseAiResponse(rawText);
+    }
     if (state.autoStyle && result.style) {
       state.selectedStyle = result.style;
-      document.querySelectorAll('.style-card').forEach(c => {
+      document.querySelectorAll('.style-card').forEach(function(c){
         c.classList.toggle('active', c.dataset.id === result.style);
       });
     }
-
     await renderPost(result);
-
   } catch (err) {
     console.error(err);
-    showError("Erreur de génération. Réessayez. (" + (err.message || '') + ")");
+    showError(err.message || "Erreur de generation.");
   } finally {
-    state.generating = false;
-    showLoading(false);
+    state.generating = false; showLoading(false);
     document.getElementById('generateBtn').disabled = false;
-    document.getElementById('generateBtn').innerHTML = 'GÉNÉRER LE POST';
+    document.getElementById('generateBtn').innerHTML = 'GENERER LE POST';
   }
 }
 
 function showError(msg) {
-  const el = document.getElementById('errorMsg');
+  var el = document.getElementById('errorMsg');
   el.textContent = msg;
   el.classList.add('visible');
 }
@@ -624,17 +671,14 @@ function showLoading(show) {
   document.getElementById('loadingOverlay').classList.toggle('visible', show);
 }
 
-// ============================================================
-// CANVAS RENDERING ENGINE
-// ============================================================
 let logoImg = null;
 function loadLogo() {
-  return new Promise((resolve) => {
+  return new Promise(function(resolve) {
     if (logoImg) { resolve(logoImg); return; }
-    const img = new Image();
+    var img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = () => { logoImg = img; resolve(img); };
-    img.onerror = () => resolve(null);
+    img.onload = function() { logoImg = img; resolve(img); };
+    img.onerror = function() { resolve(null); };
     img.src = 'https://abourdim.github.io/apps/logo.svg';
   });
 }
@@ -646,29 +690,27 @@ function getCanvasSize() {
 }
 
 async function renderPost(data) {
-  const logo = await loadLogo();
-  const { w, h } = getCanvasSize();
-  const canvas = document.getElementById('postCanvas');
+  var logo = await loadLogo();
+  var size = getCanvasSize();
+  var w = size.w, h = size.h;
+  var canvas = document.getElementById('postCanvas');
   canvas.width = w;
   canvas.height = h;
-  const ctx = canvas.getContext('2d');
-
-  const renderer = RENDERERS[state.selectedStyle] || RENDERERS.journal;
+  var ctx = canvas.getContext('2d');
+  var renderer = RENDERERS[state.selectedStyle] || RENDERERS.journal;
   renderer(ctx, w, h, data, logo);
-
   document.getElementById('placeholder').style.display = 'none';
   document.getElementById('canvasWrap').classList.add('visible');
 }
 
 function downloadImage() {
-  const canvas = document.getElementById('postCanvas');
-  const link = document.createElement('a');
-  link.download = `workshop-diy-post-${state.selectedStyle}-${Date.now()}.png`;
+  var canvas = document.getElementById('postCanvas');
+  var link = document.createElement('a');
+  link.download = 'workshop-diy-post-' + state.selectedStyle + '-' + Date.now() + '.png';
   link.href = canvas.toDataURL('image/png');
   link.click();
 }
 
-// ============================================================
 // SHARED DRAWING UTILITIES
 // ============================================================
 function drawFooter(ctx, w, h, logo, style='dark') {
@@ -1795,11 +1837,9 @@ RENDERERS.graffiti = function(ctx, w, h, data, logo) {
 };
 
 // ============================================================
-// INIT
-// ============================================================
+
 initStyleGrid();
 loadLogo();
-initApiKeySection();
 </script>
 </body>
 </html>
