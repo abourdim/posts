@@ -452,7 +452,7 @@ let state = {
 const CONTACT = {
   web: 'workshop-diy.org',
   email: 'contact@workshop-diy.org',
-  phone: '+33 06 19 51 51 73',
+  phone: '06 19 51 51 73',
   city: 'Chelles 77500',
 };
 
@@ -759,7 +759,7 @@ function drawFooter(ctx, w, h, logo, style='dark') {
 
   ctx.font = `${subFontSize}px 'Courier Prime', monospace`;
   ctx.globalAlpha = 0.8;
-  ctx.fillText(`${CONTACT.email}  ·  ${CONTACT.phone}  ·  ${CONTACT.city}`, textX, y + footH * 0.62);
+  ctx.fillText(`\u2709 ${CONTACT.email}  \u00b7  \u260e ${CONTACT.phone}  \u00b7  \u25c9 ${CONTACT.city}`, textX, y + footH * 0.62);
   ctx.globalAlpha = 1;
 }
 

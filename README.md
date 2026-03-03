@@ -31,5 +31,5 @@ Single HTML file. Vanilla HTML/CSS/JS. HTML5 Canvas rendering. No build step.
 ## Contact
 - workshop-diy.org
 - contact@workshop-diy.org
-- +33 06 19 51 51 73
+- 06 19 51 51 73
 - Chelles 77500
