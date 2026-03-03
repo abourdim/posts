@@ -545,11 +545,11 @@ function renderThumb(styleId) {
   var sz = 240;
   var c = document.createElement('canvas');
   c.width = sz; c.height = sz;
-  var ctx = c.getContext('2d');
+  var ctx = c.getContext('2d', {willReadFrequently: true});
   ctx.save();
   try {
     if (RENDERERS[styleId]) RENDERERS[styleId](ctx, sz, sz, SAMPLE_DATA, null);
-  } catch(e) {}
+  } catch(e) { console.warn('Thumb error for '+styleId, e); }
   ctx.restore();
   return c.toDataURL('image/png', 0.7);
 }
@@ -864,7 +864,7 @@ async function renderPost(data) {
   var canvas = document.getElementById('postCanvas');
   canvas.width = w;
   canvas.height = h;
-  var ctx = canvas.getContext('2d');
+  var ctx = canvas.getContext('2d',{willReadFrequently:true});
   if (state.lang === 'ar') {
     var origSet = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'font').set;
     Object.defineProperty(ctx, 'font', {
@@ -911,7 +911,7 @@ async function batchExport() {
   var canvas = document.getElementById('postCanvas');
   var size = state.selectedSize === 'landscape' ? {w:1200,h:630} : {w:1080,h:1080};
   canvas.width = size.w; canvas.height = size.h;
-  var ctx = canvas.getContext('2d');
+  var ctx = canvas.getContext('2d',{willReadFrequently:true});
   document.getElementById('canvasWrap').style.display = 'block';
   document.getElementById('placeholder').style.display = 'none';
   for (var i = 0; i < STYLES.length; i++) {
