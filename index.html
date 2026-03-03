@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop-DIY — Générateur de Posts Facebook</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Permanent+Marker&family=Patrick+Hand&family=Courier+Prime:wght@400;700&family=Bangers&family=Special+Elite&family=Shadows+Into+Light&family=Rock+Salt&family=Architects+Daughter&family=Indie+Flower&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1714;
+  --surface: #2a2520;
+  --surface2: #3a3530;
+  --accent: #e8a838;
+  --accent2: #d4572a;
+  --text: #f0e8dc;
+  --text2: #b0a898;
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Architects Daughter', cursive;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(232,168,56,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(212,87,42,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- HEADER ---- */
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--surface2);
+}
+.header img {
+  width: 52px;
+  height: 52px;
+  filter: invert(1) brightness(1.1);
+}
+.header h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+.header p {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+/* ---- MAIN LAYOUT ---- */
+.main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 93px);
+}
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; }
+}
+
+/* ---- SIDEBAR ---- */
+.sidebar {
+  padding: 24px;
+  border-right: 1px solid var(--surface2);
+  overflow-y: auto;
+  max-height: calc(100vh - 93px);
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-family: 'Courier Prime', monospace;
+}
+.topic-input {
+  width: 100%;
+  min-height: 80px;
+  background: var(--surface);
+  border: 2px solid var(--surface2);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 14px;
+  font-family: 'Architects Daughter', cursive;
+  font-size: 15px;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+.topic-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.topic-input::placeholder { color: var(--text2); opacity: 0.6; }
+
+/* ---- STYLE GRID ---- */
+.section-title {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 14px;
+  color: var(--text2);
+  margin: 24px 0 12px;
+  letter-spacing: 1px;
+}
+.style-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.style-card {
+  background: var(--surface);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 10px 6px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.style-card:hover { border-color: var(--surface2); transform: translateY(-1px); }
+.style-card.active { border-color: var(--accent); background: rgba(232,168,56,0.1); }
+.style-card .icon { font-size: 24px; display: block; margin-bottom: 4px; }
+.style-card .name {
+  font-size: 10px;
+  color: var(--text2);
+  font-family: 'Courier Prime', monospace;
+  line-height: 1.2;
+}
+.style-card.active .name { color: var(--accent); }
+
+/* ---- SIZE TOGGLE ---- */
+.size-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.size-btn {
+  flex: 1;
+  padding: 10px;
+  background: var(--surface);
+  border: 2px solid var(--surface2);
+  border-radius: var(--radius);
+  color: var(--text2);
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+}
+.size-btn:hover { border-color: var(--text2); }
+.size-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(232,168,56,0.1); }
+
+/* ---- GENERATE BUTTON ---- */
+.generate-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.generate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(232,168,56,0.3); }
+.generate-btn:active { transform: translateY(0); }
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.generate-btn .spinner {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- AUTO STYLE TOGGLE ---- */
+.auto-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text2);
+}
+.auto-toggle input { display: none; }
+.toggle-track {
+  width: 38px; height: 20px;
+  background: var(--surface2);
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  background: var(--text2);
+  border-radius: 50%;
+  top: 2px; left: 2px;
+  transition: all 0.3s;
+}
+.auto-toggle input:checked + .toggle-track { background: var(--accent); }
+.auto-toggle input:checked + .toggle-track::after { left: 20px; background: #fff; }
+
+/* ---- PREVIEW AREA ---- */
+.preview-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: var(--surface);
+  position: relative;
+  overflow: auto;
+}
+.preview-placeholder {
+  text-align: center;
+  color: var(--text2);
+  opacity: 0.5;
+}
+.preview-placeholder .big-icon { font-size: 64px; display: block; margin-bottom: 16px; }
+.preview-placeholder p { font-size: 14px; font-family: 'Courier Prime', monospace; }
+
+/* ---- CANVAS WRAPPER ---- */
+.canvas-wrap {
+  position: relative;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.canvas-wrap.visible { display: flex; }
+#postCanvas {
+  max-width: 100%;
+  max-height: calc(100vh - 200px);
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+/* ---- DOWNLOAD BAR ---- */
+.download-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.dl-btn {
+  padding: 10px 24px;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: var(--bg);
+  font-family: 'Permanent Marker', cursive;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.dl-btn:hover { background: #f0b848; transform: translateY(-1px); }
+
+.regen-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid var(--surface2);
+  border-radius: 8px;
+  color: var(--text2);
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.regen-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---- LOADING OVERLAY ---- */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26,23,20,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+}
+.loading-overlay.visible { display: flex; }
+.loading-overlay .big-spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--surface2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.loading-overlay p {
+  color: var(--accent);
+  font-family: 'Permanent Marker', cursive;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* ---- ERROR MSG ---- */
+.error-msg {
+  display: none;
+  background: rgba(212,87,42,0.15);
+  border: 1px solid var(--accent2);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #f0a090;
+}
+.error-msg.visible { display: block; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'">
+  <div>
+    <h1>GÉNÉRATEUR DE POSTS</h1>
+    <p>Créez des visuels inspirants pour votre page Facebook</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <label class="field-label">Sujet / Idée</label>
+    <textarea class="topic-input" id="topicInput" placeholder="Ex: Apprendre à souder avec les enfants, Premier projet Arduino, L'importance du bricolage..."></textarea>
+
+    <div class="section-title">▸ STYLE VISUEL</div>
+    <div class="style-grid" id="styleGrid"></div>
+
+    <label class="auto-toggle" id="autoToggle">
+      <input type="checkbox" checked id="autoStyleCheck">
+      <span class="toggle-track"></span>
+      <span>L'IA choisit le meilleur style</span>
+    </label>
+
+    <div class="section-title">▸ FORMAT</div>
+    <div class="size-toggle">
+      <button class="size-btn active" data-size="square" onclick="setSize('square')">
+        ◻ Carré<br><small>1080×1080</small>
+      </button>
+      <button class="size-btn" data-size="landscape" onclick="setSize('landscape')">
+        ▭ Paysage<br><small>1200×630</small>
+      </button>
+    </div>
+
+    <button class="generate-btn" id="generateBtn" onclick="generate()">
+      GÉNÉRER LE POST
+    </button>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-area" id="previewArea">
+    <div class="preview-placeholder" id="placeholder">
+      <span class="big-icon">🛠️</span>
+      <p>Entrez un sujet et cliquez sur Générer</p>
+      <p style="margin-top:8px;opacity:0.5;">15 styles disponibles</p>
+    </div>
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="postCanvas"></canvas>
+      <div class="download-bar">
+        <button class="dl-btn" onclick="downloadImage()">⬇ TÉLÉCHARGER PNG</button>
+        <button class="regen-btn" onclick="generate()">↻ Régénérer</button>
+      </div>
+    </div>
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="big-spinner"></div>
+      <p>Création en cours...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG & STATE
+// ============================================================
+const STYLES = [
+  { id:'journal', name:'Journal Déchiré', icon:'📜', category:'paper' },
+  { id:'chalkboard', name:'Tableau Noir', icon:'🖍️', category:'dark' },
+  { id:'cardboard', name:'Carton & Scotch', icon:'📦', category:'paper' },
+  { id:'blueprint', name:'Plan Technique', icon:'📐', category:'dark' },
+  { id:'corkboard', name:'Tableau Liège', icon:'📌', category:'paper' },
+  { id:'workbench', name:'Établi Atelier', icon:'🔨', category:'paper' },
+  { id:'fridge', name:'Art du Frigo', icon:'🧲', category:'paper' },
+  { id:'beforeafter', name:'Avant / Après', icon:'⚡', category:'split' },
+  { id:'stickynote', name:'Post-it Écran', icon:'💛', category:'paper' },
+  { id:'kidwriting', name:'Écriture Enfant', icon:'✏️', category:'paper' },
+  { id:'fortune', name:'Fortune Cookie', icon:'🥠', category:'paper' },
+  { id:'safety', name:'Panneau Danger', icon:'⚠️', category:'bold' },
+  { id:'polaroid', name:'Polaroid Souvenir', icon:'📸', category:'paper' },
+  { id:'lunchbox', name:'Mot du Déjeuner', icon:'🍱', category:'paper' },
+  { id:'graffiti', name:'Graffiti Garage', icon:'🎨', category:'dark' },
+];
+
+let state = {
+  selectedStyle: 'journal',
+  selectedSize: 'square',
+  autoStyle: true,
+  generating: false,
+};
+
+const CONTACT = {
+  web: 'workshop-diy.org',
+  email: 'contact@workshop-diy.org',
+  phone: '+33 06 19 51 51 73',
+  city: 'Chelles 77500',
+};
+
+const WORKSHOP_CONTEXT = `Workshop-DIY est une association basée à Chelles (77500) spécialisée en Robotique & Éducation STEM pour les enfants.
+Projets: kits robots ESP32, robots Maqueen suiveurs de ligne, introduction à Linux pour enfants, capteurs physiques (MPU6050), jardins intelligents avec capteurs, projets micro:bit, Arduino, apps éducatives (IA, caméras, lecture, entraînement cérébral).
+Slogan: "Explorez, Créez, Innovez"`;
+
+// ============================================================
+// INIT STYLE GRID
+// ============================================================
+function initStyleGrid() {
+  const grid = document.getElementById('styleGrid');
+  STYLES.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'style-card' + (s.id === state.selectedStyle ? ' active' : '');
+    card.dataset.id = s.id;
+    card.innerHTML = `<span class="icon">${s.icon}</span><span class="name">${s.name}</span>`;
+    card.onclick = () => selectStyle(s.id);
+    grid.appendChild(card);
+  });
+}
+
+function selectStyle(id) {
+  state.selectedStyle = id;
+  state.autoStyle = false;
+  document.getElementById('autoStyleCheck').checked = false;
+  document.querySelectorAll('.style-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.id === id);
+  });
+}
+
+function setSize(size) {
+  state.selectedSize = size;
+  document.querySelectorAll('.size-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.size === size);
+  });
+}
+
+document.getElementById('autoStyleCheck').addEventListener('change', function() {
+  state.autoStyle = this.checked;
+});
+
+// ============================================================
+// AI GENERATION
+// ============================================================
+async function generate() {
+  const topic = document.getElementById('topicInput').value.trim();
+  if (!topic) {
+    showError("Veuillez entrer un sujet ou une idée.");
+    return;
+  }
+  if (state.generating) return;
+  state.generating = true;
+  hideError();
+  showLoading(true);
+  document.getElementById('generateBtn').disabled = true;
+  document.getElementById('generateBtn').innerHTML = '<span class="spinner"></span> GÉNÉRATION...';
+
+  try {
+    const styleList = STYLES.map(s => s.id).join(', ');
+    const prompt = `Tu es un expert en communication pour une association de robotique et STEM pour enfants.
+
+${WORKSHOP_CONTEXT}
+
+SUJET DU POST: "${topic}"
+
+Génère un post Facebook visuel en FRANÇAIS pour encourager les parents à pousser leurs enfants vers le making, la robotique et le STEM.
+
+${state.autoStyle ? `Choisis le style visuel le plus impactant parmi: ${styleList}` : `Style choisi: ${state.selectedStyle}`}
+
+Réponds UNIQUEMENT en JSON valide (pas de backticks, pas de texte avant/après):
+{
+  "style": "${state.autoStyle ? '{le style choisi}' : state.selectedStyle}",
+  "headline": "{titre accrocheur en 3-8 mots, percutant et émotionnel}",
+  "message": "{message inspirant de 2-3 phrases pour les parents, émotionnel et motivant, qui pousse à l'action}",
+  "cta": "{appel à l'action court, 3-6 mots}",
+  "doodles": ["{emoji1}", "{emoji2}", "{emoji3}", "{emoji4}"]
+}`;
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }],
+      })
+    });
+
+    const data = await response.json();
+    let text = data.content.map(c => c.text || '').join('');
+    text = text.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(text);
+
+    if (state.autoStyle && result.style) {
+      state.selectedStyle = result.style;
+      document.querySelectorAll('.style-card').forEach(c => {
+        c.classList.toggle('active', c.dataset.id === result.style);
+      });
+    }
+
+    await renderPost(result);
+
+  } catch (err) {
+    console.error(err);
+    showError("Erreur de génération. Réessayez. (" + (err.message || '') + ")");
+  } finally {
+    state.generating = false;
+    showLoading(false);
+    document.getElementById('generateBtn').disabled = false;
+    document.getElementById('generateBtn').innerHTML = 'GÉNÉRER LE POST';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+function hideError() {
+  document.getElementById('errorMsg').classList.remove('visible');
+}
+function showLoading(show) {
+  document.getElementById('loadingOverlay').classList.toggle('visible', show);
+}
+
+// ============================================================
+// CANVAS RENDERING ENGINE
+// ============================================================
+let logoImg = null;
+function loadLogo() {
+  return new Promise((resolve) => {
+    if (logoImg) { resolve(logoImg); return; }
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => { logoImg = img; resolve(img); };
+    img.onerror = () => resolve(null);
+    img.src = 'https://abourdim.github.io/apps/logo.svg';
+  });
+}
+
+function getCanvasSize() {
+  return state.selectedSize === 'square'
+    ? { w: 1080, h: 1080 }
+    : { w: 1200, h: 630 };
+}
+
+async function renderPost(data) {
+  const logo = await loadLogo();
+  const { w, h } = getCanvasSize();
+  const canvas = document.getElementById('postCanvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d');
+
+  const renderer = RENDERERS[state.selectedStyle] || RENDERERS.journal;
+  renderer(ctx, w, h, data, logo);
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('canvasWrap').classList.add('visible');
+}
+
+function downloadImage() {
+  const canvas = document.getElementById('postCanvas');
+  const link = document.createElement('a');
+  link.download = `workshop-diy-post-${state.selectedStyle}-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ============================================================
+// SHARED DRAWING UTILITIES
+// ============================================================
+function drawFooter(ctx, w, h, logo, style='dark') {
+  const footH = Math.round(h * 0.1);
+  const y = h - footH;
+  const isDark = style === 'dark';
+  const textColor = isDark ? '#ffffff' : '#333333';
+  const bgColor = isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.85)';
+
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, y, w, footH);
+
+  // Separator line
+  ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(w*0.05, y+2);
+  ctx.lineTo(w*0.95, y+2);
+  ctx.stroke();
+
+  const logoSize = footH * 0.6;
+  const logoX = w * 0.04;
+  const logoY = y + (footH - logoSize) / 2;
+
+  if (logo) {
+    try {
+      ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+      if (isDark) {
+        ctx.globalCompositeOperation = 'difference';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(logoX, logoY, logoSize, logoSize);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+    } catch(e) {}
+  }
+
+  const textX = logoX + logoSize + w * 0.03;
+  ctx.fillStyle = textColor;
+  ctx.textAlign = 'left';
+
+  const mainFontSize = Math.round(footH * 0.24);
+  const subFontSize = Math.round(footH * 0.17);
+
+  ctx.font = `bold ${mainFontSize}px 'Courier Prime', monospace`;
+  ctx.fillText(CONTACT.web, textX, y + footH * 0.35);
+
+  ctx.font = `${subFontSize}px 'Courier Prime', monospace`;
+  ctx.globalAlpha = 0.8;
+  ctx.fillText(`${CONTACT.email}  ·  ${CONTACT.phone}  ·  ${CONTACT.city}`, textX, y + footH * 0.62);
+  ctx.globalAlpha = 1;
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  let lines = [];
+  for (let w of words) {
+    const test = line + w + ' ';
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line.trim());
+      line = w + ' ';
+    } else {
+      line = test;
+    }
+  }
+  lines.push(line.trim());
+  lines.forEach((l, i) => {
+    ctx.fillText(l, x, y + i * lineHeight);
+  });
+  return lines.length;
+}
+
+function addNoise(ctx, w, h, opacity=0.03) {
+  const imageData = ctx.getImageData(0, 0, w, h);
+  const d = imageData.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const n = (Math.random() - 0.5) * 255 * opacity;
+    d[i] += n; d[i+1] += n; d[i+2] += n;
+  }
+  ctx.putImageData(imageData, 0, 0);
+}
+
+function drawDoodles(ctx, doodles, positions) {
+  if (!doodles || !doodles.length) return;
+  positions.forEach((pos, i) => {
+    const emoji = doodles[i % doodles.length];
+    ctx.font = `${pos.size || 40}px serif`;
+    ctx.globalAlpha = pos.alpha || 0.6;
+    ctx.save();
+    ctx.translate(pos.x, pos.y);
+    ctx.rotate((pos.rot || 0) * Math.PI / 180);
+    ctx.fillText(emoji, 0, 0);
+    ctx.restore();
+  });
+  ctx.globalAlpha = 1;
+}
+
+// ============================================================
+// 15 STYLE RENDERERS
+// ============================================================
+const RENDERERS = {};
+
+// ---- 1. JOURNAL PAPER ----
+RENDERERS.journal = function(ctx, w, h, data, logo) {
+  // Aged paper background
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#f5e6c8');
+  grad.addColorStop(0.3, '#f0ddb8');
+  grad.addColorStop(0.7, '#e8d0a0');
+  grad.addColorStop(1, '#dfc490');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Paper texture - stains
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    const cx = Math.random() * w, cy = Math.random() * h;
+    const r = Math.random() * w * 0.15 + 20;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, 'rgba(180,140,80,0.08)');
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // Coffee ring stain
+  ctx.strokeStyle = 'rgba(160,120,60,0.12)';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(w*0.78, h*0.25, w*0.06, 0, Math.PI*2);
+  ctx.stroke();
+
+  // Torn edges effect (top and bottom)
+  ctx.fillStyle = '#f5e6c8';
+  for (let x = 0; x < w; x += 3) {
+    const topY = Math.sin(x*0.05)*4 + Math.random()*3;
+    ctx.fillRect(x, 0, 3, topY);
+  }
+
+  // Lines like notebook
+  ctx.strokeStyle = 'rgba(100,140,180,0.15)';
+  ctx.lineWidth = 1;
+  const lineSpacing = h * 0.045;
+  for (let y = h*0.15; y < h*0.85; y += lineSpacing) {
+    ctx.beginPath();
+    ctx.moveTo(w*0.08, y);
+    ctx.lineTo(w*0.92, y);
+    ctx.stroke();
+  }
+
+  // Red margin line
+  ctx.strokeStyle = 'rgba(200,80,80,0.2)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(w*0.12, h*0.05);
+  ctx.lineTo(w*0.12, h*0.88);
+  ctx.stroke();
+
+  // Headline
+  ctx.fillStyle = '#4a3520';
+  ctx.font = `bold ${Math.round(w*0.055)}px 'Permanent Marker', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, w/2, h*0.2, w*0.75, w*0.065);
+
+  // Message
+  ctx.fillStyle = '#5a4530';
+  ctx.font = `${Math.round(w*0.032)}px 'Caveat', cursive`;
+  const msgY = h * 0.38;
+  wrapText(ctx, data.message, w/2, msgY, w*0.7, w*0.042);
+
+  // CTA
+  ctx.fillStyle = '#8b4513';
+  ctx.font = `bold ${Math.round(w*0.028)}px 'Patrick Hand', cursive`;
+  ctx.fillText('→ ' + data.cta, w/2, h*0.72);
+
+  // Doodles
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.08, y:h*0.12, size:w*0.04, rot:-15, alpha:0.4},
+    {x:w*0.88, y:h*0.15, size:w*0.04, rot:10, alpha:0.4},
+    {x:w*0.06, y:h*0.7, size:w*0.035, rot:-20, alpha:0.35},
+    {x:w*0.9, y:h*0.65, size:w*0.035, rot:15, alpha:0.35},
+  ]);
+
+  addNoise(ctx, w, h, 0.04);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 2. CHALKBOARD ----
+RENDERERS.chalkboard = function(ctx, w, h, data, logo) {
+  // Dark green board
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#2a3a2a');
+  grad.addColorStop(0.5, '#1e2e1e');
+  grad.addColorStop(1, '#233323');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Board texture
+  for (let i = 0; i < 2000; i++) {
+    ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.02})`;
+    ctx.fillRect(Math.random()*w, Math.random()*h, Math.random()*3+1, 1);
+  }
+
+  // Chalk smudges
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    const g = ctx.createRadialGradient(Math.random()*w, Math.random()*h, 0, Math.random()*w, Math.random()*h, w*0.15);
+    g.addColorStop(0, 'rgba(200,200,200,0.04)');
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  // Wooden frame
+  ctx.strokeStyle = '#654321';
+  ctx.lineWidth = w * 0.02;
+  ctx.strokeRect(w*0.01, h*0.01, w*0.98, h*0.98);
+  ctx.strokeStyle = '#8B6914';
+  ctx.lineWidth = w * 0.005;
+  ctx.strokeRect(w*0.02, h*0.02, w*0.96, h*0.96);
+
+  // Headline in chalk
+  ctx.fillStyle = '#f0e8d8';
+  ctx.font = `bold ${Math.round(w*0.055)}px 'Rock Salt', cursive`;
+  ctx.textAlign = 'center';
+  ctx.shadowColor = 'rgba(255,255,255,0.1)';
+  ctx.shadowBlur = 8;
+  wrapText(ctx, data.headline, w/2, h*0.22, w*0.75, w*0.075);
+  ctx.shadowBlur = 0;
+
+  // Message
+  ctx.fillStyle = 'rgba(240,232,216,0.85)';
+  ctx.font = `${Math.round(w*0.03)}px 'Shadows Into Light', cursive`;
+  wrapText(ctx, data.message, w/2, h*0.42, w*0.72, w*0.042);
+
+  // CTA with chalk underline
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `${Math.round(w*0.028)}px 'Rock Salt', cursive`;
+  const ctaY = h*0.72;
+  ctx.fillText(data.cta, w/2, ctaY);
+  ctx.strokeStyle = 'rgba(255,215,0,0.5)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(w*0.3, ctaY+8);
+  ctx.lineTo(w*0.7, ctaY+8);
+  ctx.stroke();
+
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.1, y:h*0.12, size:w*0.04, rot:-10, alpha:0.3},
+    {x:w*0.87, y:h*0.13, size:w*0.04, rot:12, alpha:0.3},
+    {x:w*0.08, y:h*0.78, size:w*0.035, rot:-8, alpha:0.25},
+    {x:w*0.89, y:h*0.75, size:w*0.035, rot:5, alpha:0.25},
+  ]);
+
+  addNoise(ctx, w, h, 0.03);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 3. CARDBOARD & DUCT TAPE ----
+RENDERERS.cardboard = function(ctx, w, h, data, logo) {
+  // Corrugated cardboard base
+  ctx.fillStyle = '#b8956a';
+  ctx.fillRect(0, 0, w, h);
+  // Corrugation lines
+  for (let y = 0; y < h; y += 6) {
+    ctx.fillStyle = y % 12 === 0 ? 'rgba(160,120,70,0.3)' : 'rgba(200,165,110,0.2)';
+    ctx.fillRect(0, y, w, 3);
+  }
+
+  // Tape strips
+  const tapePositions = [
+    {x:w*0.05, y:h*0.03, w:w*0.2, h:h*0.04, rot:-3},
+    {x:w*0.75, y:h*0.02, w:w*0.22, h:h*0.04, rot:2},
+    {x:w*0.1, y:h*0.82, w:w*0.18, h:h*0.035, rot:-1},
+    {x:w*0.7, y:h*0.83, w:w*0.2, h:h*0.035, rot:1.5},
+  ];
+  tapePositions.forEach(t => {
+    ctx.save();
+    ctx.translate(t.x + t.w/2, t.y + t.h/2);
+    ctx.rotate(t.rot * Math.PI / 180);
+    ctx.fillStyle = 'rgba(200,190,160,0.6)';
+    ctx.fillRect(-t.w/2, -t.h/2, t.w, t.h);
+    ctx.restore();
+  });
+
+  // Stamped headline
+  ctx.fillStyle = '#3a2210';
+  ctx.font = `bold ${Math.round(w*0.05)}px 'Special Elite', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline.toUpperCase(), w/2, h*0.22, w*0.75, w*0.065);
+
+  // Message stenciled
+  ctx.fillStyle = '#4a3220';
+  ctx.font = `${Math.round(w*0.03)}px 'Courier Prime', monospace`;
+  wrapText(ctx, data.message, w/2, h*0.42, w*0.7, w*0.04);
+
+  // CTA in red stamp
+  ctx.save();
+  ctx.translate(w/2, h*0.72);
+  ctx.rotate(-2 * Math.PI / 180);
+  ctx.fillStyle = '#c0392b';
+  ctx.font = `bold ${Math.round(w*0.03)}px 'Special Elite', cursive`;
+  ctx.fillText('★ ' + data.cta.toUpperCase() + ' ★', 0, 0);
+  ctx.restore();
+
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.08, y:h*0.15, size:w*0.04, rot:-12, alpha:0.35},
+    {x:w*0.88, y:h*0.18, size:w*0.04, rot:8, alpha:0.35},
+    {x:w*0.1, y:h*0.68, size:w*0.035, rot:5, alpha:0.3},
+    {x:w*0.87, y:h*0.7, size:w*0.035, rot:-10, alpha:0.3},
+  ]);
+
+  addNoise(ctx, w, h, 0.05);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 4. BLUEPRINT ----
+RENDERERS.blueprint = function(ctx, w, h, data, logo) {
+  // Dark blue bg
+  ctx.fillStyle = '#0a2240';
+  ctx.fillRect(0, 0, w, h);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(100,160,220,0.12)';
+  ctx.lineWidth = 1;
+  const gridSize = w * 0.025;
+  for (let x = 0; x < w; x += gridSize) {
+    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();
+  }
+  for (let y = 0; y < h; y += gridSize) {
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+  }
+  // Major grid
+  ctx.strokeStyle = 'rgba(100,160,220,0.2)';
+  for (let x = 0; x < w; x += gridSize*5) {
+    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();
+  }
+  for (let y = 0; y < h; y += gridSize*5) {
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+  }
+
+  // Border
+  ctx.strokeStyle = 'rgba(150,200,255,0.4)';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(w*0.04, h*0.04, w*0.92, h*0.92);
+
+  // Headline
+  ctx.fillStyle = '#e0f0ff';
+  ctx.font = `bold ${Math.round(w*0.048)}px 'Courier Prime', monospace`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline.toUpperCase(), w/2, h*0.2, w*0.8, w*0.06);
+
+  // Decorative line
+  ctx.strokeStyle = 'rgba(150,200,255,0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(w*0.2, h*0.32); ctx.lineTo(w*0.8, h*0.32);
+  ctx.stroke();
+
+  // Message
+  ctx.fillStyle = 'rgba(200,230,255,0.85)';
+  ctx.font = `${Math.round(w*0.028)}px 'Courier Prime', monospace`;
+  wrapText(ctx, data.message, w/2, h*0.4, w*0.72, w*0.038);
+
+  // CTA
+  ctx.fillStyle = '#4fc3f7';
+  ctx.font = `bold ${Math.round(w*0.026)}px 'Courier Prime', monospace`;
+  ctx.fillText('▶ ' + data.cta, w/2, h*0.7);
+
+  // Corner markers
+  const corners = [[w*0.06,h*0.06],[w*0.94,h*0.06],[w*0.06,h*0.94],[w*0.94,h*0.94]];
+  ctx.strokeStyle = 'rgba(150,200,255,0.5)';
+  ctx.lineWidth = 2;
+  corners.forEach(([cx,cy]) => {
+    ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-12,cy); ctx.lineTo(cx+12,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,cy-12); ctx.lineTo(cx,cy+12); ctx.stroke();
+  });
+
+  addNoise(ctx, w, h, 0.02);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 5. CORK BOARD ----
+RENDERERS.corkboard = function(ctx, w, h, data, logo) {
+  // Cork texture
+  ctx.fillStyle = '#c4956a';
+  ctx.fillRect(0, 0, w, h);
+  for (let i = 0; i < 5000; i++) {
+    ctx.fillStyle = `rgba(${150+Math.random()*60},${100+Math.random()*50},${50+Math.random()*40},${Math.random()*0.15})`;
+    const s = Math.random()*4+1;
+    ctx.fillRect(Math.random()*w, Math.random()*h, s, s);
+  }
+
+  // Pinned note card
+  const cardW = w*0.7, cardH = h*0.55;
+  const cardX = (w-cardW)/2, cardY = h*0.15;
+  ctx.save();
+  ctx.translate(cardX+cardW/2, cardY+cardH/2);
+  ctx.rotate(-1.5 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.3)';
+  ctx.shadowBlur = 15;
+  ctx.shadowOffsetX = 4;
+  ctx.shadowOffsetY = 4;
+  ctx.fillStyle = '#fff9e8';
+  ctx.fillRect(-cardW/2, -cardH/2, cardW, cardH);
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+
+  // Pin
+  ctx.beginPath();
+  ctx.arc(0, -cardH/2 + 15, 10, 0, Math.PI*2);
+  ctx.fillStyle = '#e74c3c';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(-3, -cardH/2 + 12, 3, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fill();
+
+  // Text on card
+  ctx.fillStyle = '#333';
+  ctx.font = `bold ${Math.round(w*0.045)}px 'Permanent Marker', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, 0, -cardH*0.25, cardW*0.85, w*0.055);
+
+  ctx.fillStyle = '#555';
+  ctx.font = `${Math.round(w*0.027)}px 'Patrick Hand', cursive`;
+  wrapText(ctx, data.message, 0, cardH*0.02, cardW*0.8, w*0.036);
+
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `bold ${Math.round(w*0.024)}px 'Patrick Hand', cursive`;
+  ctx.fillText('→ ' + data.cta, 0, cardH*0.35);
+
+  ctx.restore();
+
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.06, y:h*0.08, size:w*0.045, rot:-20, alpha:0.5},
+    {x:w*0.9, y:h*0.1, size:w*0.04, rot:15, alpha:0.5},
+    {x:w*0.05, y:h*0.85, size:w*0.04, rot:10, alpha:0.45},
+    {x:w*0.92, y:h*0.82, size:w*0.04, rot:-12, alpha:0.45},
+  ]);
+
+  addNoise(ctx, w, h, 0.04);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 6. WORKBENCH ----
+RENDERERS.workbench = function(ctx, w, h, data, logo) {
+  // Wood grain
+  const grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, '#8B6914');
+  grad.addColorStop(0.3, '#7a5c12');
+  grad.addColorStop(0.6, '#8B6914');
+  grad.addColorStop(1, '#6b4c0a');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Wood grain lines
+  for (let y = 0; y < h; y += 3) {
+    ctx.strokeStyle = `rgba(${60+Math.random()*40},${40+Math.random()*30},${10+Math.random()*20},${Math.random()*0.15})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    for (let x = 0; x < w; x += 20) {
+      ctx.lineTo(x, y + Math.sin(x*0.01 + y*0.1)*2);
+    }
+    ctx.stroke();
+  }
+
+  // Paper note on workbench
+  const noteW = w*0.65, noteH = h*0.5;
+  const noteX = (w-noteW)/2, noteY = h*0.1;
+  ctx.save();
+  ctx.translate(noteX+noteW/2, noteY+noteH/2);
+  ctx.rotate(1.5 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.4)';
+  ctx.shadowBlur = 20;
+  ctx.fillStyle = '#f8f0dc';
+  ctx.fillRect(-noteW/2, -noteH/2, noteW, noteH);
+  ctx.shadowBlur = 0;
+
+  ctx.fillStyle = '#3a2a15';
+  ctx.font = `bold ${Math.round(w*0.042)}px 'Permanent Marker', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, 0, -noteH*0.25, noteW*0.85, w*0.055);
+
+  ctx.fillStyle = '#5a4a30';
+  ctx.font = `${Math.round(w*0.026)}px 'Caveat', cursive`;
+  wrapText(ctx, data.message, 0, noteH*0.0, noteW*0.8, w*0.035);
+
+  ctx.fillStyle = '#8B4513';
+  ctx.font = `bold ${Math.round(w*0.022)}px 'Patrick Hand', cursive`;
+  ctx.fillText('→ ' + data.cta, 0, noteH*0.32);
+  ctx.restore();
+
+  // Scattered tools emoji
+  const tools = ['🔧','🔩','✏️','📏'];
+  tools.forEach((t, i) => {
+    ctx.font = `${w*0.04}px serif`;
+    ctx.globalAlpha = 0.6;
+    ctx.save();
+    const positions = [{x:w*0.08,y:h*0.82},{x:w*0.3,y:h*0.85},{x:w*0.65,y:h*0.83},{x:w*0.88,y:h*0.8}];
+    ctx.translate(positions[i].x, positions[i].y);
+    ctx.rotate((Math.random()-0.5)*0.5);
+    ctx.fillText(t, 0, 0);
+    ctx.restore();
+  });
+  ctx.globalAlpha = 1;
+
+  addNoise(ctx, w, h, 0.04);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 7. FRIDGE ART ----
+RENDERERS.fridge = function(ctx, w, h, data, logo) {
+  // Fridge surface
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#e8e8e8');
+  grad.addColorStop(0.5, '#f0f0f0');
+  grad.addColorStop(1, '#e0e0e0');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Fridge texture
+  for (let i = 0; i < 1000; i++) {
+    ctx.fillStyle = `rgba(180,180,180,${Math.random()*0.06})`;
+    ctx.fillRect(Math.random()*w, Math.random()*h, Math.random()*2+1, Math.random()*2+1);
+  }
+
+  // Kid's drawing paper
+  const paperW = w*0.7, paperH = h*0.55;
+  const paperX = (w-paperW)/2, paperY = h*0.08;
+  ctx.save();
+  ctx.translate(paperX+paperW/2, paperY+paperH/2);
+  ctx.rotate(-2 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.15)';
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(-paperW/2, -paperH/2, paperW, paperH);
+  ctx.shadowBlur = 0;
+
+  // Colorful kid headline
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `bold ${Math.round(w*0.045)}px 'Indie Flower', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, 0, -paperH*0.25, paperW*0.85, w*0.058);
+
+  ctx.fillStyle = '#2c3e50';
+  ctx.font = `${Math.round(w*0.028)}px 'Architects Daughter', cursive`;
+  wrapText(ctx, data.message, 0, paperH*0.0, paperW*0.8, w*0.038);
+
+  ctx.fillStyle = '#27ae60';
+  ctx.font = `bold ${Math.round(w*0.024)}px 'Indie Flower', cursive`;
+  ctx.fillText('♥ ' + data.cta, 0, paperH*0.33);
+  ctx.restore();
+
+  // Fridge magnets
+  const magnets = ['🔴','🟡','🔵','🟢','🟣'];
+  const magnetPos = [{x:paperX+20,y:paperY-5},{x:paperX+paperW-20,y:paperY+10},{x:paperX+paperW/2,y:paperY-8}];
+  magnetPos.forEach((p,i) => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 12, 0, Math.PI*2);
+    ctx.fillStyle = ['#e74c3c','#3498db','#f1c40f'][i];
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(p.x-3, p.y-3, 4, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fill();
+  });
+
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.08, y:h*0.75, size:w*0.05, rot:-10, alpha:0.5},
+    {x:w*0.88, y:h*0.72, size:w*0.05, rot:12, alpha:0.5},
+    {x:w*0.25, y:h*0.78, size:w*0.04, rot:5, alpha:0.4},
+    {x:w*0.72, y:h*0.76, size:w*0.04, rot:-8, alpha:0.4},
+  ]);
+
+  addNoise(ctx, w, h, 0.02);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 8. BEFORE/AFTER ----
+RENDERERS.beforeafter = function(ctx, w, h, data, logo) {
+  // Left side - gray/dull
+  ctx.fillStyle = '#2c2c2c';
+  ctx.fillRect(0, 0, w/2, h);
+  // Right side - colorful
+  const rightGrad = ctx.createLinearGradient(w/2, 0, w, h);
+  rightGrad.addColorStop(0, '#1a5c3a');
+  rightGrad.addColorStop(1, '#0d7a3e');
+  ctx.fillStyle = rightGrad;
+  ctx.fillRect(w/2, 0, w/2, h);
+
+  // Diagonal divider
+  ctx.strokeStyle = '#e8a838';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(w/2, 0);
+  ctx.lineTo(w/2, h);
+  ctx.stroke();
+
+  // Lightning bolt on divider
+  ctx.fillStyle = '#e8a838';
+  ctx.font = `${w*0.06}px serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('⚡', w/2, h/2);
+
+  // AVANT label
+  ctx.fillStyle = '#888';
+  ctx.font = `bold ${Math.round(w*0.025)}px 'Courier Prime', monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('AVANT', w*0.25, h*0.08);
+
+  // APRÈS label
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${Math.round(w*0.025)}px 'Courier Prime', monospace`;
+  ctx.fillText('APRÈS', w*0.75, h*0.08);
+
+  // Left side content - bored kid
+  ctx.fillStyle = '#666';
+  ctx.font = `${w*0.12}px serif`;
+  ctx.fillText('😐', w*0.25, h*0.32);
+  ctx.fillStyle = '#999';
+  ctx.font = `${Math.round(w*0.02)}px 'Courier Prime', monospace`;
+  ctx.fillText('Écran...', w*0.25, h*0.42);
+
+  // Right side content - maker kid
+  ctx.fillStyle = '#fff';
+  ctx.font = `${w*0.12}px serif`;
+  ctx.fillText('🤩', w*0.75, h*0.32);
+  ctx.fillStyle = '#a0ffb0';
+  ctx.font = `${Math.round(w*0.02)}px 'Courier Prime', monospace`;
+  ctx.fillText('Maker !', w*0.75, h*0.42);
+
+  // Headline across both
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold ${Math.round(w*0.04)}px 'Permanent Marker', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, w/2, h*0.52, w*0.85, w*0.05);
+
+  // Message
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.font = `${Math.round(w*0.024)}px 'Patrick Hand', cursive`;
+  wrapText(ctx, data.message, w/2, h*0.64, w*0.8, w*0.033);
+
+  // CTA
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${Math.round(w*0.024)}px 'Permanent Marker', cursive`;
+  ctx.fillText('→ ' + data.cta, w/2, h*0.8);
+
+  addNoise(ctx, w, h, 0.02);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 9. STICKY NOTE ON SCREEN ----
+RENDERERS.stickynote = function(ctx, w, h, data, logo) {
+  // Dark screen bg
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, 0, w, h);
+  // Fake app icons
+  for (let i = 0; i < 12; i++) {
+    const ix = (i%4) * w*0.2 + w*0.1;
+    const iy = Math.floor(i/4) * h*0.22 + h*0.08;
+    ctx.fillStyle = `rgba(60,60,80,0.5)`;
+    ctx.beginPath();
+    ctx.roundRect(ix-w*0.04, iy-w*0.04, w*0.08, w*0.08, 12);
+    ctx.fill();
+  }
+
+  // Sticky note
+  const noteW = w*0.6, noteH = h*0.5;
+  const noteX = (w-noteW)/2, noteY = (h-noteH)/2 - h*0.03;
+  ctx.save();
+  ctx.translate(noteX+noteW/2, noteY+noteH/2);
+  ctx.rotate(2 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.3)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 5;
+  ctx.fillStyle = '#fff740';
+  ctx.fillRect(-noteW/2, -noteH/2, noteW, noteH);
+  // Fold corner
+  ctx.fillStyle = '#e6de3a';
+  ctx.beginPath();
+  ctx.moveTo(noteW/2, noteH/2-30);
+  ctx.lineTo(noteW/2, noteH/2);
+  ctx.lineTo(noteW/2-30, noteH/2);
+  ctx.fill();
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+
+  ctx.fillStyle = '#333';
+  ctx.font = `bold ${Math.round(w*0.04)}px 'Permanent Marker', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, 0, -noteH*0.22, noteW*0.85, w*0.052);
+
+  ctx.fillStyle = '#555';
+  ctx.font = `${Math.round(w*0.025)}px 'Caveat', cursive`;
+  wrapText(ctx, data.message, 0, noteH*0.05, noteW*0.8, w*0.034);
+
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `bold ${Math.round(w*0.022)}px 'Patrick Hand', cursive`;
+  ctx.fillText('❤️ ' + data.cta, 0, noteH*0.32);
+  ctx.restore();
+
+  addNoise(ctx, w, h, 0.02);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 10. KID'S HANDWRITING ----
+RENDERERS.kidwriting = function(ctx, w, h, data, logo) {
+  // Lined school paper
+  ctx.fillStyle = '#fefcf5';
+  ctx.fillRect(0, 0, w, h);
+
+  // Blue lines
+  const lineH = h * 0.04;
+  ctx.strokeStyle = 'rgba(100,150,220,0.25)';
+  ctx.lineWidth = 1;
+  for (let y = lineH*2; y < h*0.88; y += lineH) {
+    ctx.beginPath();
+    ctx.moveTo(w*0.1, y);
+    ctx.lineTo(w*0.9, y);
+    ctx.stroke();
+  }
+
+  // Pink margin
+  ctx.strokeStyle = 'rgba(220,100,100,0.3)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(w*0.14, 0);
+  ctx.lineTo(w*0.14, h);
+  ctx.stroke();
+
+  // Holes on left
+  [h*0.2, h*0.5, h*0.8].forEach(y => {
+    ctx.beginPath();
+    ctx.arc(w*0.05, y, w*0.015, 0, Math.PI*2);
+    ctx.fillStyle = '#ddd';
+    ctx.fill();
+    ctx.strokeStyle = '#ccc';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Kid's wobbly headline
+  ctx.fillStyle = '#2c3e50';
+  ctx.font = `bold ${Math.round(w*0.048)}px 'Indie Flower', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, w*0.52, h*0.16, w*0.65, w*0.06);
+
+  // Crossed out word and message
+  ctx.fillStyle = '#34495e';
+  ctx.font = `${Math.round(w*0.03)}px 'Shadows Into Light', cursive`;
+  wrapText(ctx, data.message, w*0.52, h*0.38, w*0.65, w*0.04);
+
+  // Stars and hearts
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `${Math.round(w*0.06)}px serif`;
+  ctx.fillText('⭐', w*0.82, h*0.15);
+  ctx.fillText('❤️', w*0.18, h*0.72);
+
+  // CTA
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `bold ${Math.round(w*0.026)}px 'Indie Flower', cursive`;
+  ctx.fillText('→ ' + data.cta + ' ←', w*0.52, h*0.68);
+
+  // Crayon doodles
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.18, y:h*0.3, size:w*0.04, rot:-15, alpha:0.5},
+    {x:w*0.85, y:h*0.55, size:w*0.04, rot:20, alpha:0.5},
+    {x:w*0.2, y:h*0.82, size:w*0.035, rot:8, alpha:0.4},
+    {x:w*0.82, y:h*0.78, size:w*0.035, rot:-12, alpha:0.4},
+  ]);
+
+  addNoise(ctx, w, h, 0.02);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 11. FORTUNE COOKIE ----
+RENDERERS.fortune = function(ctx, w, h, data, logo) {
+  // Warm bg
+  const grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w*0.7);
+  grad.addColorStop(0, '#fff5e6');
+  grad.addColorStop(1, '#f0d9b0');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Fortune slip
+  const slipW = w*0.65, slipH = h*0.2;
+  ctx.save();
+  ctx.translate(w/2, h*0.35);
+  ctx.rotate(-1 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.15)';
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = '#fffef8';
+  ctx.fillRect(-slipW/2, -slipH/2, slipW, slipH);
+  ctx.shadowBlur = 0;
+
+  // Red border on slip
+  ctx.strokeStyle = '#c0392b';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(-slipW/2+8, -slipH/2+8, slipW-16, slipH-16);
+
+  ctx.fillStyle = '#c0392b';
+  ctx.font = `${Math.round(w*0.022)}px 'Courier Prime', monospace`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, 0, -slipH*0.1, slipW*0.85, w*0.03);
+  ctx.restore();
+
+  // Cookie emoji
+  ctx.font = `${w*0.15}px serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('🥠', w/2, h*0.18);
+
+  // Main message below
+  ctx.fillStyle = '#5a3e20';
+  ctx.font = `${Math.round(w*0.032)}px 'Caveat', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.message, w/2, h*0.53, w*0.7, w*0.042);
+
+  // CTA
+  ctx.fillStyle = '#c0392b';
+  ctx.font = `bold ${Math.round(w*0.026)}px 'Patrick Hand', cursive`;
+  ctx.fillText('✨ ' + data.cta + ' ✨', w/2, h*0.72);
+
+  // Lucky numbers decoration
+  ctx.fillStyle = 'rgba(192,57,43,0.15)';
+  ctx.font = `${Math.round(w*0.018)}px 'Courier Prime', monospace`;
+  ctx.fillText('★  ★  ★  ★  ★', w/2, h*0.78);
+
+  addNoise(ctx, w, h, 0.03);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 12. SAFETY SIGN ----
+RENDERERS.safety = function(ctx, w, h, data, logo) {
+  // Black bg
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(0, 0, w, h);
+
+  // Yellow/black hazard stripes at top and bottom
+  const stripeH = h*0.06;
+  for (let i = 0; i < w/stripeH*2; i++) {
+    ctx.fillStyle = i%2===0 ? '#ffd700' : '#1a1a1a';
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(i*stripeH - stripeH, 0);
+    ctx.lineTo(i*stripeH, 0);
+    ctx.lineTo(i*stripeH - stripeH, stripeH);
+    ctx.lineTo(i*stripeH - stripeH*2, stripeH);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+  for (let i = 0; i < w/stripeH*2; i++) {
+    ctx.fillStyle = i%2===0 ? '#ffd700' : '#1a1a1a';
+    ctx.save();
+    ctx.beginPath();
+    const by = h - stripeH;
+    ctx.moveTo(i*stripeH - stripeH, by);
+    ctx.lineTo(i*stripeH, by);
+    ctx.lineTo(i*stripeH - stripeH, by+stripeH);
+    ctx.lineTo(i*stripeH - stripeH*2, by+stripeH);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // Warning triangle
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `${w*0.1}px serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('⚠️', w/2, h*0.22);
+
+  // ATTENTION header
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${Math.round(w*0.04)}px 'Bangers', cursive`;
+  ctx.letterSpacing = '4px';
+  ctx.fillText('⚠  ATTENTION  ⚠', w/2, h*0.32);
+
+  // Headline
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold ${Math.round(w*0.048)}px 'Bangers', cursive`;
+  wrapText(ctx, data.headline.toUpperCase(), w/2, h*0.42, w*0.8, w*0.06);
+
+  // Message in white
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.font = `${Math.round(w*0.026)}px 'Courier Prime', monospace`;
+  wrapText(ctx, data.message, w/2, h*0.56, w*0.75, w*0.035);
+
+  // CTA in yellow box
+  const ctaW = w*0.5, ctaH = h*0.06;
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect((w-ctaW)/2, h*0.72, ctaW, ctaH);
+  ctx.fillStyle = '#1a1a1a';
+  ctx.font = `bold ${Math.round(w*0.024)}px 'Bangers', cursive`;
+  ctx.fillText(data.cta.toUpperCase(), w/2, h*0.72 + ctaH*0.7);
+
+  addNoise(ctx, w, h, 0.02);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 13. POLAROID ----
+RENDERERS.polaroid = function(ctx, w, h, data, logo) {
+  // Vintage warm bg
+  const grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w*0.8);
+  grad.addColorStop(0, '#f5e8d0');
+  grad.addColorStop(1, '#d4c0a0');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Subtle pattern
+  for (let i = 0; i < 2000; i++) {
+    ctx.fillStyle = `rgba(180,160,130,${Math.random()*0.08})`;
+    ctx.fillRect(Math.random()*w, Math.random()*h, 2, 2);
+  }
+
+  // Polaroid frame
+  const polW = w*0.55, polH = h*0.6;
+  const polX = (w-polW)/2, polY = h*0.06;
+  ctx.save();
+  ctx.translate(polX+polW/2, polY+polH/2);
+  ctx.rotate(-3 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.25)';
+  ctx.shadowBlur = 20;
+  ctx.fillStyle = '#fefefe';
+  ctx.fillRect(-polW/2, -polH/2, polW, polH);
+  ctx.shadowBlur = 0;
+
+  // Photo area (colored gradient)
+  const photoMargin = polW * 0.06;
+  const photoW = polW - photoMargin*2;
+  const photoH = polH * 0.65;
+  const rGrad = ctx.createLinearGradient(-photoW/2, -polH/2+photoMargin, photoW/2, -polH/2+photoMargin+photoH);
+  rGrad.addColorStop(0, '#2c8c6e');
+  rGrad.addColorStop(0.5, '#34a078');
+  rGrad.addColorStop(1, '#1a6b52');
+  ctx.fillStyle = rGrad;
+  ctx.fillRect(-photoW/2, -polH/2+photoMargin, photoW, photoH);
+
+  // Inside photo: headline
+  ctx.fillStyle = '#fff';
+  ctx.font = `bold ${Math.round(w*0.035)}px 'Permanent Marker', cursive`;
+  ctx.textAlign = 'center';
+  wrapText(ctx, data.headline, 0, -polH*0.18, photoW*0.85, w*0.045);
+
+  // Emoji
+  ctx.font = `${w*0.07}px serif`;
+  ctx.fillText(data.doodles?.[0]||'🤖', 0, polH*0.0);
+
+  // Handwritten caption below photo
+  ctx.fillStyle = '#555';
+  ctx.font = `${Math.round(w*0.02)}px 'Shadows Into Light', cursive`;
+  wrapText(ctx, data.message, 0, polH*0.22, polW*0.8, w*0.028);
+  ctx.restore();
+
+  // Date stamp
+  ctx.fillStyle = 'rgba(100,80,60,0.4)';
+  ctx.font = `${Math.round(w*0.016)}px 'Courier Prime', monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText(new Date().toLocaleDateString('fr-FR'), w/2, h*0.78);
+
+  // CTA
+  ctx.fillStyle = '#8B4513';
+  ctx.font = `bold ${Math.round(w*0.024)}px 'Caveat', cursive`;
+  ctx.fillText('📸 ' + data.cta, w/2, h*0.83);
+
+  addNoise(ctx, w, h, 0.03);
+  drawFooter(ctx, w, h, logo, 'light');
+};
+
+// ---- 14. LUNCHBOX NOTE ----
+RENDERERS.lunchbox = function(ctx, w, h, data, logo) {
+  // Lunchbox interior bg
+  ctx.fillStyle = '#d44a2a';
+  ctx.fillRect(0, 0, w, h);
+  // Inner shading
+  const ig = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w*0.7);
+  ig.addColorStop(0, 'rgba(255,255,255,0.08)');
+  ig.addColorStop(1, 'rgba(0,0,0,0.15)');
+  ctx.fillStyle = ig;
+  ctx.fillRect(0, 0, w, h);
+
+  // Napkin
+  const napW = w*0.6, napH = h*0.55;
+  ctx.save();
+  ctx.translate(w/2, h*0.42);
+  ctx.rotate(3 * Math.PI/180);
+  ctx.shadowColor = 'rgba(0,0,0,0.25)';
+  ctx.shadowBlur = 15;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(-napW/2, -napH/2, napW, napH);
+  ctx.shadowBlur = 0;
+
+  // Napkin texture lines
+  ctx.strokeStyle = 'rgba(200,200,200,0.3)';
+  ctx.lineWidth = 0.5;
+  for (let y = -napH/2; y < napH/2; y += 8) {
+    ctx.beginPath();
+    ctx.moveTo(-napW/2, y);
+    ctx.lineTo(napW/2, y);
+    ctx.stroke();
+  }
+
+  // Heart at top
+  ctx.font = `${w*0.06}px serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('❤️', 0, -napH*0.32);
+
+  // Handwritten headline
+  ctx.fillStyle = '#2c3e50';
+  ctx.font = `bold ${Math.round(w*0.038)}px 'Caveat', cursive`;
+  wrapText(ctx, data.headline, 0, -napH*0.15, napW*0.85, w*0.048);
+
+  // Message
+  ctx.fillStyle = '#555';
+  ctx.font = `${Math.round(w*0.024)}px 'Shadows Into Light', cursive`;
+  wrapText(ctx, data.message, 0, napH*0.08, napW*0.8, w*0.032);
+
+  // Signature
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `${Math.round(w*0.022)}px 'Caveat', cursive`;
+  ctx.fillText('— ' + data.cta, 0, napH*0.35);
+  ctx.restore();
+
+  // Food emoji around
+  const foods = ['🍎','🥪','🧃','🍪'];
+  const foodPos = [{x:w*0.12,y:h*0.15},{x:w*0.85,y:h*0.12},{x:w*0.1,y:h*0.82},{x:w*0.87,y:h*0.8}];
+  foods.forEach((f,i) => {
+    ctx.font = `${w*0.05}px serif`;
+    ctx.globalAlpha = 0.7;
+    ctx.fillText(f, foodPos[i].x, foodPos[i].y);
+  });
+  ctx.globalAlpha = 1;
+
+  addNoise(ctx, w, h, 0.03);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ---- 15. GARAGE GRAFFITI ----
+RENDERERS.graffiti = function(ctx, w, h, data, logo) {
+  // Dark garage door
+  ctx.fillStyle = '#3a3a3a';
+  ctx.fillRect(0, 0, w, h);
+
+  // Garage door panels
+  ctx.strokeStyle = 'rgba(80,80,80,0.5)';
+  ctx.lineWidth = 3;
+  const panelH = h/5;
+  for (let y = panelH; y < h; y += panelH) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  // Panel ridges
+  for (let y = 0; y < h; y += panelH) {
+    ctx.fillStyle = 'rgba(60,60,60,0.5)';
+    ctx.fillRect(0, y+2, w, 4);
+    ctx.fillStyle = 'rgba(80,80,80,0.3)';
+    ctx.fillRect(0, y+panelH-4, w, 3);
+  }
+
+  // Spray paint splatter bg
+  for (let i = 0; i < 50; i++) {
+    const colors = ['rgba(231,76,60,0.06)','rgba(52,152,219,0.06)','rgba(46,204,113,0.06)','rgba(241,196,15,0.06)'];
+    ctx.beginPath();
+    ctx.arc(Math.random()*w, Math.random()*h, Math.random()*w*0.08, 0, Math.PI*2);
+    ctx.fillStyle = colors[Math.floor(Math.random()*4)];
+    ctx.fill();
+  }
+
+  // Stencil headline
+  ctx.fillStyle = '#e74c3c';
+  ctx.font = `bold ${Math.round(w*0.058)}px 'Bangers', cursive`;
+  ctx.textAlign = 'center';
+  ctx.shadowColor = 'rgba(0,0,0,0.5)';
+  ctx.shadowBlur = 8;
+  wrapText(ctx, data.headline.toUpperCase(), w/2, h*0.2, w*0.85, w*0.07);
+  ctx.shadowBlur = 0;
+
+  // Drip effect under headline
+  ctx.fillStyle = 'rgba(231,76,60,0.3)';
+  for (let i = 0; i < 5; i++) {
+    const dx = w*0.3 + Math.random()*w*0.4;
+    ctx.fillRect(dx, h*0.28 + Math.random()*10, 3, Math.random()*30+10);
+  }
+
+  // Message in white spray
+  ctx.fillStyle = '#f0f0f0';
+  ctx.font = `${Math.round(w*0.03)}px 'Permanent Marker', cursive`;
+  ctx.shadowColor = 'rgba(0,0,0,0.4)';
+  ctx.shadowBlur = 4;
+  wrapText(ctx, data.message, w/2, h*0.45, w*0.75, w*0.04);
+  ctx.shadowBlur = 0;
+
+  // CTA in yellow
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${Math.round(w*0.032)}px 'Bangers', cursive`;
+  ctx.fillText('★ ' + data.cta.toUpperCase() + ' ★', w/2, h*0.72);
+
+  // Arrow
+  ctx.strokeStyle = '#ffd700';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(w*0.25, h*0.75);
+  ctx.lineTo(w*0.75, h*0.75);
+  ctx.moveTo(w*0.72, h*0.73);
+  ctx.lineTo(w*0.75, h*0.75);
+  ctx.lineTo(w*0.72, h*0.77);
+  ctx.stroke();
+
+  drawDoodles(ctx, data.doodles, [
+    {x:w*0.08, y:h*0.12, size:w*0.045, rot:-15, alpha:0.4},
+    {x:w*0.9, y:h*0.1, size:w*0.045, rot:10, alpha:0.4},
+    {x:w*0.06, y:h*0.82, size:w*0.04, rot:5, alpha:0.35},
+    {x:w*0.92, y:h*0.8, size:w*0.04, rot:-8, alpha:0.35},
+  ]);
+
+  addNoise(ctx, w, h, 0.03);
+  drawFooter(ctx, w, h, logo, 'dark');
+};
+
+// ============================================================
+// INIT
+// ============================================================
+initStyleGrid();
+loadLogo();
+</script>
+</body>
+</html>
