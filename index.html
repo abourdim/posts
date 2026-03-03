@@ -383,6 +383,12 @@ body::before {
       </button>
     </div>
 
+    <div id="apiKeySection" style="display:none;">
+      <div class="section-title">▸ CLÉ API ANTHROPIC</div>
+      <input type="password" class="topic-input" id="apiKeyInput" placeholder="sk-ant-..." style="min-height:40px;font-size:13px;font-family:'Courier Prime',monospace;">
+      <p style="font-size:11px;color:var(--text2);margin-top:6px;opacity:0.6;">Requise pour l'hébergement externe. Stockée localement uniquement.</p>
+    </div>
+
     <button class="generate-btn" id="generateBtn" onclick="generate()">
       GÉNÉRER LE POST
     </button>
@@ -486,6 +492,65 @@ document.getElementById('autoStyleCheck').addEventListener('change', function() 
 });
 
 // ============================================================
+// ENVIRONMENT DETECTION & API
+// ============================================================
+function isClaudeArtifact() {
+  try {
+    return window.location.hostname.includes('claude') ||
+           window.location.hostname.includes('anthropic') ||
+           window.parent !== window;
+  } catch(e) { return true; }
+}
+
+function initApiKeySection() {
+  if (!isClaudeArtifact()) {
+    document.getElementById('apiKeySection').style.display = 'block';
+    // Try to restore saved key
+    try {
+      const saved = window.sessionStorage?.getItem?.('wdiy_apikey');
+      if (saved) document.getElementById('apiKeyInput').value = saved;
+    } catch(e) {}
+  }
+}
+
+async function callClaudeAPI(prompt) {
+  const inArtifact = isClaudeArtifact();
+
+  const headers = { "Content-Type": "application/json" };
+
+  if (!inArtifact) {
+    const apiKey = document.getElementById('apiKeyInput')?.value?.trim();
+    if (!apiKey) {
+      throw new Error("Veuillez entrer votre clé API Anthropic.");
+    }
+    headers["x-api-key"] = apiKey;
+    headers["anthropic-version"] = "2023-06-01";
+    headers["anthropic-dangerous-direct-browser-access"] = "true";
+    // Save key for session
+    try { window.sessionStorage?.setItem?.('wdiy_apikey', apiKey); } catch(e) {}
+  }
+
+  const body = JSON.stringify({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1000,
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers,
+    body,
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error?.message || `API error: ${response.status}`);
+  }
+
+  return await response.json();
+}
+
+// ============================================================
 // AI GENERATION
 // ============================================================
 async function generate() {
@@ -522,17 +587,7 @@ Réponds UNIQUEMENT en JSON valide (pas de backticks, pas de texte avant/après)
   "doodles": ["{emoji1}", "{emoji2}", "{emoji3}", "{emoji4}"]
 }`;
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }],
-      })
-    });
-
-    const data = await response.json();
+    const data = await callClaudeAPI(prompt);
     let text = data.content.map(c => c.text || '').join('');
     text = text.replace(/```json|```/g, '').trim();
     const result = JSON.parse(text);
@@ -1744,6 +1799,7 @@ RENDERERS.graffiti = function(ctx, w, h, data, logo) {
 // ============================================================
 initStyleGrid();
 loadLogo();
+initApiKeySection();
 </script>
 </body>
 </html>
