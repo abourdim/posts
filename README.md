@@ -1,35 +1,33 @@
-# Workshop-DIY - Generateur de Posts Facebook
+# Workshop-DIY — Générateur de Posts Facebook V2
 
-AI-powered Facebook post image generator for Workshop-DIY, a Robotics and STEM Education association based in Chelles 77500, France.
+## En bref
 
-## Features
+Outil tout-en-un pour créer des visuels Facebook pour **Workshop-DIY** (Chelles 77500). Fichier HTML unique, zéro dépendance, fonctionne partout.
 
-- 15 visual canvas styles
-- 3 content sources: Built-in (instant, no API), Groq AI (free key), Claude AI (best quality)
-- Auto style selection or manual pick
-- Square 1080x1080 and Landscape 1200x630 formats
-- PNG export ready for Facebook
-- Branding footer with logo, website, email, phone, location
-- Works everywhere: Claude.ai, GitHub Pages, or fully offline
-- Arabic/RTL ready for future multilingual support
+---
 
-## Usage
+## 45 Styles Visuels (miniatures live)
 
-### No API key needed
-Select Integre source, type a topic, generate, download.
+- **Classique** (15) : Journal, Tableau Noir, Carton, Blueprint, Liège, Établi, Frigo, Avant/Après, Post-it, Écriture Enfant, Fortune Cookie, Panneau Danger, Polaroid, Mot Déjeuner, Graffiti
+- **Kiddy/Maker** (10) : Bande Dessinée, LEGO, Scratch, Carte au Trésor, Jeu Vidéo, Cahier de Labo, Vaisseau Spatial, Fiche Recette, Journal Quotidien, Crayon et Papier
+- **Formes Genius** (10) : Silhouette Robot, Ampoule, Engrenage, Cerveau STEM, Fusée, Puzzle, Main Ouverte, Circuit Imprimé, Arbre à Talents, Bulle de Parole
+- **Andalous** (10) : Mosaïque Alhambra, Arabesque, Étoile Islamique, Porte Marocaine, Cadre Doré, Minaret, Muqarnas, Jardin Andalou, Calligraphie, Mashrabiya
 
-### Groq AI (free)
-Get free key at groq.com/console, select Groq source, paste key.
+## Bilingue FR / AR
 
-### Claude AI
-Get key at console.anthropic.com, select Claude source, paste key.
-Inside Claude.ai artifacts, Claude works with no key.
+- Français : 30+ messages pré-écrits
+- Arabe littéraire (فصحى) : 20 messages, rendu RTL natif, police Cairo
 
-## Tech stack
-Single HTML file. Vanilla HTML/CSS/JS. HTML5 Canvas rendering. No build step.
+## 3 Sources de Contenu
 
-## Contact
-- workshop-diy.org
-- contact@workshop-diy.org
-- 06 19 51 51 73
-- Chelles 77500
+- Intégré (gratuit, instantané, hors-ligne)
+- Groq / Llama 3.3 70B (gratuit, clé sur groq.com/console)
+- Claude (meilleure qualité, auto-détection dans claude.ai)
+
+## Utilisation
+
+Ouvrir workshop-post-gen.html dans un navigateur. Ou déployer sur GitHub Pages.
+
+## Contact Workshop-DIY
+
+workshop-diy.org | contact@workshop-diy.org | 06 19 51 51 73 | Chelles 77500
