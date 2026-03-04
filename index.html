@@ -1231,13 +1231,22 @@ function drawFooter(ctx, w, h, logo, style='dark') {
 
   if (logo) {
     try {
-      ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+      // White circle background for logo visibility
       if (isDark) {
-        ctx.globalCompositeOperation = 'difference';
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(logoX, logoY, logoSize, logoSize);
-        ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath();
+        ctx.arc(logoX + logoSize/2, logoY + logoSize/2, logoSize/2 + 2, 0, Math.PI*2);
+        ctx.fill();
       }
+      // Draw logo preserving aspect ratio
+      var lw = logo.naturalWidth || logo.width;
+      var lh = logo.naturalHeight || logo.height;
+      var ratio = Math.min(logoSize / lw, logoSize / lh);
+      var dw = lw * ratio;
+      var dh = lh * ratio;
+      var dx = logoX + (logoSize - dw) / 2;
+      var dy = logoY + (logoSize - dh) / 2;
+      ctx.drawImage(logo, dx, dy, dw, dh);
     } catch(e) {}
   }
 
