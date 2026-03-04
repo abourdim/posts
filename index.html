@@ -484,6 +484,11 @@ body::before {
         <button class="regen-btn" onclick="shuffleStyle()">🎲 Style</button>
         <button class="regen-btn" onclick="batchExport()">📦 Batch</button>
       </div>
+      <div id="historyNav" class="download-bar" style="display:none;margin-top:4px;">
+        <button class="regen-btn" id="histPrev" onclick="historyGo(-1)">◀ Préc</button>
+        <span id="histCounter" style="font-size:12px;color:var(--text2);font-family:'Courier Prime',monospace;min-width:60px;text-align:center;">0/0</span>
+        <button class="regen-btn" id="histNext" onclick="historyGo(1)">Suiv ▶</button>
+      </div>
     </div>
     <div class="loading-overlay" id="loadingOverlay">
       <div class="big-spinner"></div>
@@ -560,6 +565,131 @@ function toggleTheme() {
   var isDark = doc.getAttribute('data-theme') === 'dark';
   doc.setAttribute('data-theme', isDark ? '' : 'dark');
   document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
+  try { localStorage.setItem('wdiy_theme', isDark ? '' : 'dark'); } catch(e){}
+}
+
+// --- HISTORY & PERSISTENCE ---
+var postHistory = [];
+var historyIndex = -1;
+
+function saveState() {
+  try {
+    localStorage.setItem('wdiy_state', JSON.stringify({
+      selectedStyle: state.selectedStyle,
+      selectedSize: state.selectedSize,
+      autoStyle: state.autoStyle,
+      aiMode: state.aiMode,
+      lang: state.lang,
+      topic: document.getElementById('topicInput') ? document.getElementById('topicInput').value : ''
+    }));
+  } catch(e){}
+}
+
+function saveHistory() {
+  try {
+    var slim = postHistory.slice(-20).map(function(h) {
+      return { data: h.data, style: h.style, size: h.size, ts: h.ts };
+    });
+    localStorage.setItem('wdiy_history', JSON.stringify(slim));
+    localStorage.setItem('wdiy_histIdx', historyIndex);
+  } catch(e){}
+}
+
+function pushHistory(data, styleName, sizeName) {
+  // Trim forward history if navigated back
+  if (historyIndex < postHistory.length - 1) {
+    postHistory = postHistory.slice(0, historyIndex + 1);
+  }
+  postHistory.push({ data: data, style: styleName, size: sizeName, ts: Date.now() });
+  if (postHistory.length > 30) postHistory.shift();
+  historyIndex = postHistory.length - 1;
+  saveHistory();
+  updateHistoryNav();
+}
+
+function updateHistoryNav() {
+  var nav = document.getElementById('historyNav');
+  if (!nav) return;
+  var prevBtn = document.getElementById('histPrev');
+  var nextBtn = document.getElementById('histNext');
+  var counter = document.getElementById('histCounter');
+  if (postHistory.length <= 0) { nav.style.display = 'none'; return; }
+  nav.style.display = 'flex';
+  prevBtn.disabled = historyIndex <= 0;
+  nextBtn.disabled = historyIndex >= postHistory.length - 1;
+  counter.textContent = (historyIndex + 1) + ' / ' + postHistory.length;
+}
+
+function historyGo(dir) {
+  var newIdx = historyIndex + dir;
+  if (newIdx < 0 || newIdx >= postHistory.length) return;
+  historyIndex = newIdx;
+  var entry = postHistory[historyIndex];
+  state.selectedStyle = entry.style;
+  state.selectedSize = entry.size;
+  // Update UI
+  document.querySelectorAll('.style-card').forEach(function(c) {
+    c.classList.toggle('active', c.dataset.id === entry.style);
+  });
+  document.querySelectorAll('.size-btn[data-size]').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.size === entry.size);
+  });
+  renderPost(entry.data);
+  saveHistory();
+  updateHistoryNav();
+}
+
+async function reRenderCurrent() {
+  if (historyIndex < 0 || historyIndex >= postHistory.length) return;
+  var entry = postHistory[historyIndex];
+  entry.style = state.selectedStyle;
+  entry.size = state.selectedSize;
+  await renderPost(entry.data);
+  saveHistory();
+}
+
+function loadSavedState() {
+  try {
+    // Theme
+    var theme = localStorage.getItem('wdiy_theme');
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('themeToggle').textContent = '☀️';
+    }
+    // State
+    var saved = JSON.parse(localStorage.getItem('wdiy_state') || '{}');
+    if (saved.selectedStyle) { state.selectedStyle = saved.selectedStyle; }
+    if (saved.selectedSize) { state.selectedSize = saved.selectedSize; }
+    if (saved.autoStyle !== undefined) { state.autoStyle = saved.autoStyle; }
+    if (saved.aiMode) { state.aiMode = saved.aiMode; }
+    if (saved.lang) { state.lang = saved.lang; }
+    if (saved.topic) {
+      var ti = document.getElementById('topicInput');
+      if (ti) ti.value = saved.topic;
+    }
+    // Restore UI selections
+    document.querySelectorAll('.size-btn[data-size]').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.size === state.selectedSize);
+    });
+    document.querySelectorAll('[data-mode]').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.mode === state.aiMode);
+    });
+    document.querySelectorAll('[data-lang]').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.lang === state.lang);
+    });
+    if (state.autoStyle) { document.getElementById('autoStyleCheck').checked = true; }
+    // AI key section
+    if (state.aiMode === 'groq' || state.aiMode === 'claude') {
+      setAiMode(state.aiMode);
+    }
+    // History
+    var hist = JSON.parse(localStorage.getItem('wdiy_history') || '[]');
+    if (hist.length) {
+      postHistory = hist;
+      historyIndex = parseInt(localStorage.getItem('wdiy_histIdx') || (hist.length - 1));
+      if (historyIndex >= postHistory.length) historyIndex = postHistory.length - 1;
+    }
+  } catch(e) { console.warn('State restore error:', e); }
 }
 
 let state = {
@@ -648,6 +778,13 @@ function selectStyle(id) {
   document.querySelectorAll('.style-card').forEach(function(c) {
     c.classList.toggle('active', c.dataset.id === id);
   });
+  saveState();
+  // Auto-generate if we have content to render
+  if (history.length > 0) {
+    reRenderCurrent();
+  } else if (document.getElementById('topicInput').value.trim()) {
+    generate();
+  }
 }
 
 function setSize(size) {
@@ -655,6 +792,8 @@ function setSize(size) {
   document.querySelectorAll('.size-btn[data-size]').forEach(function(b) {
     b.classList.toggle('active', b.dataset.size === size);
   });
+  saveState();
+  if (history.length > 0) reRenderCurrent();
 }
 
 function setAiMode(mode) {
@@ -681,6 +820,7 @@ function setLang(lang) {
   document.querySelectorAll('[data-lang]').forEach(function(b) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
+  saveState();
 }
 
 document.getElementById('autoStyleCheck').addEventListener('change', function() {
@@ -863,6 +1003,8 @@ async function generate() {
       });
     }
     await renderPost(result);
+    pushHistory(result, state.selectedStyle, state.selectedSize);
+    saveState();
   } catch (err) {
     console.error(err);
     showError(err.message || "Erreur de generation.");
@@ -2712,6 +2854,29 @@ drawFooter(ctx,w,h,logo,"light");};
 
 initStyleGrid();
 loadLogo();
+
+// Restore saved state and last post
+loadSavedState();
+// Re-highlight saved style in grid
+document.querySelectorAll('.style-card').forEach(function(c) {
+  c.classList.toggle('active', c.dataset.id === state.selectedStyle);
+});
+// Show last post if history exists
+if (postHistory.length > 0 && historyIndex >= 0) {
+  var last = postHistory[historyIndex];
+  state.selectedStyle = last.style;
+  state.selectedSize = last.size;
+  document.querySelectorAll('.style-card').forEach(function(c) {
+    c.classList.toggle('active', c.dataset.id === last.style);
+  });
+  document.querySelectorAll('.size-btn[data-size]').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.size === last.size);
+  });
+  renderPost(last.data);
+  updateHistoryNav();
+}
+// Save topic on input
+document.getElementById('topicInput').addEventListener('input', function() { saveState(); });
 </script>
 </body>
 </html>
