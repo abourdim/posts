@@ -480,15 +480,14 @@ body::before {
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-top">
-      <label class="field-label">Sujet / Idée</label>
-      <textarea class="topic-input" id="topicInput" placeholder="Ex: Apprendre à souder, Premier projet Arduino..." style="min-height:55px;"></textarea>
-
-      <button class="generate-btn" id="generateBtn" onclick="generate()">
-        GÉNÉRER LE POST
-      </button>
-      <div class="error-msg" id="errorMsg"></div>
-
-      <hr style="border:none;border-top:1px solid var(--surface2);margin:16px 0 8px;">
+      <div style="background:var(--bg);border:1px solid var(--surface2);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <label class="field-label">Sujet / Idée</label>
+        <textarea class="topic-input" id="topicInput" placeholder="Ex: Apprendre à souder, Premier projet Arduino..." style="min-height:55px;"></textarea>
+        <button class="generate-btn" id="generateBtn" onclick="generate()">
+          GÉNÉRER LE POST
+        </button>
+        <div class="error-msg" id="errorMsg"></div>
+      </div>
 
       <div class="section-title" style="margin-top:0;">▸ STYLE VISUEL</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px;" id="styleTabs">
@@ -500,7 +499,7 @@ body::before {
         <button class="size-btn" style="padding:6px 2px;font-size:11px;border-left:3px solid #e65100;" data-cat="light" onclick="filterStyles('light')">Intense</button>
       </div>
 
-      <label class="auto-toggle" id="autoToggle" style="margin-bottom:12px;">
+      <label class="auto-toggle" id="autoToggle" style="margin-bottom:8px;">
         <input type="checkbox" checked id="autoStyleCheck">
         <span class="toggle-track"></span>
         <span>L'IA choisit le meilleur style</span>
@@ -2940,6 +2939,7 @@ loadLogo();
 
 // Restore saved state and last post
 loadSavedState();
+filterStyles('all');
 // Re-highlight saved style in grid
 document.querySelectorAll('.style-card').forEach(function(c) {
   c.classList.toggle('active', c.dataset.id === state.selectedStyle);
