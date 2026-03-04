@@ -433,7 +433,7 @@ body::before {
   <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:6px 0;font-family:'Cairo',serif;font-size:16px;color:var(--accent2);letter-spacing:2px;opacity:0.7;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
   <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'" style="margin-top:18px;">
   <div style="margin-top:18px;">
-    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V2.1</span></h1>
+    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V2.2</span></h1>
     <p>Créez des visuels inspirants pour votre page Facebook</p>
   </div>
   <div style="margin-left:auto;display:flex;gap:8px;margin-top:18px;">
@@ -514,6 +514,10 @@ body::before {
       </label>
       <div id="qrSizeWrap" style="display:none;margin-bottom:8px;padding-left:48px;">
         <input type="text" id="qrUrlInput" class="topic-input" value="https://workshop-diy.org/" placeholder="URL du QR code" style="min-height:32px;font-size:11px;margin-bottom:4px;padding:6px 10px;" oninput="onQRUrlChange()">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <input type="color" id="qrColorInput" value="#0d7377" style="width:32px;height:24px;border:none;cursor:pointer;background:none;" onchange="onQRColorChange()">
+          <span style="font-size:10px;color:var(--text2);font-family:'Courier Prime',monospace;">Couleur QR</span>
+        </div>
         <input type="range" id="qrSizeSlider" min="5" max="25" value="12" style="width:100%;accent-color:var(--accent);" oninput="resizeQR(this.value)">
         <span style="font-size:10px;color:var(--text2);font-family:'Courier Prime',monospace;">Glisser sur l'image pour positionner</span>
       </div>
@@ -648,6 +652,7 @@ function saveState() {
       qrY: state.qrY,
       qrSize: state.qrSize,
       qrUrl: state.qrUrl,
+      qrColor: state.qrColor,
       topic: document.getElementById('topicInput') ? document.getElementById('topicInput').value : ''
     }));
   } catch(e){}
@@ -739,13 +744,15 @@ function loadSavedState() {
     if (saved.qrY !== undefined) { state.qrY = saved.qrY; }
     if (saved.qrSize !== undefined) { state.qrSize = saved.qrSize; }
     if (saved.qrUrl) { state.qrUrl = saved.qrUrl; }
+    if (saved.qrColor) { state.qrColor = saved.qrColor; }
     if (state.showQR) {
       document.getElementById('qrToggle').checked = true;
       document.getElementById('qrSizeWrap').style.display = 'block';
       document.getElementById('qrSizeSlider').value = Math.round(state.qrSize * 100);
       document.getElementById('qrUrlInput').value = state.qrUrl;
-      if (state.qrUrl !== 'https://workshop-diy.org/') {
-        generateQRFromURL(state.qrUrl);
+      document.getElementById('qrColorInput').value = '#' + state.qrColor;
+      if (state.qrUrl !== 'https://workshop-diy.org/' || state.qrColor !== '0d7377') {
+        generateQRFromURL(state.qrUrl, state.qrColor);
       }
     }
     if (saved.topic) {
@@ -789,6 +796,7 @@ let state = {
   qrY: 0.03,
   qrSize: 0.12,
   qrUrl: 'https://workshop-diy.org/',
+  qrColor: '0d7377',
 };
 
 const CONTACT = {
@@ -1288,23 +1296,26 @@ function resizeQR(val) {
   if (postHistory.length > 0 && historyIndex >= 0) reRenderCurrent();
 }
 
-function generateQRFromURL(url) {
+function generateQRFromURL(url, color) {
   return new Promise(function(resolve) {
-    // Draw QR using canvas-based minimal generator
-    var size = 300;
-    var c = document.createElement('canvas');
-    c.width = size; c.height = size;
-    var ctx = c.getContext('2d');
-    // Use API image
+    var col = color || state.qrColor;
     var img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = function() {
-      ctx.drawImage(img, 0, 0, size, size);
       qrImg = img;
       resolve(img);
     };
-    img.onerror = function() { resolve(qrImg); }; // fallback to embedded
-    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=0d7377&data=' + encodeURIComponent(url);
+    img.onerror = function() { resolve(qrImg); };
+    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=' + col + '&data=' + encodeURIComponent(url);
+  });
+}
+
+function onQRColorChange() {
+  var hex = document.getElementById('qrColorInput').value;
+  state.qrColor = hex.replace('#', '');
+  saveState();
+  generateQRFromURL(state.qrUrl, state.qrColor).then(function() {
+    if (postHistory.length > 0 && historyIndex >= 0) reRenderCurrent();
   });
 }
 
@@ -1316,7 +1327,7 @@ function onQRUrlChange() {
     if (!url) return;
     state.qrUrl = url;
     saveState();
-    await generateQRFromURL(url);
+    await generateQRFromURL(url, state.qrColor);
     if (postHistory.length > 0 && historyIndex >= 0) reRenderCurrent();
   }, 600);
 }
