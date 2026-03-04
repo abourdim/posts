@@ -51,7 +51,7 @@ body::before {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 20px 28px;
+  padding: 28px 28px 20px;
   border-bottom: 1px solid var(--surface2);
 }
 .header img {
@@ -397,12 +397,13 @@ body::before {
 
 <!-- HEADER -->
 <div class="header">
-  <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'">
-  <div>
+  <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:6px 0;font-family:'Cairo',serif;font-size:16px;color:var(--accent2);letter-spacing:2px;opacity:0.7;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'" style="margin-top:18px;">
+  <div style="margin-top:18px;">
     <h1>GÉNÉRATEUR DE POSTS</h1>
     <p>Créez des visuels inspirants pour votre page Facebook</p>
   </div>
-  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Changer le thème">🌙</button>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Changer le thème" style="margin-top:18px;">🌙</button>
 </div>
 
 <!-- MAIN -->
@@ -630,6 +631,9 @@ function historyGo(dir) {
   // Update UI
   document.querySelectorAll('.style-card').forEach(function(c) {
     c.classList.toggle('active', c.dataset.id === entry.style);
+    if (c.dataset.id === entry.style) {
+      c.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   });
   document.querySelectorAll('.size-btn[data-size]').forEach(function(b) {
     b.classList.toggle('active', b.dataset.size === entry.size);
@@ -779,10 +783,11 @@ function selectStyle(id) {
     c.classList.toggle('active', c.dataset.id === id);
   });
   saveState();
-  // Auto-generate if we have content to render
-  if (history.length > 0) {
+  // Auto re-render: if we have history, re-render current with new style
+  if (postHistory.length > 0 && historyIndex >= 0) {
     reRenderCurrent();
-  } else if (document.getElementById('topicInput').value.trim()) {
+  } else {
+    // No history yet — generate with current topic or default
     generate();
   }
 }
@@ -968,7 +973,7 @@ function parseAiResponse(text) {
 
 async function generate() {
   var topic = document.getElementById('topicInput').value.trim();
-  if (!topic && state.aiMode !== 'manual') { showError("Veuillez entrer un sujet ou une idee."); return; }
+  if (!topic && state.aiMode !== 'manual' && state.aiMode !== 'builtin') { showError("Veuillez entrer un sujet ou une idee."); return; }
   if (state.generating) return;
   state.generating = true;
   hideError(); showLoading(true);
