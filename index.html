@@ -216,31 +216,27 @@ body::before {
 .size-btn:hover { border-color: var(--text2); }
 .size-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(13,115,119,0.08); }
 
-/* ---- GENERATE BUTTON ---- */
-.settings-panel {
-  margin-top: 16px;
-  border: 1px solid var(--surface2);
-  border-radius: var(--radius);
-  overflow: hidden;
+/* ---- SETTINGS MODAL ---- */
+.settings-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
 }
-.settings-toggle {
-  display: block;
-  padding: 10px 14px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 13px;
-  color: var(--text2);
-  cursor: pointer;
+.settings-modal-content {
   background: var(--surface);
-  transition: color 0.2s;
-  list-style: none;
-}
-.settings-toggle::-webkit-details-marker { display: none; }
-.settings-toggle::before { content: '▸ '; }
-.settings-panel[open] .settings-toggle::before { content: '▾ '; }
-.settings-toggle:hover { color: var(--accent); }
-.settings-content {
-  padding: 0 14px 14px;
-  border-top: 1px solid var(--surface2);
+  border: 1px solid var(--surface2);
+  border-radius: 16px;
+  padding: 24px;
+  width: 380px;
+  max-width: 90vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.2);
 }
 .generate-btn {
   width: 100%;
@@ -425,10 +421,49 @@ body::before {
   <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:6px 0;font-family:'Cairo',serif;font-size:16px;color:var(--accent2);letter-spacing:2px;opacity:0.7;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
   <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'" style="margin-top:18px;">
   <div style="margin-top:18px;">
-    <h1>GÉNÉRATEUR DE POSTS</h1>
+    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V2.1</span></h1>
     <p>Créez des visuels inspirants pour votre page Facebook</p>
   </div>
-  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Changer le thème" style="margin-top:18px;">🌙</button>
+  <div style="margin-left:auto;display:flex;gap:8px;margin-top:18px;">
+    <button class="theme-toggle" onclick="toggleSettings()" title="Paramètres">⚙️</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Changer le thème">🌙</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="settings-modal" style="display:none;" onclick="if(event.target===this)toggleSettings()">
+  <div class="settings-modal-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <span style="font-family:'Permanent Marker',cursive;font-size:16px;color:var(--accent);">⚙️ Paramètres</span>
+      <button onclick="toggleSettings()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);">✕</button>
+    </div>
+    <div class="section-title" style="margin-top:0;">▸ FORMAT</div>
+    <div class="size-toggle">
+      <button class="size-btn active" data-size="square" onclick="setSize('square')">◻ Carré<br><small>1080×1080</small></button>
+      <button class="size-btn" data-size="landscape" onclick="setSize('landscape')">▭ Paysage<br><small>1200×630</small></button>
+    </div>
+    <div class="section-title">▸ LANGUE</div>
+    <div class="size-toggle">
+      <button class="size-btn active" data-lang="fr" onclick="setLang('fr')">🇫🇷 Français</button>
+      <button class="size-btn" data-lang="ar" onclick="setLang('ar')">🇲🇦 العربية</button>
+    </div>
+    <div class="section-title">▸ SOURCE</div>
+    <div class="size-toggle" style="flex-wrap:wrap;">
+      <button class="size-btn active" data-mode="builtin" onclick="setAiMode('builtin')">📦 Intégré</button>
+      <button class="size-btn" data-mode="manual" onclick="setAiMode('manual')">✏️ Manuel</button>
+      <button class="size-btn" data-mode="groq" onclick="setAiMode('groq')">🤖 Groq</button>
+      <button class="size-btn" data-mode="claude" onclick="setAiMode('claude')">✨ Claude</button>
+    </div>
+    <div id="manualSection" style="display:none;margin-top:10px;">
+      <input type="text" class="topic-input" id="manualHeadline" placeholder="Titre accrocheur" style="min-height:38px;font-size:13px;margin-bottom:6px;">
+      <textarea class="topic-input" id="manualMessage" placeholder="Message (2-3 phrases)" style="min-height:60px;font-size:13px;margin-bottom:6px;"></textarea>
+      <input type="text" class="topic-input" id="manualCta" placeholder="Appel à l'action (ex: Inscrivez-vous!)" style="min-height:38px;font-size:13px;">
+    </div>
+    <div id="aiKeySection" style="display:none;margin-top:10px;">
+      <input type="password" class="topic-input" id="aiKeyInput" placeholder="" style="min-height:40px;font-size:13px;">
+      <p id="aiKeyHint" style="font-size:11px;color:var(--text2);margin-top:6px;opacity:0.6;"></p>
+    </div>
+  </div>
 </div>
 
 <!-- MAIN -->
@@ -442,38 +477,6 @@ body::before {
       GÉNÉRER LE POST
     </button>
     <div class="error-msg" id="errorMsg"></div>
-
-    <details class="settings-panel" id="settingsPanel">
-      <summary class="settings-toggle">⚙️ Paramètres</summary>
-      <div class="settings-content">
-        <div class="section-title" style="margin-top:12px;">▸ FORMAT</div>
-        <div class="size-toggle">
-          <button class="size-btn active" data-size="square" onclick="setSize('square')">◻ Carré<br><small>1080×1080</small></button>
-          <button class="size-btn" data-size="landscape" onclick="setSize('landscape')">▭ Paysage<br><small>1200×630</small></button>
-        </div>
-        <div class="section-title">▸ LANGUE</div>
-        <div class="size-toggle">
-          <button class="size-btn active" data-lang="fr" onclick="setLang('fr')">🇫🇷 Français</button>
-          <button class="size-btn" data-lang="ar" onclick="setLang('ar')">🇲🇦 العربية</button>
-        </div>
-        <div class="section-title">▸ SOURCE</div>
-        <div class="size-toggle" style="flex-wrap:wrap;">
-          <button class="size-btn active" data-mode="builtin" onclick="setAiMode('builtin')">📦 Intégré</button>
-          <button class="size-btn" data-mode="manual" onclick="setAiMode('manual')">✏️ Manuel</button>
-          <button class="size-btn" data-mode="groq" onclick="setAiMode('groq')">🤖 Groq</button>
-          <button class="size-btn" data-mode="claude" onclick="setAiMode('claude')">✨ Claude</button>
-        </div>
-        <div id="manualSection" style="display:none;margin-top:10px;">
-          <input type="text" class="topic-input" id="manualHeadline" placeholder="Titre accrocheur" style="min-height:38px;font-size:13px;margin-bottom:6px;">
-          <textarea class="topic-input" id="manualMessage" placeholder="Message (2-3 phrases)" style="min-height:60px;font-size:13px;margin-bottom:6px;"></textarea>
-          <input type="text" class="topic-input" id="manualCta" placeholder="Appel à l'action (ex: Inscrivez-vous!)" style="min-height:38px;font-size:13px;">
-        </div>
-        <div id="aiKeySection" style="display:none;margin-top:10px;">
-          <input type="password" class="topic-input" id="aiKeyInput" placeholder="" style="min-height:40px;font-size:13px;">
-          <p id="aiKeyHint" style="font-size:11px;color:var(--text2);margin-top:6px;opacity:0.6;"></p>
-        </div>
-      </div>
-    </details>
 
     <div class="section-title" style="margin-top:16px;">▸ STYLE VISUEL</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px;" id="styleTabs">
@@ -595,6 +598,11 @@ function toggleTheme() {
   doc.setAttribute('data-theme', isDark ? '' : 'dark');
   document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
   try { localStorage.setItem('wdiy_theme', isDark ? '' : 'dark'); } catch(e){}
+}
+
+function toggleSettings() {
+  var m = document.getElementById('settingsModal');
+  m.style.display = m.style.display === 'none' ? 'flex' : 'none';
 }
 
 // --- HISTORY & PERSISTENCE ---
