@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workshop-DIY V3.0 — README</title>
+<title>Workshop-DIY V6.0 — README</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -140,7 +140,7 @@ a { color: var(--teal); }
 <div class="container">
 
 <div class="hdr">
-  <h1 style="margin:0;">WORKSHOP-DIY <span>V3.0</span></h1>
+  <h1 style="margin:0;">WORKSHOP-DIY <span>V6.0</span></h1>
   <nav class="hdr-nav">
     <a href="index.html">🏠 Accueil</a>
     <a href="workshop-post-gen.html">🚀 App</a>
@@ -153,243 +153,87 @@ a { color: var(--teal); }
 
 <h1>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</h1>
 
-<h1>Workshop-DIY — Générateur de Posts V4.1</h1>
+<h1>Workshop-DIY — Générateur de Posts V6.0</h1>
 
 <p>Outil multi-mode de création de visuels pour <strong>Workshop-DIY</strong> (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur. PWA installable.</p>
 
 <h2>5 Modes de Création</h2>
 
 <h3>🎨 Visuels — 58 Styles</h3>
+<p>Le mode principal. Génère des visuels Facebook avec texte, logo, doodles et footer.</p>
+<p>5 catégories: Classique (15), Kiddy (10), Formes (10), Andalous (13), Intense (10).</p>
+<p>Thumbnails live, favoris ⭐, historique Préc/Suiv (30 posts), style auto/manuel.</p>
 
-<p>Le mode principal. Génère des visuels Facebook professionnels avec texte, logo, doodles et pied de page.</p>
+<h3>🐄 Cowsay — 35 Animaux × 16 Fonds</h3>
+<p>ASCII art en image. 35 animaux, 16 arrière-plans, 3 bulles (dire/penser/crier), 6 formats (terminal, git, code, BSOD, fortune 50+50 citations FR/AR), modes solo/duo/custom/combo.</p>
 
-<table class="doc-table"><thead><tr>
-<th>Catégorie</th>
-<th>Nb</th>
-<th>Exemples</th>
-</tr></thead><tbody>
-<tr>
-<td><strong>Classique</strong></td>
-<td>15</td>
-<td>Journal, Tableau Noir, Blueprint, Polaroid, Fiche Recette...</td>
-</tr>
-<tr>
-<td><strong>Kiddy</strong></td>
-<td>10</td>
-<td>Lego, Scratch, Crayon, Comic, Puzzle, Chasse au Trésor...</td>
-</tr>
-<tr>
-<td><strong>Formes</strong></td>
-<td>10</td>
-<td>Robot, Fusée, Ampoule, Cerveau, Main, Arbre...</td>
-</tr>
-<tr>
-<td><strong>Andalous</strong></td>
-<td>13</td>
-<td>Alhambra, Arabesque, Zellige, Astrolabe, Moucharabieh...</td>
-</tr>
-<tr>
-<td><strong>Intense</strong></td>
-<td>10</td>
-<td>Acier Brossé, Flammes, Camouflage, Neon City, Béton Brut...</td>
-</tr>
-</tbody></table>
+<h3>💬 Chat / SMS — 6 Styles</h3>
+<p>Fausses conversations: iMessage, WhatsApp, Messenger, SMS, Discord, Telegram. Max 8 bulles, personnages personnalisables, cadre iPhone, timestamps. Contenu FR/AR.</p>
 
-<p>Fonctions: style auto/manuel, thumbnails live, filtres par catégorie, favoris ⭐, historique Préc/Suiv.</p>
+<h3>😂 Mème — 12 Templates</h3>
+<p>Drake, Galaxy Brain, Distracted, Bouton Rouge, Scroll, Expanding, Change My Mind, This is Fine, Success Kid, Aliens Guy, Two Buttons, Stonks. Upload image perso. Textes rapides FR/AR.</p>
 
-<h3>🐄 Cowsay — 35 Animaux ASCII</h3>
+<h3>📱 Notification — 6 Styles OS</h3>
+<p>iOS Light/Dark, Android Light/Dark, Windows 11, macOS. 12 icônes, textes rapides FR/AR.</p>
 
-<p>Génère des images avec des animaux ASCII dans un style terminal/geek.</p>
-
-<ul>
-<li><strong>35 animaux</strong>: vache, tux, robot, dragon, crâne, alien, t-rex, hibou, grenouille, poulpe, mouton, chameau, éléphant, canard, souris, chauve-souris, licorne, chat, lapin, renard, tortue, sorcier, père Noël, endormi, fou, serpent, manchot, crabe, baleine, abeille, dino, singe, fantôme, panda, perroquet</li>
-<li><strong>16 arrière-plans</strong>: Terminal vert, Ambre CRT, Tableau noir, Blanc, Matrix, Écran bleu, Ubuntu, Hacker, C64, Game Boy, Arcade, Blueprint, Circuit, Cahier, Post-it, Craft bois</li>
-<li><strong>3 styles de bulle</strong>: Dire, Penser, Crier</li>
-<li><strong>6 formats spéciaux</strong>: Terminal ($), Git Commit, Code Comment, BSOD, Fortune Cookie (50 citations)</li>
-<li><strong>Mode Duo</strong>: 2 animaux en conversation</li>
-<li><strong>ASCII personnalisé</strong>: Collez votre propre art</li>
-<li><strong>Mode Combo</strong>: Animal ASCII sur fond visuel (58 styles)</li>
-<li><strong>Live preview</strong>: Chaque modification régénère instantanément</li>
-</ul>
-
-<h3>💬 Chat / SMS</h3>
-
-<p>Génère de fausses conversations de messagerie.</p>
-
-<ul>
-<li><strong>6 styles</strong>: iMessage, WhatsApp, Messenger, SMS, Discord, Telegram</li>
-<li><strong>Personnages</strong>: Avatar emoji + nom personnalisables (live update)</li>
-<li><strong>Messages</strong>: Ajoutez jusqu'à 8 bulles, swap gauche/droite, édition en ligne (live)</li>
-<li><strong>Options</strong>: Cadre téléphone (iPhone), horodatage, indicateur de frappe (...)</li>
-<li><strong>Auto-fill</strong>: 4 messages par défaut sur le thème Workshop-DIY</li>
-</ul>
-
-<h3>😂 Mème</h3>
-
-<p>Générateur de mèmes classiques avec texte Impact.</p>
-
-<ul>
-<li><strong>12 templates</strong>: Drake, Galaxy Brain, Distracted, Bouton Rouge, Scroll de Vérité, Expanding Brain, Change My Mind, This is Fine, Success Kid, Aliens Guy, Two Buttons, Stonks</li>
-<li><strong>8 textes rapides</strong>: Mèmes pré-écrits Workshop-DIY (un clic pour générer)</li>
-<li><strong>Image personnalisée</strong>: Uploadez votre propre image comme fond de mème</li>
-<li><strong>Texte Impact</strong>: Outline noir, auto-wrap, redimensionnement automatique</li>
-<li><strong>Live preview</strong>: Le texte se met à jour en temps réel</li>
-</ul>
-
-<h3>📱 Notification</h3>
-
-<p>Fausses notifications push réalistes.</p>
-
-<ul>
-<li><strong>6 styles OS</strong>: iOS Light, iOS Dark, Android, Android Dark, Windows 11, macOS</li>
-<li><strong>12 icônes d'app</strong>: 🛠️ 🤖 🚀 ⚡ 💡 🧩 🔧 🎯 📐 🔬 🎮 🏗️</li>
-<li><strong>6 textes rapides</strong>: Premier robot, Nouvel atelier, Niveau débloqué, Rappel, Places limitées, Impression 3D</li>
-<li><strong>Live preview</strong>: Chaque champ se met à jour instantanément</li>
-</ul>
-
-<h2>Fonctionnalités Transversales</h2>
+<h2>Fonctionnalités</h2>
 
 <h3>Live Preview</h3>
+<p>Tous les champs dans tous les modes régénèrent l'image en temps réel.</p>
 
-<p>Tous les champs de texte dans tous les modes régénèrent l'image en temps réel pendant la saisie. Plus besoin de cliquer "Générer" après chaque modification.</p>
+<h3>Bilingue FR / 🇩🇿 AR</h3>
+<ul>
+<li>30 messages FR + 30 messages AR (فصحى)</li>
+<li>50 fortune cookies FR + 50 AR (حكم وأمثال)</li>
+<li>Quick texts FR/AR dans les 5 modes</li>
+<li>Placeholders arabes quand lang=AR</li>
+<li>4 polices arabes: Cairo, Amiri (calligraphie), Tajawal (moderne), Noto Kufi (géométrique)</li>
+<li>Attribution auto par style: Amiri pour Andalous, Tajawal pour Kiddy</li>
+<li>RTL complet dans tous les modes</li>
+</ul>
 
 <h3>Texte Libre (✏️)</h3>
+<p>Texte draggable sur l'image. 9 polices (dont 3 arabes), couleur/taille, multi-textes, undo/clear.</p>
 
-<p>Ajoutez du texte libre sur n'importe quelle image générée:</p>
+<h3>Galerie & Export/Import</h3>
 <ul>
-<li>6 polices: Impact, Marker, Mono, Cairo, Bangers, Arial</li>
-<li>Couleur et taille personnalisables</li>
-<li>Drag & drop pour positionner</li>
-<li>Multi-textes supportés</li>
-<li>Undo (↩) et Clear (🗑)</li>
-</ul>
-
-<h3>Raccourcis Clavier</h3>
-
-<ul>
-<li><strong>Ctrl+Enter</strong>: Générer</li>
-<li><strong>Ctrl+S</strong>: Télécharger PNG</li>
-<li><strong>Ctrl+Shift+R</strong>: Aléatoire</li>
-</ul>
-
-<h3>Contenu Bilingue FR/AR</h3>
-
-<ul>
-<li>30 messages intégrés en français, 20 en arabe littéraire (فصحى)</li>
-<li>Rendu RTL automatique avec police Cairo</li>
-<li>Basculement via Paramètres ⚙️</li>
-</ul>
-
-<h3>4 Sources de Contenu</h3>
-
-<ul>
-<li><strong>📦 Intégré</strong>: Messages pré-écrits avec correspondance par sujet</li>
-<li><strong>✏️ Manuel</strong>: Saisie libre du titre, message et CTA</li>
-<li><strong>🤖 Groq</strong>: Génération IA via API Groq (clé gratuite sur groq.com)</li>
-<li><strong>✨ Claude</strong>: Génération IA via API Anthropic</li>
-</ul>
-
-<p>L'IA fonctionne dans les 5 modes: bouton "✨ IA Suggérer" pour cowsay, chat, mème et notif.</p>
-
-<h3>3 Formats d'Export</h3>
-
-<ul>
-<li><strong>◻ Carré</strong>: 1080×1080 (Facebook, Instagram)</li>
-<li><strong>▭ Paysage</strong>: 1200×630 (Facebook link preview)</li>
-<li><strong>▯ Story</strong>: 1080×1920 (Instagram/TikTok Stories)</li>
-</ul>
-
-<h3>QR Code Intégré</h3>
-
-<ul>
-<li>Toggle on/off, URL personnalisable</li>
-<li>Couleur au choix, taille ajustable (5–25%)</li>
-<li>Drag and drop sur le canvas</li>
-<li>Téléchargement séparé</li>
-</ul>
-
-<h3>Actions</h3>
-
-<ul>
-<li><strong>⬇ PNG</strong>: Télécharger (nom de fichier inclut mode + style)</li>
-<li><strong>📤 Partager</strong>: Web Share API (mobile) / copie clipboard (desktop)</li>
-<li><strong>📋 Texte</strong>: Copie formatée pour Facebook avec contacts</li>
-<li><strong>↻ Régénérer</strong>: Relance le mode actif</li>
-<li><strong>🎲 Aléatoire</strong>: Randomise le style du mode actif</li>
-<li><strong>✏️ Texte libre</strong>: Ajouter du texte draggable sur l'image</li>
-<li><strong>📦 Batch</strong>: Export multi-styles par mode</li>
+<li>🖼️ Galerie visuelle (thumbnails 200px, max 100, persistée)</li>
+<li>📥 Export JSON (settings + favoris + galerie + compteur + QR)</li>
+<li>📤 Import JSON (restauration entre machines, fusion sans doublons)</li>
+<li>Compteur total de posts générés</li>
+<li>🗑 Reset données</li>
 </ul>
 
 <h3>PWA / Installation</h3>
+<p>Manifest intégré, Service Worker cache-first, bouton 📲. Fonctionne offline.</p>
 
+<h3>Raccourcis Clavier</h3>
+<p>Ctrl+Enter (générer), Ctrl+S (PNG), Ctrl+Shift+R (aléatoire).</p>
+
+<h3>Autres</h3>
 <ul>
-<li>Bouton 📲 dans le header (apparaît quand installable)</li>
-<li>Service Worker pour cache offline</li>
-<li>Manifest intégré, compatible Android/iOS</li>
-<li>Fonctionne hors ligne (sauf IA et QR)</li>
+<li>3 formats: Carré 1080×1080, Paysage 1200×630, Story 1080×1920</li>
+<li>4 sources: Intégré, Manuel, Groq (IA gratuite), Claude (IA Anthropic)</li>
+<li>QR Code drag & drop, URL/couleur/taille personnalisables</li>
+<li>Batch export par mode (58+35+12+6+6)</li>
+<li>Favoris ⭐ persistés, aide modal ❓, thème clair/sombre</li>
 </ul>
-
-<h3>Favoris ⭐</h3>
-
-<ul>
-<li>Étoile sur chaque style visuel</li>
-<li>Onglet "Favoris" pour accès rapide</li>
-<li>Persisté en localStorage</li>
-</ul>
-
-<h3>Persistance</h3>
-
-<ul>
-<li>Tous paramètres sauvegardés en localStorage</li>
-<li>Dernier post affiché au démarrage</li>
-<li>Historique jusqu'à 30 posts (mode Visuels)</li>
-<li>Position et taille du QR sauvegardées</li>
-<li>Favoris persistés</li>
-</ul>
-
-<h2>Déploiement</h2>
-
-<p>Fichier unique <code>workshop-post-gen.html</code> (~310 KB) — aucune installation.</p>
-
-<ul>
-<li><strong>Local</strong>: Ouvrir dans un navigateur</li>
-<li><strong>GitHub Pages</strong>: Copier dans le repo</li>
-<li><strong>PWA</strong>: Installer via le bouton 📲</li>
-<li><strong>Claude.ai</strong>: Fonctionne en artifact</li>
-</ul>
-
-<p>Les modes IA nécessitent une connexion internet et une clé API.</p>
 
 <h2>Statistiques</h2>
 
 <ul>
-<li>5 modes de création</li>
-<li>58 styles visuels + 35 animaux + 16 fonds + 12 templates mème + 6 styles chat + 6 styles notif</li>
-<li>50 citations fortune cookie</li>
-<li>~6150 lignes, fichier unique</li>
+<li>5 modes, 117 variantes totales</li>
+<li>60 messages (30 FR + 30 AR), 100 fortune cookies (50+50)</li>
+<li>4 polices arabes, 9 polices overlay</li>
+<li>~6300 lignes, 318 KB, fichier unique</li>
 <li>0 dépendance serveur</li>
 </ul>
 
 <h2>Contact</h2>
 
 <ul>
-<li>workshop-diy.org</li>
-<li>contact@workshop-diy.org</li>
-<li>06 19 51 51 73</li>
-<li>Chelles 77500</li>
-<li>https://abourdim.github.io/apps/</li>
-</ul>
-
-<h3>Galerie & Export/Import</h3>
-
-<ul>
-<li><strong>🖼️ Galerie</strong>: Historique visuel des posts générés (thumbnails 200px, max 100)</li>
-<li><strong>📥 Exporter JSON</strong>: Backup complet (settings, favoris, galerie, compteur, QR)</li>
-<li><strong>📤 Importer JSON</strong>: Restaure sur une autre machine (fusion sans doublons)</li>
-<li><strong>🗑 Reset</strong>: Efface toutes les données locales</li>
-<li><strong>Compteur</strong>: Nombre total de posts générés, persisté</li>
-<li>Debounce 2s — ne sauvegarde pas pendant la saisie live</li>
-<li>Accessible via ⚙️ Paramètres → DONNÉES</li>
+<li>workshop-diy.org · contact@workshop-diy.org · 06 19 51 51 73</li>
+<li>Chelles 77500 · https://abourdim.github.io/apps/</li>
 </ul>
 
 
@@ -399,7 +243,7 @@ a { color: var(--teal); }
   <a href="README.html">📋 README</a>
   <a href="WIKI.html">📖 Wiki</a>
   <a href="cheatsheet.html">📄 Cheat Sheet</a>
-  <p style="margin-top:8px;">Workshop-DIY V3.0 · workshop-diy.org · بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+  <p style="margin-top:8px;">Workshop-DIY V6.0 · workshop-diy.org · بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
 </div>
 
 </div>

@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Workshop-DIY">
 <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Workshop-DIY%22%2C%22short_name%22%3A%22WDIY%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f0e8%22%2C%22theme_color%22%3A%22%230d7377%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fabourdim.github.io%2Fapps%2Flogo.svg%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 <title>Workshop-DIY — Générateur de Posts Facebook</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Caveat:wght@400;600;700&family=Permanent+Marker&family=Patrick+Hand&family=Courier+Prime:wght@400;700&family=Bangers&family=Special+Elite&family=Shadows+Into+Light&family=Rock+Salt&family=Architects+Daughter&family=Indie+Flower&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&family=Caveat:wght@400;600;700&family=Permanent+Marker&family=Patrick+Hand&family=Courier+Prime:wght@400;700&family=Bangers&family=Special+Elite&family=Shadows+Into+Light&family=Rock+Salt&family=Architects+Daughter&family=Indie+Flower&family=Tajawal:wght@400;700;800&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f5f0e8;
@@ -472,7 +472,7 @@ body::before {
   <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:6px 0;font-family:'Cairo',serif;font-size:16px;color:var(--accent2);letter-spacing:2px;opacity:0.7;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
   <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'" style="margin-top:18px;">
   <div style="margin-top:18px;">
-    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V4.1</span></h1>
+    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V6.0</span></h1>
     <p>Créez des visuels inspirants pour votre page Facebook</p>
   </div>
   <div style="margin-left:auto;display:flex;gap:8px;margin-top:18px;">
@@ -561,7 +561,7 @@ body::before {
     </div>
 
     <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--surface2);text-align:center;">
-      <p style="font-size:11px;color:var(--text2);">Workshop-DIY V4.1 — Build 2026-03-04 10:18 — workshop-diy.org</p>
+      <p style="font-size:11px;color:var(--text2);">Workshop-DIY V6.0 — Build 2026-03-04 11:36 — workshop-diy.org</p>
       <p style="font-size:10px;color:var(--text2);margin-top:4px;">5 modes · 58+ styles · 100% hors-ligne · Fichier unique</p>
     </div>
   </div>
@@ -592,7 +592,7 @@ body::before {
     <div class="section-title">▸ LANGUE</div>
     <div class="size-toggle">
       <button class="size-btn active" data-lang="fr" onclick="setLang('fr')">🇫🇷 Français</button>
-      <button class="size-btn" data-lang="ar" onclick="setLang('ar')">🇲🇦 العربية</button>
+      <button class="size-btn" data-lang="ar" onclick="setLang('ar')">🇩🇿 العربية</button>
     </div>
     <div class="section-title">▸ SOURCE</div>
     <div class="size-toggle" style="flex-wrap:wrap;">
@@ -841,16 +841,7 @@ body::before {
         </div>
 
         <div class="section-title" style="margin-top:12px;margin-bottom:6px;">▸ TEXTE RAPIDE</div>
-        <div style="display:grid;grid-template-columns:1fr;gap:3px;" id="memeQuickTexts">
-          <button class="size-btn" onclick="setMemeQuick('QUAND TU DÉCOUVRES','QUE TES ENFANTS SAVENT SOUDER')" style="padding:5px 8px;font-size:10px;text-align:left;">🔥 Quand tu découvres / souder</button>
-          <button class="size-btn" onclick="setMemeQuick('PERSONNE:','MOI À 3H DU MATIN SUR ARDUINO')" style="padding:5px 8px;font-size:10px;text-align:left;">🤓 Personne: / Arduino 3h</button>
-          <button class="size-btn" onclick="setMemeQuick('QUAND LE PROF DIT','PROJET LIBRE')" style="padding:5px 8px;font-size:10px;text-align:left;">🚀 Prof dit / Projet libre</button>
-          <button class="size-btn" onclick="setMemeQuick('ONE DOES NOT SIMPLY','IGNORE WORKSHOP-DIY')" style="padding:5px 8px;font-size:10px;text-align:left;">🧙 One does not simply</button>
-          <button class="size-btn" onclick="setMemeQuick('MON PREMIER ROBOT','IL EST BEAU NON? 🤖')" style="padding:5px 8px;font-size:10px;text-align:left;">🤖 Mon premier robot</button>
-          <button class="size-btn" onclick="setMemeQuick('SUDO MAKE ME','A ROBOT 🤖')" style="padding:5px 8px;font-size:10px;text-align:left;">💻 sudo make me</button>
-          <button class="size-btn" onclick="setMemeQuick('CE MOMENT OÙ','TON CIRCUIT MARCHE DU PREMIER COUP')" style="padding:5px 8px;font-size:10px;text-align:left;">⚡ Circuit marche</button>
-          <button class="size-btn" onclick="setMemeQuick('404','ENNUI NOT FOUND')" style="padding:5px 8px;font-size:10px;text-align:left;">🔎 404 Ennui not found</button>
-        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;" id="memeQuickTexts"></div>
       </div>
     </div>
 
@@ -890,14 +881,7 @@ body::before {
         </div>
 
         <div class="section-title" style="margin-top:12px;margin-bottom:6px;">▸ TEXTES RAPIDES</div>
-        <div style="display:grid;grid-template-columns:1fr;gap:3px;">
-          <button class="size-btn" onclick="setNotifQuick('Workshop-DIY','Votre enfant a construit son premier robot! 🤖','Atelier Robotique · Chelles 77500')" style="padding:5px 8px;font-size:10px;text-align:left;">🤖 Premier robot</button>
-          <button class="size-btn" onclick="setNotifQuick('Workshop-DIY','Nouvel atelier samedi: Arduino pour débutants!','Inscriptions ouvertes · 06 19 51 51 73')" style="padding:5px 8px;font-size:10px;text-align:left;">📅 Nouvel atelier</button>
-          <button class="size-btn" onclick="setNotifQuick('Workshop-DIY','🏆 Bravo! Niveau Maker Pro débloqué!','Compétences: Soudure ✓ Arduino ✓ Robot ✓')" style="padding:5px 8px;font-size:10px;text-align:left;">🏆 Niveau débloqué</button>
-          <button class="size-btn" onclick="setNotifQuick('Rappel','Atelier dans 1 heure! N\'oubliez pas votre kit 🧰','Workshop-DIY · 10h00 · Chelles')" style="padding:5px 8px;font-size:10px;text-align:left;">⏰ Rappel atelier</button>
-          <button class="size-btn" onclick="setNotifQuick('Workshop-DIY','Places limitées! Plus que 3 places pour l\'atelier LED 💡','Réservez maintenant sur workshop-diy.org')" style="padding:5px 8px;font-size:10px;text-align:left;">🔥 Places limitées</button>
-          <button class="size-btn" onclick="setNotifQuick('Workshop-DIY','Nouveau: Atelier impression 3D disponible! 🖨️','À partir de 8 ans · Tous niveaux')" style="padding:5px 8px;font-size:10px;text-align:left;">🖨️ Impression 3D</button>
-        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;" id="notifQuickTexts"></div>
       </div>
     </div>
 
@@ -937,6 +921,9 @@ body::before {
             <option value="'Permanent Marker'">Marker</option>
             <option value="'Courier Prime'">Mono</option>
             <option value="'Cairo'">Cairo</option>
+            <option value="'Amiri'">Amiri ع</option>
+            <option value="'Tajawal'">Tajawal ع</option>
+            <option value="'Noto Kufi Arabic'">Kufi ع</option>
             <option value="'Bangers'">Bangers</option>
             <option value="Arial">Arial</option>
           </select>
@@ -1682,7 +1669,7 @@ function formatSpecial(msg, fmt) {
       + 'workshop-diy.org | 06 19 51 51 73';
   }
   if (fmt === 'fortune') {
-    var fortunes = [
+    var fortunes_fr = [
       'Tout enfant est un inventeur qui s\'ignore.',
       'Le code est la poésie du XXIe siècle.',
       'Souder, c\'est assembler des rêves.',
@@ -1734,6 +1721,59 @@ function formatSpecial(msg, fmt) {
       'L\'intelligence se construit, comme un robot.',
       'Make. Learn. Repeat. 🔁',
     ];
+    var fortunes_ar = [
+      'كل طفل مخترع لم يكتشف نفسه بعد.',
+      'البرمجة هي شعر القرن الحادي والعشرين.',
+      'اللحام هو فن تجميع الأحلام.',
+      'لا يمكن لروبوت أن يحل محل صانع حقيقي.',
+      'أردوينو اليوم، صاروخ غداً.',
+      'الخطأ هو أول خطوة نحو العبقرية.',
+      'البناء أفضل من الاستهلاك.',
+      'كل LED تضيء هي انتصار.',
+      'العمل اليدوي هو اللغة العالمية.',
+      'صانع ليوم، صانع للأبد.',
+      'من يبني بيديه يبني مستقبله.',
+      'العلم في الصغر كالنقش على الحجر.',
+      'إذا أردت شيئاً، ابنِهِ بنفسك.',
+      'الصبر مفتاح كل اختراع.',
+      'ما شاء الله، طفلك مبدع!',
+      'كل مشروع فاشل هو درس مجاني.',
+      'الأيدي التي تبني تصنع المستقبل.',
+      'الفضول ليس عيباً، بل قوة خارقة.',
+      'اليد التي تمسك المكواة تمسك المستقبل.',
+      'العالَم يحتاج صنّاعاً لا متفرجين.',
+      'لا نتعلم بالمشاهدة بل بالعمل.',
+      'أفضل لعبة هي التي تصنعها بنفسك.',
+      'الإبداع يُزرع بمفك ومثابرة.',
+      'طفل يبني هو طفل يفكر.',
+      'كل لحام هو خلية عصبية إضافية.',
+      'لا أحد يولد مهندساً، بل يصبح كذلك.',
+      'أجمل هدية: وقت للإبداع.',
+      'هنا نحوّل "لا أعرف" إلى "نجحت!"',
+      'الذكاء يُبنى كما يُبنى الروبوت.',
+      'اصنع. تعلّم. كرّر. 🔁',
+      'بسم الله نبدأ، وبتوفيقه ننجح.',
+      'من توكل على الله وسعى، بلغ المنى.',
+      'العلم نور، والعمل ثمار.',
+      'رحلة الألف ميل تبدأ بلحام واحد.',
+      'إن الله يحب إذا عمل أحدكم عملاً أن يتقنه.',
+      'خير الناس أنفعهم للناس.',
+      'من جدّ وجد، ومن زرع حصد.',
+      'اطلبوا العلم من المهد إلى اللحد.',
+      'الحكمة ضالة المؤمن.',
+      'كن صانعاً لا مستهلكاً.',
+      'الإلكترونيات لغة المستقبل.',
+      'حلم اليوم هو اختراع الغد.',
+      'كل دائرة كهربائية قصة نجاح.',
+      'المعرفة كنز لا يفنى.',
+      'تعلّم، أخطئ، أعد، أبدع!',
+      'ورشة واحدة تغيّر حياة.',
+      'الطفل المبدع هو ثروة الأمة.',
+      'Arduino: ألف فكرة في لوحة واحدة.',
+      'البرمجة تعلّم التفكير قبل الكتابة.',
+      'ما أجمل أن يقول طفلك: أنا صنعته!',
+    ];
+    var fortunes = state.lang === 'ar' ? fortunes_ar : fortunes_fr;
     return fortunes[Math.floor(Math.random() * fortunes.length)];
   }
   return msg;
@@ -2028,7 +2068,7 @@ var chatStyleId = 'imessage';
 function addChatBubble(side) {
   if (chatBubbles.length >= 8) return;
   var idx = chatBubbles.length;
-  var defaults = [
+  var defaults_fr = [
     {side:'left', text:'Papa, je m\'ennuie... 😴'},
     {side:'right', text:'Et si tu construisais un robot? 🤖'},
     {side:'left', text:'C\'est possible?! 😮'},
@@ -2036,6 +2076,15 @@ function addChatBubble(side) {
     {side:'left', text:'Trop cool!! 🎉🎉'},
     {side:'right', text:'Inscris-toi sur workshop-diy.org 🔗'},
   ];
+  var defaults_ar = [
+    {side:'left', text:'بابا، أنا زهقت... 😴'},
+    {side:'right', text:'ما رأيك أن تبني روبوتاً؟ 🤖'},
+    {side:'left', text:'هل هذا ممكن فعلاً؟! 😮'},
+    {side:'right', text:'Workshop-DIY في شيل، السبت الساعة 10! 🚀'},
+    {side:'left', text:'رائع جداً!! 🎉🎉'},
+    {side:'right', text:'سجّل على workshop-diy.org 🔗'},
+  ];
+  var defaults = state.lang === 'ar' ? defaults_ar : defaults_fr;
   var def = defaults[idx] || {side: side, text: ''};
   chatBubbles.push({side: side, text: def.text});
   renderChatBubbleList();
@@ -3125,6 +3174,110 @@ function setLang(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   saveState();
+  updateLangContent();
+}
+
+function updateLangContent() {
+  var ar = state.lang === 'ar';
+  
+  // Cowsay placeholder
+  var ci = document.getElementById('cowsayInput');
+  if (ci) ci.placeholder = ar ? 'مثال: تعالوا تعلموا البرمجة!' : 'Ex: Venez apprendre à coder!';
+  var ci2 = document.getElementById('cowsayInput2');
+  if (ci2) ci2.placeholder = ar ? 'مثال: تعالوا إلى Workshop-DIY!' : 'Ex: Viens à Workshop-DIY!';
+  
+  // Meme defaults
+  var mt = document.getElementById('memeTop');
+  var mb = document.getElementById('memeBottom');
+  if (mt && !mt._userEdited) mt.value = ar ? 'عندما تكتشف' : 'QUAND TU DÉCOUVRES';
+  if (mb && !mb._userEdited) mb.value = ar ? 'WORKSHOP-DIY في شيل' : 'WORKSHOP-DIY À CHELLES';
+  
+  // Notif defaults
+  var nt = document.getElementById('notifTitle');
+  var nm = document.getElementById('notifMsg');
+  var ns = document.getElementById('notifSub');
+  if (nt) nt.placeholder = ar ? 'اسم التطبيق...' : "Nom de l'app...";
+  if (nm) nm.placeholder = ar ? 'محتوى الإشعار...' : 'Contenu de la notification...';
+  if (ns) ns.placeholder = ar ? 'تفاصيل إضافية...' : 'Détail supplémentaire...';
+  
+  // Chat placeholders
+  var cn1 = document.getElementById('chatName1');
+  var cn2 = document.getElementById('chatName2');
+  if (cn1 && !cn1._userEdited) cn1.value = ar ? 'كريم' : 'Karim';
+  if (cn2 && !cn2._userEdited) cn2.value = ar ? 'ورشة' : 'Workshop';
+  
+  // Topic input
+  var ti = document.getElementById('topicInput');
+  if (ti) ti.placeholder = ar ? 'مثال: تعلم اللحام، أردوينو...' : 'Ex: Apprendre à souder, Arduino...';
+  
+  // Populate meme quick texts
+  buildMemeQuickTexts();
+  // Populate notif quick texts
+  buildNotifQuickTexts();
+}
+
+function buildMemeQuickTexts() {
+  var grid = document.getElementById('memeQuickTexts');
+  if (!grid) return;
+  var ar = state.lang === 'ar';
+  var items = ar ? [
+    {icon:'🔥', top:'عندما تكتشف', bottom:'أن أطفالك يعرفون اللحام', label:'عندما تكتشف / اللحام'},
+    {icon:'🤓', top:'لا أحد:', bottom:'أنا الساعة 3 فجراً مع أردوينو', label:'لا أحد: / أردوينو'},
+    {icon:'🚀', top:'عندما يقول الأستاذ', bottom:'مشروع حر', label:'الأستاذ / مشروع حر'},
+    {icon:'🤖', top:'روبوتي الأول', bottom:'أليس جميلاً؟ 🤖', label:'روبوتي الأول'},
+    {icon:'⚡', top:'تلك اللحظة حين', bottom:'دائرتك تعمل من أول محاولة', label:'الدائرة تعمل'},
+    {icon:'🧠', top:'قبل WORKSHOP-DIY', bottom:'بعد WORKSHOP-DIY', label:'قبل / بعد'},
+    {icon:'💡', top:'من يحتاج شاشات', bottom:'حين يمكنك بناء روبوت', label:'شاشات / روبوت'},
+    {icon:'🎯', top:'ابني يملّ', bottom:'سجّله في WORKSHOP-DIY', label:'يملّ / سجّله'},
+  ] : [
+    {icon:'🔥', top:'QUAND TU DÉCOUVRES', bottom:'QUE TES ENFANTS SAVENT SOUDER', label:'Quand tu découvres / souder'},
+    {icon:'🤓', top:'PERSONNE:', bottom:'MOI À 3H DU MATIN SUR ARDUINO', label:'Personne: / Arduino 3h'},
+    {icon:'🚀', top:'QUAND LE PROF DIT', bottom:'PROJET LIBRE', label:'Prof dit / Projet libre'},
+    {icon:'🧙', top:'ONE DOES NOT SIMPLY', bottom:'IGNORE WORKSHOP-DIY', label:'One does not simply'},
+    {icon:'🤖', top:'MON PREMIER ROBOT', bottom:'IL EST BEAU NON? 🤖', label:'Mon premier robot'},
+    {icon:'💻', top:'SUDO MAKE ME', bottom:'A ROBOT 🤖', label:'sudo make me'},
+    {icon:'⚡', top:'CE MOMENT OÙ', bottom:'TON CIRCUIT MARCHE DU PREMIER COUP', label:'Circuit marche'},
+    {icon:'🔎', top:'404', bottom:'ENNUI NOT FOUND', label:'404 Ennui not found'},
+  ];
+  grid.innerHTML = '';
+  items.forEach(function(it) {
+    var btn = document.createElement('button');
+    btn.className = 'size-btn';
+    btn.style.cssText = 'padding:5px 8px;font-size:10px;text-align:' + (ar ? 'right' : 'left') + ';';
+    btn.textContent = it.icon + ' ' + it.label;
+    btn.onclick = function() { setMemeQuick(it.top, it.bottom); };
+    grid.appendChild(btn);
+  });
+}
+
+function buildNotifQuickTexts() {
+  var grid = document.getElementById('notifQuickTexts');
+  if (!grid) return;
+  var ar = state.lang === 'ar';
+  var items = ar ? [
+    {icon:'🤖', title:'Workshop-DIY', msg:'طفلك بنى أول روبوت! 🤖', sub:'ورشة الروبوتات · شيل 77500', label:'أول روبوت'},
+    {icon:'📅', title:'Workshop-DIY', msg:'ورشة جديدة السبت: أردوينو للمبتدئين!', sub:'التسجيل مفتوح · 06 19 51 51 73', label:'ورشة جديدة'},
+    {icon:'🏆', title:'Workshop-DIY', msg:'🏆 ما شاء الله! مستوى صانع محترف!', sub:'مهارات: لحام ✓ أردوينو ✓ روبوت ✓', label:'مستوى جديد'},
+    {icon:'⏰', title:'تذكير', msg:'الورشة بعد ساعة! لا تنسوا الحقيبة 🧰', sub:'Workshop-DIY · 10:00 · شيل', label:'تذكير'},
+    {icon:'🔥', title:'Workshop-DIY', msg:'أماكن محدودة! باقي 3 أماكن لورشة LED 💡', sub:'سجلوا الآن على workshop-diy.org', label:'أماكن محدودة'},
+    {icon:'🖨️', title:'Workshop-DIY', msg:'جديد: ورشة طباعة ثلاثية الأبعاد! 🖨️', sub:'ابتداءً من 8 سنوات · جميع المستويات', label:'طباعة 3D'},
+  ] : [
+    {icon:'🤖', title:'Workshop-DIY', msg:'Votre enfant a construit son premier robot! 🤖', sub:'Atelier Robotique · Chelles 77500', label:'Premier robot'},
+    {icon:'📅', title:'Workshop-DIY', msg:'Nouvel atelier samedi: Arduino pour débutants!', sub:'Inscriptions ouvertes · 06 19 51 51 73', label:'Nouvel atelier'},
+    {icon:'🏆', title:'Workshop-DIY', msg:'🏆 Bravo! Niveau Maker Pro débloqué!', sub:'Compétences: Soudure ✓ Arduino ✓ Robot ✓', label:'Niveau débloqué'},
+    {icon:'⏰', title:'Rappel', msg:'Atelier dans 1 heure! N\'oubliez pas votre kit 🧰', sub:'Workshop-DIY · 10h00 · Chelles', label:'Rappel atelier'},
+    {icon:'🔥', title:'Workshop-DIY', msg:'Places limitées! Plus que 3 places pour l\'atelier LED 💡', sub:'Réservez maintenant sur workshop-diy.org', label:'Places limitées'},
+    {icon:'🖨️', title:'Workshop-DIY', msg:'Nouveau: Atelier impression 3D disponible! 🖨️', sub:'À partir de 8 ans · Tous niveaux', label:'Impression 3D'},
+  ];
+  grid.innerHTML = '';
+  items.forEach(function(it) {
+    var btn = document.createElement('button');
+    btn.className = 'size-btn';
+    btn.style.cssText = 'padding:5px 8px;font-size:10px;text-align:' + (ar ? 'right' : 'left') + ';';
+    btn.textContent = it.icon + ' ' + it.label;
+    btn.onclick = function() { setNotifQuick(it.title, it.msg, it.sub); };
+    grid.appendChild(btn);
+  });
 }
 
 document.getElementById('autoStyleCheck').addEventListener('change', function() {
@@ -3164,7 +3317,7 @@ const MESSAGE_BANK = [
   {headline:"Bienvenue dans l'atelier du futur",message:"Workshop-DIY \u00e0 Chelles accueille vos enfants dans un espace d\u00e9di\u00e9 \u00e0 la d\u00e9couverte et la cr\u00e9ation. Le futur se fabrique ici.",cta:"Bienvenue chez nous",doodles:["\ud83c\udfe0","\ud83d\udd2c","\ud83e\udd16","\ud83d\udccd"],styles:["corkboard","workbench","blueprint"]},
 ];
 
-const MESSAGE_BANK_AR = [{"headline": "أياديهم يمكنها تغيير العالم", "message": "كل طفل يحمل بداخله مخترعاً. امنحوه الأدوات وسيفاجئكم بما يبنيه.", "cta": "سجلوا الآن في Workshop-DIY", "doodles": ["⚙️", "💡", "🚀", "🌟"], "styles": ["alhambra", "arabesque", "islamicstar"]}, {"headline": "البناء هو النمو", "message": "الطفل الذي يبني بيديه ينمي ثقته ومنطقه وإبداعه. ورشاتنا تفتح له الباب.", "cta": "اكتشفوا ورشاتنا", "doodles": ["🔧", "🧱", "✨", "🛠️"], "styles": ["moroccan", "quranborder", "lego"]}, {"headline": "كفى شاشات، حان وقت الروبوتات", "message": "ماذا لو برمج طفلك روبوته الخاص بدل مشاهدة الشاشات؟ في Workshop-DIY هذا ممكن!", "cta": "سجلوا الآن", "doodles": ["🤖", "📱", "❌", "🌟"], "styles": ["islamicstar", "spaceship", "videogame"]}, {"headline": "عبقرية طفلك نائمة", "message": "يكفي مشروع واحد لإيقاظها. أول لمبة LED تضيء، أول روبوت يتحرك – هنا يبدأ كل شيء.", "cta": "أيقظوا العبقرية", "doodles": ["💡", "⚡", "🧠", "🚀"], "styles": ["lightbulb", "muqarnas", "calligraphy"]}, {"headline": "امنحوهم قوة خارقة", "message": "البرمجة والبناء هما القوة الخارقة للقرن الحادي والعشرين. Workshop-DIY يمنحها لأطفالكم.", "cta": "اكتشفوا البرنامج", "doodles": ["🦸", "⚡", "💻", "🌟"], "styles": ["mashrabiya", "alhambra", "rocket"]}, {"headline": "Arduino: ألف إمكانية", "message": "بلوحة Arduino بسيطة، يمكن لطفلك بناء إنذار سرقة أو محطة أرصاد أو روبوت ذكي.", "cta": "ابدأوا المغامرة", "doodles": ["🔌", "💡", "🤖", "🌡️"], "styles": ["circuitboard", "sciencelab", "blueprint"]}, {"headline": "يتعلمون وهم يلعبون", "message": "ورشاتنا STEM ليست دروساً. إنها مغامرات حقيقية يبني فيها طفلك مشاريع حقيقية.", "cta": "احجزوا مقعدهم", "doodles": ["🎮", "🧩", "🏆", "⭐"], "styles": ["scratch", "videogame", "comic"]}, {"headline": "العمل اليدوي ينمي الذكاء", "message": "الدراسات تؤكد أن الأطفال الذين يعملون بأيديهم يتفوقون في الرياضيات والعلوم.", "cta": "جربوا معنا", "doodles": ["🧠", "🔧", "📚", "✍️"], "styles": ["quranborder", "brain", "sciencelab"]}, {"headline": "أبي، أمي، انظروا ماذا صنعت!", "message": "لا توجد عبارة أجمل من هذه. امنحوا أطفالكم فرصة الابتكار والاعتزاز بإنجازاتهم.", "cta": "سجلوا اليوم", "doodles": ["🙌", "❤️", "🌟", "🤩"], "styles": ["speechbubble", "crayon", "moroccan"]}, {"headline": "من مستهلك إلى مبدع", "message": "طفلك يحب التكنولوجيا؟ حولوا هذا الشغف إلى قوة إبداعية في ورشاتنا.", "cta": "حولوا الشغف إلى إبداع", "doodles": ["🎮", "➡️", "🛠️", "🌟"], "styles": ["calligraphy", "treasure", "videogame"]}, {"headline": "كل صانع بدأ من هنا", "message": "لا أحد يولد مهندساً. نحن نزرع البذرة الأولى في ورشاتنا.", "cta": "ازرعوا البذرة الأولى", "doodles": ["🌱", "🛠️", "⭐", "🚀"], "styles": ["treeskill", "arabesque", "riad"]}, {"headline": "ازرع، برمج، انمُ", "message": "ورشة الحديقة الذكية تعلم الأطفال الزراعة باستخدام أجهزة استشعار وبرمجة.", "cta": "اكتشفوا الورشة", "doodles": ["🌱", "💻", "🌡️", "🌿"], "styles": ["riad", "treeskill", "sciencelab"]}, {"headline": "Micro:bit الروبوت الصغير", "message": "ببطاقة Micro:bit وروبوت Maqueen، يتعلم طفلك البرمجة بالصور ويرى النتيجة فوراً.", "cta": "جربوا الروبوت", "doodles": ["🤖", "🕹️", "⭐", "💡"], "styles": ["scratch", "islamicstar", "comic"]}, {"headline": "عالم اللحام: فن وعلم", "message": "تعلم اللحام ينمي الدقة والصبر والفهم الإلكتروني. مهارة حقيقية للمستقبل.", "cta": "اكتشفوا ورشة اللحام", "doodles": ["🔥", "🔌", "⚙️", "👍"], "styles": ["gear", "workbench", "circuitboard"]}, {"headline": "الخطأ هو المعلم الأول", "message": "في ورشاتنا، الخطأ ليس فشلاً بل خطوة نحو الفهم. هكذا يتعلم المهندسون.", "cta": "تعلموا بالتجربة", "doodles": ["❌", "➡️", "✅", "💡"], "styles": ["chalkboard", "quranborder", "newspaper"]}, {"headline": "مرحباً بكم في ورشة المستقبل", "message": "Workshop-DIY في شيل يستقبل أطفالكم في فضاء آمن للإبداع والتعلم والبناء.", "cta": "تعالوا زورونا", "doodles": ["🏠", "🙌", "✨", "🌟"], "styles": ["moroccan", "muqarnas", "riad"]}, {"headline": "ESP32: عقل إلكتروني لطفلك", "message": "بمتحكم ESP32 وWiFi، يبني طفلك أجهزة ذكية متصلة بالإنترنت.", "cta": "ابدأوا مع ESP32", "doodles": ["📶", "💡", "🤖", "🌐"], "styles": ["circuitboard", "spaceship", "blueprint"]}, {"headline": "الجيل القادم يُبنى هنا", "message": "المستقبل لمن يبدع ويبتكر. في Workshop-DIY نجهز أطفالكم لعالم الغد.", "cta": "ابنوا المستقبل معنا", "doodles": ["🌟", "🚀", "🏗️", "💡"], "styles": ["alhambra", "rocket", "calligraphy"]}, {"headline": "الإبداع لا يعرف عمراً", "message": "من 6 إلى 16 سنة، كل طفل يجد مكانه في ورشاتنا المتنوعة.", "cta": "اكتشفوا البرنامج", "doodles": ["👶", "👦", "👧", "🌟"], "styles": ["mashrabiya", "puzzle", "crayon"]}, {"headline": "NeoPixel: ألوان الإبداع", "message": "شرائط LED الملونة تحول البرمجة إلى فن مرئي. يتعلم طفلك الكود بالألوان.", "cta": "أضيئوا إبداعهم", "doodles": ["🌈", "💡", "✨", "🎨"], "styles": ["calligraphy", "lightbulb", "comic"]}];
+const MESSAGE_BANK_AR = [{"headline": "أياديهم يمكنها تغيير العالم", "message": "كل طفل يحمل بداخله مخترعاً. امنحوه الأدوات وسيفاجئكم بما يبنيه.", "cta": "سجلوا الآن في Workshop-DIY", "doodles": ["⚙️", "💡", "🚀", "🌟"], "styles": ["alhambra", "arabesque", "islamicstar"]}, {"headline": "البناء هو النمو", "message": "الطفل الذي يبني بيديه ينمي ثقته ومنطقه وإبداعه. ورشاتنا تفتح له الباب.", "cta": "اكتشفوا ورشاتنا", "doodles": ["🔧", "🧱", "✨", "🛠️"], "styles": ["moroccan", "quranborder", "lego"]}, {"headline": "كفى شاشات، حان وقت الروبوتات", "message": "ماذا لو برمج طفلك روبوته الخاص بدل مشاهدة الشاشات؟ في Workshop-DIY هذا ممكن!", "cta": "سجلوا الآن", "doodles": ["🤖", "📱", "❌", "🌟"], "styles": ["islamicstar", "spaceship", "videogame"]}, {"headline": "عبقرية طفلك نائمة", "message": "يكفي مشروع واحد لإيقاظها. أول لمبة LED تضيء، أول روبوت يتحرك – هنا يبدأ كل شيء.", "cta": "أيقظوا العبقرية", "doodles": ["💡", "⚡", "🧠", "🚀"], "styles": ["lightbulb", "muqarnas", "calligraphy"]}, {"headline": "امنحوهم قوة خارقة", "message": "البرمجة والبناء هما القوة الخارقة للقرن الحادي والعشرين. Workshop-DIY يمنحها لأطفالكم.", "cta": "اكتشفوا البرنامج", "doodles": ["🦸", "⚡", "💻", "🌟"], "styles": ["mashrabiya", "alhambra", "rocket"]}, {"headline": "Arduino: ألف إمكانية", "message": "بلوحة Arduino بسيطة، يمكن لطفلك بناء إنذار سرقة أو محطة أرصاد أو روبوت ذكي.", "cta": "ابدأوا المغامرة", "doodles": ["🔌", "💡", "🤖", "🌡️"], "styles": ["circuitboard", "sciencelab", "blueprint"]}, {"headline": "يتعلمون وهم يلعبون", "message": "ورشاتنا STEM ليست دروساً. إنها مغامرات حقيقية يبني فيها طفلك مشاريع حقيقية.", "cta": "احجزوا مقعدهم", "doodles": ["🎮", "🧩", "🏆", "⭐"], "styles": ["scratch", "videogame", "comic"]}, {"headline": "العمل اليدوي ينمي الذكاء", "message": "الدراسات تؤكد أن الأطفال الذين يعملون بأيديهم يتفوقون في الرياضيات والعلوم.", "cta": "جربوا معنا", "doodles": ["🧠", "🔧", "📚", "✍️"], "styles": ["quranborder", "brain", "sciencelab"]}, {"headline": "أبي، أمي، انظروا ماذا صنعت!", "message": "لا توجد عبارة أجمل من هذه. امنحوا أطفالكم فرصة الابتكار والاعتزاز بإنجازاتهم.", "cta": "سجلوا اليوم", "doodles": ["🙌", "❤️", "🌟", "🤩"], "styles": ["speechbubble", "crayon", "moroccan"]}, {"headline": "من مستهلك إلى مبدع", "message": "طفلك يحب التكنولوجيا؟ حولوا هذا الشغف إلى قوة إبداعية في ورشاتنا.", "cta": "حولوا الشغف إلى إبداع", "doodles": ["🎮", "➡️", "🛠️", "🌟"], "styles": ["calligraphy", "treasure", "videogame"]}, {"headline": "كل صانع بدأ من هنا", "message": "لا أحد يولد مهندساً. نحن نزرع البذرة الأولى في ورشاتنا.", "cta": "ازرعوا البذرة الأولى", "doodles": ["🌱", "🛠️", "⭐", "🚀"], "styles": ["treeskill", "arabesque", "riad"]}, {"headline": "ازرع، برمج، انمُ", "message": "ورشة الحديقة الذكية تعلم الأطفال الزراعة باستخدام أجهزة استشعار وبرمجة.", "cta": "اكتشفوا الورشة", "doodles": ["🌱", "💻", "🌡️", "🌿"], "styles": ["riad", "treeskill", "sciencelab"]}, {"headline": "Micro:bit الروبوت الصغير", "message": "ببطاقة Micro:bit وروبوت Maqueen، يتعلم طفلك البرمجة بالصور ويرى النتيجة فوراً.", "cta": "جربوا الروبوت", "doodles": ["🤖", "🕹️", "⭐", "💡"], "styles": ["scratch", "islamicstar", "comic"]}, {"headline": "عالم اللحام: فن وعلم", "message": "تعلم اللحام ينمي الدقة والصبر والفهم الإلكتروني. مهارة حقيقية للمستقبل.", "cta": "اكتشفوا ورشة اللحام", "doodles": ["🔥", "🔌", "⚙️", "👍"], "styles": ["gear", "workbench", "circuitboard"]}, {"headline": "الخطأ هو المعلم الأول", "message": "في ورشاتنا، الخطأ ليس فشلاً بل خطوة نحو الفهم. هكذا يتعلم المهندسون.", "cta": "تعلموا بالتجربة", "doodles": ["❌", "➡️", "✅", "💡"], "styles": ["chalkboard", "quranborder", "newspaper"]}, {"headline": "مرحباً بكم في ورشة المستقبل", "message": "Workshop-DIY في شيل يستقبل أطفالكم في فضاء آمن للإبداع والتعلم والبناء.", "cta": "تعالوا زورونا", "doodles": ["🏠", "🙌", "✨", "🌟"], "styles": ["moroccan", "muqarnas", "riad"]}, {"headline": "ESP32: عقل إلكتروني لطفلك", "message": "بمتحكم ESP32 وWiFi، يبني طفلك أجهزة ذكية متصلة بالإنترنت.", "cta": "ابدأوا مع ESP32", "doodles": ["📶", "💡", "🤖", "🌐"], "styles": ["circuitboard", "spaceship", "blueprint"]}, {"headline": "الجيل القادم يُبنى هنا", "message": "المستقبل لمن يبدع ويبتكر. في Workshop-DIY نجهز أطفالكم لعالم الغد.", "cta": "ابنوا المستقبل معنا", "doodles": ["🌟", "🚀", "🏗️", "💡"], "styles": ["alhambra", "rocket", "calligraphy"]}, {"headline": "الإبداع لا يعرف عمراً", "message": "من 6 إلى 16 سنة، كل طفل يجد مكانه في ورشاتنا المتنوعة.", "cta": "اكتشفوا البرنامج", "doodles": ["👶", "👦", "👧", "🌟"], "styles": ["mashrabiya", "puzzle", "crayon"]}, {"headline": "NeoPixel: ألوان الإبداع", "message": "شرائط LED الملونة تحول البرمجة إلى فن مرئي. يتعلم طفلك الكود بالألوان.", "cta": "أضيئوا إبداعهم", "doodles": ["🌈", "💡", "✨", "🎨"], "styles": ["calligraphy", "lightbulb", "comic"]}, {"headline": "بسم الله نبدأ رحلة الإبداع", "message": "كل ورشة تبدأ بالبسملة وتنتهي بإنجاز. نعلّم أطفالكم أن الإتقان عبادة.", "cta": "انضموا إلينا", "doodles": ["🤲", "✨", "🛠️", "🌟"], "styles": ["alhambra", "quranborder", "calligraphy"]}, {"headline": "ما شاء الله، أطفال مبدعون", "message": "كل أسبوع نشهد إبداعات تبهر. أطفالكم قادرون على أكثر مما تتصورون.", "cta": "شاهدوا إبداعاتهم", "doodles": ["🤩", "🏆", "⭐", "💡"], "styles": ["moroccan", "arabesque", "mashrabiya"]}, {"headline": "الطباعة ثلاثية الأبعاد", "message": "طفلك يرسم فكرته على الكمبيوتر، وخلال دقائق تصبح حقيقة ملموسة بين يديه.", "cta": "جربوا الطباعة 3D", "doodles": ["🖨️", "💡", "🎨", "⭐"], "styles": ["blueprint", "spaceship", "muqarnas"]}, {"headline": "علّم ابنك الصيد لا السمكة", "message": "بدل أن تشتري لطفلك لعبة، علّمه كيف يصنعها. هذا هو الاستثمار الحقيقي.", "cta": "استثمروا في مستقبلهم", "doodles": ["🎣", "🔧", "🧠", "🚀"], "styles": ["riad", "zellige", "chalkboard"]}, {"headline": "رمضان كريم مع Workshop-DIY", "message": "في شهر الخير، نقدم ورشات خاصة لأطفالكم. تعلّم وإبداع في أجواء رمضانية.", "cta": "ورشات رمضان", "doodles": ["🌙", "⭐", "🤲", "✨"], "styles": ["islamicstar", "alhambra", "calligraphy"]}, {"headline": "العودة المدرسية", "message": "ابدأوا السنة الدراسية بقوة. ورشاتنا تكمّل ما يتعلمه طفلكم في المدرسة.", "cta": "سجلوا للموسم الجديد", "doodles": ["📚", "✏️", "🎒", "🚀"], "styles": ["quranborder", "puzzle", "scratch"]}, {"headline": "فريق العمل الصغير", "message": "في ورشاتنا، يتعلم الأطفال العمل الجماعي. يتعاونون ويتشاركون ويبنون معاً.", "cta": "انضموا للفريق", "doodles": ["👫", "🤝", "⚙️", "🌟"], "styles": ["arabesque", "mashrabiya", "lego"]}, {"headline": "أول ضوء يشعله طفلك", "message": "لحظة إضاءة أول LED لا تُنسى. إنها البداية لرحلة طويلة من الإبداع الإلكتروني.", "cta": "أشعلوا الضوء الأول", "doodles": ["💡", "⚡", "😊", "🔌"], "styles": ["lightbulb", "islamicstar", "circuitboard"]}, {"headline": "عطلة مثمرة", "message": "لا تتركوا العطلة تضيع أمام الشاشات. ورشاتنا الصيفية تجمع المتعة والتعلم.", "cta": "ورشات العطلة", "doodles": ["☀️", "🏖️", "🤖", "🎨"], "styles": ["moroccan", "comic", "riad"]}, {"headline": "كن المهندس الذي تحلم به", "message": "كل مهندس عظيم بدأ بمشروع صغير. اليوم نزرع البذرة، وغداً نحصد الثمار.", "cta": "ازرعوا حلم طفلكم", "doodles": ["🌱", "🏗️", "🎓", "🌟"], "styles": ["treeskill", "muqarnas", "calligraphy"]}];
 
 function getBuiltinMessage(topic) {
   var bank = state.lang==="ar" ? MESSAGE_BANK_AR : MESSAGE_BANK;
@@ -3430,9 +3583,10 @@ loadQR();
   canvas.height = h;
   var ctx = canvas.getContext('2d',{willReadFrequently:true});
   if (state.lang === 'ar') {
+    var arF = getArFont(state.style || state.selectedStyle || '');
     var origSet = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'font').set;
     Object.defineProperty(ctx, 'font', {
-      set: function(v) { if (v.indexOf('Cairo') === -1) v = v.replace(/(px\s+)/, '$1Cairo, '); origSet.call(this, v); },
+      set: function(v) { if (v.indexOf(arF) === -1 && v.indexOf('Cairo') === -1 && v.indexOf('Amiri') === -1 && v.indexOf('Tajawal') === -1 && v.indexOf('Noto Kufi') === -1) v = v.replace(/(px\s+)/, '$1' + arF + ', '); origSet.call(this, v); },
       get: function() { return CanvasRenderingContext2D.prototype.__lookupGetter__('font').call(this); }
     });
     var origFillText = ctx.fillText.bind(ctx);
@@ -3622,7 +3776,7 @@ function exportGalleryImages() {
 
 function exportAllData() {
   var data = {
-    version: 'V4.1',
+    version: 'V6.0',
     exported: new Date().toISOString(),
     settings: {
       theme: document.body.classList.contains('dark') ? 'dark' : 'light',
@@ -4282,11 +4436,30 @@ function arFont(fontStr) {
   return fontStr.replace(/(px\s+)([^,]+)/, '$1Cairo, $2');
 }
 
+var AR_FONTS = ['Cairo', 'Tajawal', 'Amiri', 'Noto Kufi Arabic'];
+var AR_FONT_FOR_STYLE = {}; // cache per-render
+
+function getArFont(styleId) {
+  if (!AR_FONT_FOR_STYLE[styleId]) {
+    // Islamic styles get Amiri (calligraphic), kiddy gets Tajawal, others random
+    var s = styleId || '';
+    if (['alhambra','arabesque','islamicstar','moroccan','quranborder','mashrabiya','muqarnas','calligraphy','zellige','riad','astrolabe','minaret','mihrab'].indexOf(s) >= 0) {
+      AR_FONT_FOR_STYLE[s] = 'Amiri';
+    } else if (['lego','scratch','crayon','comic','puzzle','kidwriting','treasure','colorblock','sticker','cartoon'].indexOf(s) >= 0) {
+      AR_FONT_FOR_STYLE[s] = 'Tajawal';
+    } else {
+      AR_FONT_FOR_STYLE[s] = AR_FONTS[Math.floor(Math.random() * AR_FONTS.length)];
+    }
+  }
+  return AR_FONT_FOR_STYLE[styleId];
+}
+
 function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
   if (state.lang === 'ar') {
     ctx.direction = 'rtl';
-    if (ctx.font.indexOf('Cairo') === -1) {
-      ctx.font = ctx.font.replace(/(px\s+)([^,]+)/, '$1Cairo, $2');
+    var arFont = getArFont(state.style || state.selectedStyle || '');
+    if (ctx.font.indexOf(arFont) === -1) {
+      ctx.font = ctx.font.replace(/(px\s+)([^,]+)/, '$1' + arFont + ', $2');
     }
   }
   const words = text.split(' ');
@@ -6035,6 +6208,7 @@ initCowsayGrids();
 initChatStyleGrid();
 initMemeTemplateGrid();
 initNotifStyleGrid();
+updateLangContent();
 loadLogo();
 loadQR();
 

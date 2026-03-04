@@ -1,67 +1,42 @@
 # Workshop-DIY — Changelog
 
-## V4.1 — 2026-03-04 10:18
+## V6.0 — 2026-03-04 11:38
 
-### Galerie & Export/Import
-- Galerie visuelle des posts générés (thumbnails 200px, max 100)
-- Export JSON complet (settings + favoris + galerie + compteur + QR)
-- Import JSON avec fusion intelligente (pas de doublons)
-- Compteur total de posts générés
-- Debounce 2s pour save galerie
-- Bouton reset données
-- Améliorations UX: live preview tous modes
+### Arabe complet dans tous les modes
+- 30 messages arabes (vs 20): رمضان، عودة مدرسية، بسملة، طباعة 3D...
+- 50 fortune cookies arabes (حكم وأمثال)
+- Chat AR: 6 bulles + noms كريم/ورشة
+- Mème AR: 8 textes rapides
+- Notif AR: 6 textes rapides
+- 4 polices arabes: Cairo, Amiri, Tajawal, Noto Kufi Arabic
+- Attribution auto par style (Amiri=Andalous, Tajawal=Kiddy)
+- Placeholders arabes dans tous les champs
+- 9 polices overlay (dont 3 arabes)
+- Drapeau 🇩🇿
 
----
+### Galerie & Export/Import (V4.1)
+- Galerie visuelle (100 thumbnails, persistée)
+- Export/Import JSON entre machines
+- Compteur total de posts
 
-## V4.0 — 2026-03-04 08:12 (Wednesday 04 March 2026)
+### Live Preview complet (V4.0)
+- Tous les champs régénèrent en temps réel
+- Auto-generate sur tous sélecteurs/toggles
 
-### Nouvelles fonctionnalités
-- PWA: manifest intégré, Service Worker, bouton 📲 installer
-- Upload image personnalisée pour mèmes (📷)
-- +10 animaux cowsay (35 total)
-- +4 templates mème (12 total)
-- Texte libre draggable (✏️) avec undo/clear
-- Raccourcis clavier: Ctrl+Enter, Ctrl+S, Ctrl+Shift+R
-
-### Améliorations UX
-- Live preview: tous les champs régénèrent en temps réel
-- Auto-generate sur tous les sélecteurs/toggles/inputs
-- Chat: bulles, noms, avatars, ajout/suppression live
-
-### Documentation
-- README, WIKI, cheatsheet, PROJECT_PROMPT mis à jour V4.0
+### PWA + Upload + Contenu (V4.0)
+- PWA installable, Service Worker
+- Upload image mème
+- 35 animaux cowsay, 12 templates mème
+- Texte libre draggable
+- Raccourcis clavier
 
 ---
 
 ## V3.0 — 2025-03-04
-
-### Nouvelles fonctionnalités
-- Mode Mème (8 templates)
-- Mode Notification (6 styles OS)
-- Format Story (1080×1920)
-- Bouton Partager (Web Share API)
-- Batch export par mode
-- Génération IA (Groq + Claude)
-- Système de favoris ⭐
-- QR code drag & drop
-
-### Documentation
-- README, WIKI, cheatsheet, help modal, start_here, PROJECT_PROMPT
-
----
+Mème, Notif, Story, Share, Batch, IA, Favoris, QR, Help modal
 
 ## V2.0 — 2025-02
-
-- Mode Cowsay (25 animaux, 16 fonds)
-- Mode Chat (6 styles)
-- 58 styles visuels (5 catégories)
-- Bilingue FR/AR
-- Thème clair/sombre
-
----
+Cowsay, Chat, 58 styles, Bilingue, Thème
 
 ## V1.0 — 2025-01
-
-- Première version
-- Mode Visuels de base
-- Export PNG
+Première version, Visuels, Export PNG
