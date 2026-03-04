@@ -1,4 +1,4 @@
-# Workshop-DIY Post Generator — Project Prompt V4.0
+# Workshop-DIY Post Generator — Project Prompt V4.1
 
 ## Pour réutiliser ce prompt
 Copiez ce fichier dans une nouvelle conversation Claude avec le fichier `workshop-post-gen.html` attaché.
@@ -18,7 +18,7 @@ Dites: "Voici le projet Workshop-DIY. Lis le prompt et le code, puis attends mes
 ## L'Application
 
 **Générateur de posts Facebook** — fichier HTML unique, 100% client-side, zéro serveur, PWA installable.
-~5850 lignes, ~300 KB. Tout est dans UN seul fichier (HTML + CSS + JS + données).
+~6150 lignes, ~310 KB. Tout est dans UN seul fichier (HTML + CSS + JS + données).
 
 ### Design System
 - **Couleurs**: Teal (#0d7377) + Or (#c9963b) + Crème (#faf6ef)

@@ -1,4 +1,4 @@
-# Workshop-DIY — Guide d'Utilisation V4.0
+# Workshop-DIY — Guide d'Utilisation V4.1
 
 ## Démarrage Rapide
 
@@ -145,3 +145,21 @@ Mode Mème → section "Image Perso" → cliquez "📷 Uploader une image". Le t
 - Chat: clic ◀/▶ pour swap côté d'une bulle (live)
 - Favoris ⭐ sur les visuels persistés entre sessions
 - Ctrl+Enter depuis n'importe quel champ pour régénérer
+
+## Galerie & Transfert
+
+### Galerie (🖼️)
+1. Ouvrez ⚙️ Paramètres
+2. Cliquez "🖼️ Galerie" — le compteur montre le nombre de posts
+3. Parcourez vos posts avec mode, style et date
+4. Survolez pour supprimer (✕) un post individuel
+5. "📥 Tout exporter" télécharge toutes les images
+
+### Transférer entre machines
+1. Sur l'ancienne machine: ⚙️ → "📥 Exporter JSON"
+2. Transférez le fichier .json (email, clé USB, cloud)
+3. Sur la nouvelle machine: ⚙️ → "📤 Importer JSON"
+4. Tout est restauré: favoris, galerie, paramètres, compteur
+
+### Reset
+⚙️ → 🗑 supprime toutes les données locales (avec confirmation).

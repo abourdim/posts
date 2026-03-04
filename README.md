@@ -1,6 +1,6 @@
 # بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
 
-# Workshop-DIY — Générateur de Posts V4.0
+# Workshop-DIY — Générateur de Posts V4.1
 
 Outil multi-mode de création de visuels pour **Workshop-DIY** (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur. PWA installable.
 
@@ -144,7 +144,7 @@ L'IA fonctionne dans les 5 modes: bouton "✨ IA Suggérer" pour cowsay, chat, m
 
 ## Déploiement
 
-Fichier unique `workshop-post-gen.html` (~300 KB) — aucune installation.
+Fichier unique `workshop-post-gen.html` (~310 KB) — aucune installation.
 
 - **Local**: Ouvrir dans un navigateur
 - **GitHub Pages**: Copier dans le repo
@@ -158,7 +158,7 @@ Les modes IA nécessitent une connexion internet et une clé API.
 - 5 modes de création
 - 58 styles visuels + 35 animaux + 16 fonds + 12 templates mème + 6 styles chat + 6 styles notif
 - 50 citations fortune cookie
-- ~5850 lignes, fichier unique
+- ~6150 lignes, fichier unique
 - 0 dépendance serveur
 
 ## Contact
@@ -168,3 +168,13 @@ Les modes IA nécessitent une connexion internet et une clé API.
 - 06 19 51 51 73
 - Chelles 77500
 - https://abourdim.github.io/apps/
+
+### Galerie & Export/Import
+
+- **🖼️ Galerie**: Historique visuel des posts générés (thumbnails 200px, max 100)
+- **📥 Exporter JSON**: Backup complet (settings, favoris, galerie, compteur, QR)
+- **📤 Importer JSON**: Restaure sur une autre machine (fusion sans doublons)
+- **🗑 Reset**: Efface toutes les données locales
+- **Compteur**: Nombre total de posts générés, persisté
+- Debounce 2s — ne sauvegarde pas pendant la saisie live
+- Accessible via ⚙️ Paramètres → DONNÉES

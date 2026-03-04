@@ -1,5 +1,18 @@
 # Workshop-DIY — Changelog
 
+## V4.1 — 2026-03-04 10:18
+
+### Galerie & Export/Import
+- Galerie visuelle des posts générés (thumbnails 200px, max 100)
+- Export JSON complet (settings + favoris + galerie + compteur + QR)
+- Import JSON avec fusion intelligente (pas de doublons)
+- Compteur total de posts générés
+- Debounce 2s pour save galerie
+- Bouton reset données
+- Améliorations UX: live preview tous modes
+
+---
+
 ## V4.0 — 2026-03-04 08:12 (Wednesday 04 March 2026)
 
 ### Nouvelles fonctionnalités

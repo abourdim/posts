@@ -472,7 +472,7 @@ body::before {
   <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:6px 0;font-family:'Cairo',serif;font-size:16px;color:var(--accent2);letter-spacing:2px;opacity:0.7;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
   <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'" style="margin-top:18px;">
   <div style="margin-top:18px;">
-    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V4.0</span></h1>
+    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V4.1</span></h1>
     <p>Créez des visuels inspirants pour votre page Facebook</p>
   </div>
   <div style="margin-left:auto;display:flex;gap:8px;margin-top:18px;">
@@ -561,7 +561,7 @@ body::before {
     </div>
 
     <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--surface2);text-align:center;">
-      <p style="font-size:11px;color:var(--text2);">Workshop-DIY V4.0 — Build 2026-03-04 08:12 — workshop-diy.org</p>
+      <p style="font-size:11px;color:var(--text2);">Workshop-DIY V4.1 — Build 2026-03-04 10:18 — workshop-diy.org</p>
       <p style="font-size:10px;color:var(--text2);margin-top:4px;">5 modes · 58+ styles · 100% hors-ligne · Fichier unique</p>
     </div>
   </div>
@@ -610,6 +610,34 @@ body::before {
       <input type="password" class="topic-input" id="aiKeyInput" placeholder="" style="min-height:40px;font-size:13px;">
       <p id="aiKeyHint" style="font-size:11px;color:var(--text2);margin-top:6px;opacity:0.6;"></p>
     </div>
+    <div class="section-title">▸ DONNÉES</div>
+    <div style="display:flex;gap:6px;margin-bottom:6px;">
+      <button class="size-btn" onclick="exportAllData()" style="flex:1;padding:8px;font-size:11px;">📥 Exporter JSON</button>
+      <label class="size-btn" style="flex:1;padding:8px;font-size:11px;text-align:center;cursor:pointer;">
+        📤 Importer JSON
+        <input type="file" accept=".json" onchange="importAllData(event)" style="display:none;">
+      </label>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <button class="size-btn" onclick="toggleGallery()" style="flex:1;padding:8px;font-size:11px;">🖼️ Galerie (<span id="galleryCount">0</span>)</button>
+      <button class="size-btn" onclick="clearAllData()" style="padding:8px;font-size:11px;color:#e53935;">🗑</button>
+    </div>
+    <p id="statsCounter" style="font-size:10px;color:var(--text2);margin-top:6px;text-align:center;"></p>
+  </div>
+</div>
+
+<!-- GALLERY MODAL -->
+<div id="galleryModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1001;overflow-y:auto;" onclick="if(event.target===this)toggleGallery()">
+  <div style="max-width:800px;margin:40px auto;padding:20px;background:var(--bg);border-radius:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <span style="font-family:'Permanent Marker',cursive;font-size:16px;color:var(--accent);">🖼️ Galerie — <span id="galleryTotal">0</span> posts</span>
+      <div style="display:flex;gap:6px;">
+        <button class="size-btn" onclick="exportGalleryImages()" style="padding:4px 10px;font-size:11px;">📥 Tout exporter</button>
+        <button onclick="toggleGallery()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);">✕</button>
+      </div>
+    </div>
+    <div id="galleryGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;"></div>
+    <p id="galleryEmpty" style="text-align:center;color:var(--text2);padding:40px;font-size:13px;">Aucun post dans la galerie. Générez des posts pour les voir ici!</p>
   </div>
 </div>
 
@@ -3462,6 +3490,267 @@ async function shareImage() {
   }
 }
 
+// --- GALLERY & DATA MANAGEMENT ---
+var galleryData = [];
+var totalGenerated = 0;
+
+function initGallery() {
+  try {
+    galleryData = JSON.parse(localStorage.getItem('wdiy_gallery') || '[]');
+    totalGenerated = parseInt(localStorage.getItem('wdiy_totalGen') || '0');
+  } catch(e) { galleryData = []; totalGenerated = 0; }
+  updateGalleryCount();
+}
+
+function updateGalleryCount() {
+  var el = document.getElementById('galleryCount');
+  if (el) el.textContent = galleryData.length;
+  var el2 = document.getElementById('galleryTotal');
+  if (el2) el2.textContent = galleryData.length;
+  var el3 = document.getElementById('statsCounter');
+  if (el3) el3.textContent = totalGenerated + ' posts générés au total · ' + galleryData.length + ' en galerie';
+}
+
+function saveToGallery() {
+  var canvas = document.getElementById('postCanvas');
+  if (!canvas || !canvas.width) return;
+  
+  // Create thumbnail (200px wide)
+  var thumb = document.createElement('canvas');
+  var ratio = canvas.height / canvas.width;
+  thumb.width = 200;
+  thumb.height = Math.round(200 * ratio);
+  var tctx = thumb.getContext('2d');
+  tctx.drawImage(canvas, 0, 0, thumb.width, thumb.height);
+  
+  var entry = {
+    id: Date.now(),
+    mode: currentMode,
+    thumb: thumb.toDataURL('image/jpeg', 0.6),
+    date: new Date().toISOString(),
+    style: currentMode === 'visuels' ? (state.style || '') : 
+           currentMode === 'cowsay' ? cowState.animal :
+           currentMode === 'chat' ? chatStyleId :
+           currentMode === 'meme' ? memeTemplateId :
+           currentMode === 'notif' ? notifStyleId : ''
+  };
+  
+  galleryData.unshift(entry);
+  // Keep max 100 entries
+  if (galleryData.length > 100) galleryData = galleryData.slice(0, 100);
+  
+  totalGenerated++;
+  
+  try {
+    localStorage.setItem('wdiy_gallery', JSON.stringify(galleryData));
+    localStorage.setItem('wdiy_totalGen', totalGenerated);
+  } catch(e) {
+    // localStorage full — remove oldest
+    galleryData = galleryData.slice(0, 50);
+    try { localStorage.setItem('wdiy_gallery', JSON.stringify(galleryData)); } catch(e2) {}
+  }
+  
+  updateGalleryCount();
+}
+
+function toggleGallery() {
+  var m = document.getElementById('galleryModal');
+  var show = m.style.display === 'none';
+  m.style.display = show ? '' : 'none';
+  if (show) renderGallery();
+}
+
+function renderGallery() {
+  var grid = document.getElementById('galleryGrid');
+  var empty = document.getElementById('galleryEmpty');
+  grid.innerHTML = '';
+  
+  if (galleryData.length === 0) {
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+  
+  galleryData.forEach(function(entry, idx) {
+    var card = document.createElement('div');
+    card.style.cssText = 'position:relative;border-radius:8px;overflow:hidden;background:var(--surface);border:1px solid var(--surface2);cursor:pointer;';
+    
+    var img = document.createElement('img');
+    img.src = entry.thumb;
+    img.style.cssText = 'width:100%;display:block;';
+    img.loading = 'lazy';
+    
+    var info = document.createElement('div');
+    info.style.cssText = 'padding:4px 6px;font-size:9px;color:var(--text2);display:flex;justify-content:space-between;';
+    var modeIcons = {visuels:'🎨',cowsay:'🐄',chat:'💬',meme:'😂',notif:'📱'};
+    var d = new Date(entry.date);
+    info.innerHTML = '<span>' + (modeIcons[entry.mode]||'') + ' ' + (entry.style||'').slice(0,12) + '</span><span>' + d.toLocaleDateString() + '</span>';
+    
+    var del = document.createElement('button');
+    del.style.cssText = 'position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;display:none;';
+    del.textContent = '✕';
+    del.onclick = function(e) { e.stopPropagation(); deleteGalleryItem(idx); };
+    
+    card.onmouseenter = function() { del.style.display = ''; };
+    card.onmouseleave = function() { del.style.display = 'none'; };
+    
+    card.appendChild(img);
+    card.appendChild(info);
+    card.appendChild(del);
+    grid.appendChild(card);
+  });
+}
+
+function deleteGalleryItem(idx) {
+  galleryData.splice(idx, 1);
+  try { localStorage.setItem('wdiy_gallery', JSON.stringify(galleryData)); } catch(e) {}
+  updateGalleryCount();
+  renderGallery();
+}
+
+function exportGalleryImages() {
+  if (galleryData.length === 0) return;
+  galleryData.forEach(function(entry, i) {
+    setTimeout(function() {
+      var link = document.createElement('a');
+      link.download = 'workshop-diy-' + entry.mode + '-' + (i+1) + '.jpg';
+      link.href = entry.thumb;
+      link.click();
+    }, i * 200);
+  });
+}
+
+function exportAllData() {
+  var data = {
+    version: 'V4.1',
+    exported: new Date().toISOString(),
+    settings: {
+      theme: document.body.classList.contains('dark') ? 'dark' : 'light',
+      format: state.format || 'square',
+      lang: state.lang || 'fr',
+      aiMode: state.aiMode || 'builtin',
+      groqKey: document.getElementById('aiKeyInput') ? document.getElementById('aiKeyInput').value : '',
+    },
+    favorites: favorites || [],
+    totalGenerated: totalGenerated,
+    gallery: galleryData,
+    qr: {
+      enabled: document.getElementById('qrToggle') ? document.getElementById('qrToggle').checked : false,
+      url: document.getElementById('qrUrlInput') ? document.getElementById('qrUrlInput').value : '',
+    }
+  };
+  
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  var link = document.createElement('a');
+  link.download = 'workshop-diy-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  link.href = URL.createObjectURL(blob);
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function importAllData(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var data = JSON.parse(ev.target.result);
+      
+      // Import settings
+      if (data.settings) {
+        if (data.settings.theme === 'dark' && !document.body.classList.contains('dark')) toggleTheme();
+        if (data.settings.theme === 'light' && document.body.classList.contains('dark')) toggleTheme();
+        if (data.settings.format) setSize(data.settings.format);
+        if (data.settings.lang) setLang(data.settings.lang);
+        if (data.settings.groqKey) {
+          var keyInput = document.getElementById('aiKeyInput');
+          if (keyInput) keyInput.value = data.settings.groqKey;
+        }
+      }
+      
+      // Import favorites
+      if (data.favorites && data.favorites.length) {
+        favorites = data.favorites;
+        try { localStorage.setItem('wdiy_favorites', JSON.stringify(favorites)); } catch(e2) {}
+        if (typeof initStyleGrid === 'function') initStyleGrid();
+      }
+      
+      // Import gallery
+      if (data.gallery && data.gallery.length) {
+        // Merge: add imported items not already present
+        var existingIds = galleryData.map(function(g) { return g.id; });
+        data.gallery.forEach(function(item) {
+          if (existingIds.indexOf(item.id) === -1) {
+            galleryData.push(item);
+          }
+        });
+        // Sort by date desc, cap at 100
+        galleryData.sort(function(a,b) { return b.id - a.id; });
+        if (galleryData.length > 100) galleryData = galleryData.slice(0, 100);
+        try { localStorage.setItem('wdiy_gallery', JSON.stringify(galleryData)); } catch(e2) {}
+      }
+      
+      // Import counter
+      if (data.totalGenerated && data.totalGenerated > totalGenerated) {
+        totalGenerated = data.totalGenerated;
+        try { localStorage.setItem('wdiy_totalGen', totalGenerated); } catch(e2) {}
+      }
+      
+      // Import QR
+      if (data.qr) {
+        var qrToggle = document.getElementById('qrToggle');
+        var qrUrl = document.getElementById('qrUrlInput');
+        if (qrToggle && data.qr.enabled) { qrToggle.checked = true; toggleQR(); }
+        if (qrUrl && data.qr.url) qrUrl.value = data.qr.url;
+      }
+      
+      updateGalleryCount();
+      alert('Import réussi! ' + (data.gallery ? data.gallery.length : 0) + ' posts, ' + (data.favorites ? data.favorites.length : 0) + ' favoris.');
+    } catch(err) {
+      alert('Erreur: fichier JSON invalide.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function clearAllData() {
+  if (!confirm('Supprimer TOUTES les données? (galerie, favoris, paramètres)')) return;
+  galleryData = [];
+  totalGenerated = 0;
+  favorites = [];
+  try {
+    localStorage.removeItem('wdiy_gallery');
+    localStorage.removeItem('wdiy_totalGen');
+    localStorage.removeItem('wdiy_favorites');
+    localStorage.removeItem('wdiy_state');
+    localStorage.removeItem('wdiy_history');
+    localStorage.removeItem('wdiy_histIdx');
+    localStorage.removeItem('wdiy_theme');
+  } catch(e) {}
+  updateGalleryCount();
+  if (typeof initStyleGrid === 'function') initStyleGrid();
+  alert('Données supprimées.');
+}
+
+// Hook saveToGallery — called after each generate
+// (integrated directly into regenerateCurrent instead of wrapping)
+
+// Init gallery on load
+initGallery();
+
+// Hook gallery save into all generate functions (debounced 2s)
+['generate','generateCowsay','generateChat','generateMeme','generateNotif'].forEach(function(fn) {
+  var orig = window[fn];
+  if (typeof orig === 'function') {
+    window[fn] = function() {
+      var result = orig.apply(this, arguments);
+      scheduleGallerySave();
+      return result;
+    };
+  }
+});
+
 // --- KEYBOARD SHORTCUTS ---
 document.addEventListener('keydown', function(e) {
   // Ctrl+Enter or Cmd+Enter to generate
@@ -3661,13 +3950,19 @@ function downloadQR() {
   link.click();
 }
 
+var _gallerySaveTimer = null;
+function scheduleGallerySave() {
+  clearTimeout(_gallerySaveTimer);
+  _gallerySaveTimer = setTimeout(saveToGallery, 2000);
+}
+
 function regenerateCurrent() {
   if (currentMode === 'visuels') generate();
   else if (currentMode === 'cowsay') generateCowsay();
   else if (currentMode === 'chat') generateChat();
   else if (currentMode === 'meme') generateMeme();
   else if (currentMode === 'notif') generateNotif();
-  // Re-render text overlays on top
+  // Re-render text overlays
   if (textOverlays.length > 0) {
     setTimeout(renderOverlays, 50);
   }
