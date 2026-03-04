@@ -88,7 +88,7 @@ body::before {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: auto 1fr;
   gap: 0;
   min-height: calc(100vh - 93px);
 }
@@ -98,24 +98,29 @@ body::before {
 
 /* ---- SIDEBAR ---- */
 .sidebar {
-  display: flex;
-  flex-direction: column;
+  padding: 0;
   border-right: 1px solid var(--surface2);
+  overflow-y: auto;
   max-height: calc(100vh - 93px);
   background: var(--surface);
+  min-width: 300px;
+  max-width: 600px;
+  width: 420px;
+  resize: horizontal;
 }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
 .sidebar-top {
-  padding: 20px 20px 0;
-  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 16px 20px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--surface2);
 }
 .sidebar-bottom {
-  padding: 0 20px 20px;
-  overflow-y: auto;
-  flex: 1;
-  min-height: 200px;
+  padding: 12px 20px 20px;
 }
-.sidebar-bottom::-webkit-scrollbar { width: 6px; }
-.sidebar-bottom::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
 
 .field-label {
   display: block;
