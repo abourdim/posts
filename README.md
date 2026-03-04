@@ -1,8 +1,8 @@
 # بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
 
-# Workshop-DIY — Générateur de Posts V3.0
+# Workshop-DIY — Générateur de Posts V4.0
 
-Outil multi-mode de création de visuels pour **Workshop-DIY** (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur.
+Outil multi-mode de création de visuels pour **Workshop-DIY** (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur. PWA installable.
 
 ## 5 Modes de Création
 
@@ -20,25 +20,26 @@ Le mode principal. Génère des visuels Facebook professionnels avec texte, logo
 
 Fonctions: style auto/manuel, thumbnails live, filtres par catégorie, favoris ⭐, historique Préc/Suiv.
 
-### 🐄 Cowsay — ASCII Art
+### 🐄 Cowsay — 35 Animaux ASCII
 
 Génère des images avec des animaux ASCII dans un style terminal/geek.
 
-- **25 animaux**: vache, tux, robot, dragon, crâne, alien, t-rex, hibou, grenouille, poulpe, mouton, chameau, éléphant, canard, souris, chauve-souris, licorne, chat, lapin, renard, tortue, sorcier, père Noël, vache endormie, vache folle
+- **35 animaux**: vache, tux, robot, dragon, crâne, alien, t-rex, hibou, grenouille, poulpe, mouton, chameau, éléphant, canard, souris, chauve-souris, licorne, chat, lapin, renard, tortue, sorcier, père Noël, endormi, fou, serpent, manchot, crabe, baleine, abeille, dino, singe, fantôme, panda, perroquet
 - **16 arrière-plans**: Terminal vert, Ambre CRT, Tableau noir, Blanc, Matrix, Écran bleu, Ubuntu, Hacker, C64, Game Boy, Arcade, Blueprint, Circuit, Cahier, Post-it, Craft bois
 - **3 styles de bulle**: Dire, Penser, Crier
 - **6 formats spéciaux**: Terminal ($), Git Commit, Code Comment, BSOD, Fortune Cookie (50 citations)
 - **Mode Duo**: 2 animaux en conversation
 - **ASCII personnalisé**: Collez votre propre art
 - **Mode Combo**: Animal ASCII sur fond visuel (58 styles)
+- **Live preview**: Chaque modification régénère instantanément
 
 ### 💬 Chat / SMS
 
 Génère de fausses conversations de messagerie.
 
 - **6 styles**: iMessage, WhatsApp, Messenger, SMS, Discord, Telegram
-- **Personnages**: Avatar emoji + nom personnalisables pour chaque côté
-- **Messages**: Ajoutez jusqu'à 8 bulles, swap gauche/droite, édition en ligne
+- **Personnages**: Avatar emoji + nom personnalisables (live update)
+- **Messages**: Ajoutez jusqu'à 8 bulles, swap gauche/droite, édition en ligne (live)
 - **Options**: Cadre téléphone (iPhone), horodatage, indicateur de frappe (...)
 - **Auto-fill**: 4 messages par défaut sur le thème Workshop-DIY
 
@@ -46,9 +47,11 @@ Génère de fausses conversations de messagerie.
 
 Générateur de mèmes classiques avec texte Impact.
 
-- **8 templates**: Drake, Galaxy Brain, Distracted, Bouton Rouge, Scroll de Vérité, Expanding Brain, Change My Mind, This is Fine
+- **12 templates**: Drake, Galaxy Brain, Distracted, Bouton Rouge, Scroll de Vérité, Expanding Brain, Change My Mind, This is Fine, Success Kid, Aliens Guy, Two Buttons, Stonks
 - **8 textes rapides**: Mèmes pré-écrits Workshop-DIY (un clic pour générer)
+- **Image personnalisée**: Uploadez votre propre image comme fond de mème
 - **Texte Impact**: Outline noir, auto-wrap, redimensionnement automatique
+- **Live preview**: Le texte se met à jour en temps réel
 
 ### 📱 Notification
 
@@ -57,9 +60,28 @@ Fausses notifications push réalistes.
 - **6 styles OS**: iOS Light, iOS Dark, Android, Android Dark, Windows 11, macOS
 - **12 icônes d'app**: 🛠️ 🤖 🚀 ⚡ 💡 🧩 🔧 🎯 📐 🔬 🎮 🏗️
 - **6 textes rapides**: Premier robot, Nouvel atelier, Niveau débloqué, Rappel, Places limitées, Impression 3D
-- **Réalisme**: Barre d'état, ombre, timestamp "maintenant", 2ème notification en fond
+- **Live preview**: Chaque champ se met à jour instantanément
 
 ## Fonctionnalités Transversales
+
+### Live Preview
+
+Tous les champs de texte dans tous les modes régénèrent l'image en temps réel pendant la saisie. Plus besoin de cliquer "Générer" après chaque modification.
+
+### Texte Libre (✏️)
+
+Ajoutez du texte libre sur n'importe quelle image générée:
+- 6 polices: Impact, Marker, Mono, Cairo, Bangers, Arial
+- Couleur et taille personnalisables
+- Drag & drop pour positionner
+- Multi-textes supportés
+- Undo (↩) et Clear (🗑)
+
+### Raccourcis Clavier
+
+- **Ctrl+Enter**: Générer
+- **Ctrl+S**: Télécharger PNG
+- **Ctrl+Shift+R**: Aléatoire
 
 ### Contenu Bilingue FR/AR
 
@@ -96,22 +118,21 @@ L'IA fonctionne dans les 5 modes: bouton "✨ IA Suggérer" pour cowsay, chat, m
 - **📋 Texte**: Copie formatée pour Facebook avec contacts
 - **↻ Régénérer**: Relance le mode actif
 - **🎲 Aléatoire**: Randomise le style du mode actif
+- **✏️ Texte libre**: Ajouter du texte draggable sur l'image
 - **📦 Batch**: Export multi-styles par mode
+
+### PWA / Installation
+
+- Bouton 📲 dans le header (apparaît quand installable)
+- Service Worker pour cache offline
+- Manifest intégré, compatible Android/iOS
+- Fonctionne hors ligne (sauf IA et QR)
 
 ### Favoris ⭐
 
 - Étoile sur chaque style visuel
 - Onglet "Favoris" pour accès rapide
 - Persisté en localStorage
-
-### Interface
-
-- Thème clair par défaut (teal + or, inspiration islamique), toggle sombre
-- 5 onglets de mode dans le header
-- Paramètres dans modal flottant
-- Input + Générer sticky en haut de chaque mode
-- Auto-génération au clic sur style/animal/template
-- Bismillah en calligraphie dans le header
 
 ### Persistance
 
@@ -123,10 +144,11 @@ L'IA fonctionne dans les 5 modes: bouton "✨ IA Suggérer" pour cowsay, chat, m
 
 ## Déploiement
 
-Fichier unique `workshop-post-gen.html` (273 KB) — aucune installation.
+Fichier unique `workshop-post-gen.html` (~300 KB) — aucune installation.
 
 - **Local**: Ouvrir dans un navigateur
 - **GitHub Pages**: Copier dans le repo
+- **PWA**: Installer via le bouton 📲
 - **Claude.ai**: Fonctionne en artifact
 
 Les modes IA nécessitent une connexion internet et une clé API.
@@ -134,9 +156,9 @@ Les modes IA nécessitent une connexion internet et une clé API.
 ## Statistiques
 
 - 5 modes de création
-- 58 styles visuels + 25 animaux + 16 fonds + 8 templates + 6 styles chat + 6 styles notif
+- 58 styles visuels + 35 animaux + 16 fonds + 12 templates mème + 6 styles chat + 6 styles notif
 - 50 citations fortune cookie
-- ~5300 lignes, fichier unique
+- ~5850 lignes, fichier unique
 - 0 dépendance serveur
 
 ## Contact

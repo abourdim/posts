@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d7377">
+<meta name="description" content="Workshop-DIY — Générateur de posts Facebook. 5 modes, 58+ styles, IA intégrée.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Workshop-DIY">
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Workshop-DIY%22%2C%22short_name%22%3A%22WDIY%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f0e8%22%2C%22theme_color%22%3A%22%230d7377%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fabourdim.github.io%2Fapps%2Flogo.svg%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 <title>Workshop-DIY — Générateur de Posts Facebook</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Caveat:wght@400;600;700&family=Permanent+Marker&family=Patrick+Hand&family=Courier+Prime:wght@400;700&family=Bangers&family=Special+Elite&family=Shadows+Into+Light&family=Rock+Salt&family=Architects+Daughter&family=Indie+Flower&display=swap" rel="stylesheet">
 <style>
@@ -466,10 +472,11 @@ body::before {
   <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:6px 0;font-family:'Cairo',serif;font-size:16px;color:var(--accent2);letter-spacing:2px;opacity:0.7;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
   <img src="https://abourdim.github.io/apps/logo.svg" alt="Workshop-DIY" onerror="this.style.display='none'" style="margin-top:18px;">
   <div style="margin-top:18px;">
-    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V3.0</span></h1>
+    <h1>GÉNÉRATEUR DE POSTS <span style="font-size:11px;color:var(--text2);font-family:'Courier Prime',monospace;vertical-align:middle;">V4.0</span></h1>
     <p>Créez des visuels inspirants pour votre page Facebook</p>
   </div>
   <div style="margin-left:auto;display:flex;gap:8px;margin-top:18px;">
+    <button class="theme-toggle" id="pwaInstallBtn" onclick="installPWA()" title="Installer l'app" style="display:none;">📲</button>
     <button class="theme-toggle" onclick="toggleHelp()" title="Aide">❓</button>
     <button class="theme-toggle" onclick="toggleSettings()" title="Paramètres">⚙️</button>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Changer le thème">🌙</button>
@@ -554,7 +561,7 @@ body::before {
     </div>
 
     <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--surface2);text-align:center;">
-      <p style="font-size:11px;color:var(--text2);">Workshop-DIY V3.0 — workshop-diy.org</p>
+      <p style="font-size:11px;color:var(--text2);">Workshop-DIY V4.0 — workshop-diy.org</p>
       <p style="font-size:10px;color:var(--text2);margin-top:4px;">5 modes · 58+ styles · 100% hors-ligne · Fichier unique</p>
     </div>
   </div>
@@ -664,7 +671,7 @@ body::before {
       <div style="padding:20px;">
         <div style="background:var(--bg);border:1px solid var(--surface2);border-radius:12px;padding:12px;margin-bottom:12px;position:sticky;top:0;z-index:5;">
           <label class="field-label" style="margin-bottom:4px;">Message</label>
-          <textarea class="topic-input" id="cowsayInput" placeholder="Ex: Venez apprendre à coder!" style="min-height:55px;"></textarea>
+          <textarea class="topic-input" id="cowsayInput" oninput="if(document.getElementById('postCanvas').width>0)generateCowsay()" placeholder="Ex: Venez apprendre à coder!" style="min-height:55px;"></textarea>
           <button class="generate-btn" onclick="generateCowsay()" style="margin-top:10px;padding:12px;">
             🐄 GÉNÉRER
           </button>
@@ -698,7 +705,7 @@ body::before {
 
         <div id="convoSection" style="display:none;margin-bottom:8px;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Réponse du 2ème animal</label>
-          <textarea class="topic-input" id="cowsayInput2" placeholder="Ex: Viens à Workshop-DIY!" style="min-height:40px;font-size:12px;"></textarea>
+          <textarea class="topic-input" id="cowsayInput2" oninput="if(document.getElementById('postCanvas').width>0)generateCowsay()" placeholder="Ex: Viens à Workshop-DIY!" style="min-height:40px;font-size:12px;"></textarea>
           <div class="section-title" style="margin-top:8px;margin-bottom:4px;font-size:11px;">▸ 2ÈME ANIMAL</div>
           <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;max-height:80px;overflow-y:auto;" id="cowsayAnimal2Grid"></div>
         </div>
@@ -711,7 +718,7 @@ body::before {
 
         <div id="customAsciiSection" style="display:none;margin-bottom:8px;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Collez votre ASCII art</label>
-          <textarea class="topic-input" id="customAsciiInput" placeholder="  ^__^
+          <textarea class="topic-input" id="customAsciiInput" oninput="if(document.getElementById('postCanvas').width>0)generateCowsay()" placeholder="  ^__^
  (oo)\_______
  (__)\       )\/\
      ||----w |
@@ -733,19 +740,19 @@ body::before {
           <div>
             <label class="field-label" style="font-size:10px;">Gauche</label>
             <div style="display:flex;gap:4px;margin-top:4px;">
-              <select id="chatAvatar1" class="topic-input" style="min-height:32px;font-size:18px;width:48px;padding:2px;text-align:center;">
+              <select id="chatAvatar1" class="topic-input" onchange="if(document.getElementById('postCanvas').width>0)generateChat()" style="min-height:32px;font-size:18px;width:48px;padding:2px;text-align:center;">
                 <option>👦</option><option>👧</option><option>👨</option><option>👩</option><option>🧒</option><option>👶</option><option>🤖</option><option>🐧</option>
               </select>
-              <input type="text" id="chatName1" class="topic-input" value="Karim" style="min-height:32px;font-size:11px;flex:1;">
+              <input type="text" id="chatName1" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateChat()" value="Karim" style="min-height:32px;font-size:11px;flex:1;">
             </div>
           </div>
           <div>
             <label class="field-label" style="font-size:10px;">Droite</label>
             <div style="display:flex;gap:4px;margin-top:4px;">
-              <select id="chatAvatar2" class="topic-input" style="min-height:32px;font-size:18px;width:48px;padding:2px;text-align:center;">
+              <select id="chatAvatar2" class="topic-input" onchange="if(document.getElementById('postCanvas').width>0)generateChat()" style="min-height:32px;font-size:18px;width:48px;padding:2px;text-align:center;">
                 <option>🛠️</option><option>🤖</option><option>👨‍🏫</option><option>👩‍🏫</option><option>🧙</option><option>🦉</option><option>🐄</option><option>👾</option>
               </select>
-              <input type="text" id="chatName2" class="topic-input" value="Workshop" style="min-height:32px;font-size:11px;flex:1;">
+              <input type="text" id="chatName2" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateChat()" value="Workshop" style="min-height:32px;font-size:11px;flex:1;">
             </div>
           </div>
         </div>
@@ -767,12 +774,12 @@ body::before {
 
         <div class="section-title" style="margin-top:12px;margin-bottom:6px;">▸ OPTIONS</div>
         <label class="auto-toggle" style="margin-bottom:4px;">
-          <input type="checkbox" checked id="chatPhoneFrame">
+          <input type="checkbox" checked id="chatPhoneFrame" onchange="if(document.getElementById('postCanvas').width>0)generateChat()">
           <span class="toggle-track"></span>
           <span style="font-size:12px;">Cadre téléphone</span>
         </label>
         <label class="auto-toggle" style="margin-bottom:4px;">
-          <input type="checkbox" checked id="chatTimestamps">
+          <input type="checkbox" checked id="chatTimestamps" onchange="if(document.getElementById('postCanvas').width>0)generateChat()">
           <span class="toggle-track"></span>
           <span style="font-size:12px;">Horodatage</span>
         </label>
@@ -784,9 +791,9 @@ body::before {
       <div style="padding:20px;">
         <div style="background:var(--bg);border:1px solid var(--surface2);border-radius:12px;padding:12px;margin-bottom:12px;position:sticky;top:0;z-index:5;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Texte du haut</label>
-          <input type="text" id="memeTop" class="topic-input" value="QUAND TU DÉCOUVRES" placeholder="Texte haut..." style="min-height:32px;font-size:12px;margin-bottom:6px;">
+          <input type="text" id="memeTop" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateMeme()" value="QUAND TU DÉCOUVRES" placeholder="Texte haut..." style="min-height:32px;font-size:12px;margin-bottom:6px;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Texte du bas</label>
-          <input type="text" id="memeBottom" class="topic-input" value="WORKSHOP-DIY À CHELLES" placeholder="Texte bas..." style="min-height:32px;font-size:12px;">
+          <input type="text" id="memeBottom" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateMeme()" value="WORKSHOP-DIY À CHELLES" placeholder="Texte bas..." style="min-height:32px;font-size:12px;">
           <button class="generate-btn" onclick="generateMeme()" style="padding:12px;margin-top:10px;">
             😂 GÉNÉRER LE MÈME
           </button>
@@ -795,6 +802,15 @@ body::before {
 
         <div class="section-title" style="margin-top:16px;margin-bottom:6px;">▸ TEMPLATE</div>
         <div class="style-grid" id="memeTemplateGrid"></div>
+
+        <div class="section-title" style="margin-top:12px;margin-bottom:6px;">▸ IMAGE PERSO</div>
+        <div style="margin-bottom:8px;">
+          <label class="size-btn" style="display:block;text-align:center;padding:8px;cursor:pointer;">
+            📷 Uploader une image
+            <input type="file" accept="image/*" id="memeUpload" onchange="handleMemeUpload(event)" style="display:none;">
+          </label>
+          <button class="size-btn" id="memeUploadClear" onclick="clearMemeUpload()" style="display:none;width:100%;margin-top:3px;padding:4px;font-size:10px;">✕ Supprimer l'image</button>
+        </div>
 
         <div class="section-title" style="margin-top:12px;margin-bottom:6px;">▸ TEXTE RAPIDE</div>
         <div style="display:grid;grid-template-columns:1fr;gap:3px;" id="memeQuickTexts">
@@ -815,11 +831,11 @@ body::before {
       <div style="padding:20px;">
         <div style="background:var(--bg);border:1px solid var(--surface2);border-radius:12px;padding:12px;margin-bottom:12px;position:sticky;top:0;z-index:5;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Titre de la notification</label>
-          <input type="text" id="notifTitle" class="topic-input" value="Workshop-DIY" placeholder="Nom de l'app..." style="min-height:32px;font-size:12px;margin-bottom:6px;">
+          <input type="text" id="notifTitle" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateNotif()" value="Workshop-DIY" placeholder="Nom de l'app..." style="min-height:32px;font-size:12px;margin-bottom:6px;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Message</label>
-          <input type="text" id="notifMsg" class="topic-input" value="Votre enfant a construit son premier robot! 🤖" placeholder="Contenu de la notification..." style="min-height:32px;font-size:12px;margin-bottom:6px;">
+          <input type="text" id="notifMsg" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateNotif()" value="Votre enfant a construit son premier robot! 🤖" placeholder="Contenu de la notification..." style="min-height:32px;font-size:12px;margin-bottom:6px;">
           <label class="field-label" style="margin-bottom:4px;font-size:11px;">Sous-texte (optionnel)</label>
-          <input type="text" id="notifSub" class="topic-input" value="Atelier Robotique · Chelles 77500" placeholder="Détail supplémentaire..." style="min-height:32px;font-size:12px;">
+          <input type="text" id="notifSub" class="topic-input" oninput="if(document.getElementById('postCanvas').width>0)generateNotif()" value="Atelier Robotique · Chelles 77500" placeholder="Détail supplémentaire..." style="min-height:32px;font-size:12px;">
           <button class="generate-btn" onclick="generateNotif()" style="padding:12px;margin-top:10px;">
             📱 GÉNÉRER LA NOTIF
           </button>
@@ -875,8 +891,32 @@ body::before {
         <button class="regen-btn" onclick="copyCurrentText()">📋 Texte</button>
         <button class="regen-btn" onclick="regenerateCurrent()">↻</button>
         <button class="regen-btn" onclick="randomizeCurrent()">🎲</button>
+        <button class="regen-btn" onclick="toggleTextOverlay()" id="textOverlayBtn" title="Texte libre sur l'image">✏️</button>
         <button class="regen-btn" onclick="batchExport()">📦</button>
         <button class="regen-btn" id="qrDownloadBtn" onclick="downloadQR()" style="display:none;">QR</button>
+      </div>
+      <!-- TEXT OVERLAY CONTROLS -->
+      <div id="textOverlayPanel" style="display:none;margin-top:6px;padding:8px;background:var(--surface);border:1px solid var(--surface2);border-radius:8px;">
+        <div style="display:flex;gap:4px;margin-bottom:4px;">
+          <input type="text" id="overlayText" class="topic-input" placeholder="Texte libre..." value="" style="min-height:28px;font-size:12px;flex:1;" onkeydown="if(event.key==='Enter')applyTextOverlay()">
+          <input type="color" id="overlayColor" value="#ffffff" style="width:32px;height:28px;border:none;padding:0;cursor:pointer;">
+        </div>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <label style="font-size:10px;color:var(--text2);">Taille:</label>
+          <input type="range" id="overlaySize" min="12" max="120" value="48" style="flex:1;">
+          <select id="overlayFont" style="font-size:10px;padding:2px;border-radius:4px;border:1px solid var(--surface2);">
+            <option value="Impact">Impact</option>
+            <option value="'Permanent Marker'">Marker</option>
+            <option value="'Courier Prime'">Mono</option>
+            <option value="'Cairo'">Cairo</option>
+            <option value="'Bangers'">Bangers</option>
+            <option value="Arial">Arial</option>
+          </select>
+          <button class="size-btn" onclick="applyTextOverlay()" style="padding:4px 10px;font-size:11px;">Appliquer</button>
+          <button class="size-btn" onclick="undoOverlay()" style="padding:4px 6px;font-size:11px;" title="Annuler dernier texte">↩</button>
+          <button class="size-btn" onclick="clearAllOverlays()" style="padding:4px 6px;font-size:11px;" title="Tout effacer">🗑</button>
+        </div>
+        <p style="font-size:9px;color:var(--text2);margin-top:4px;">Cliquez sur l'image pour placer le texte. Glissez pour déplacer.</p>
       </div>
       <div id="historyNav" class="download-bar" style="display:none;margin-top:4px;">
         <button class="regen-btn" id="histPrev" onclick="historyGo(-1)">◀ Préc</button>
@@ -1031,6 +1071,7 @@ function setCowBubble(b) {
   document.querySelectorAll('[data-bubble]').forEach(function(btn) {
     btn.classList.toggle('active', btn.dataset.bubble === b);
   });
+  if (document.getElementById('postCanvas').width > 0) generateCowsay();
 }
 
 function setCowFormat(f) {
@@ -1038,6 +1079,7 @@ function setCowFormat(f) {
   document.querySelectorAll('[data-fmt]').forEach(function(btn) {
     btn.classList.toggle('active', btn.dataset.fmt === f);
   });
+  if (document.getElementById('postCanvas').width > 0) generateCowsay();
 }
 
 // --- COWSAY MODES ---
@@ -1047,6 +1089,7 @@ function setCowMode(m) {
     btn.classList.toggle('active', btn.dataset.cmode === m);
   });
   document.getElementById('convoSection').style.display = m === 'convo' ? '' : 'none';
+  if (document.getElementById('postCanvas').width > 0) generateCowsay();
 }
 
 function toggleCustomAscii() {
@@ -1055,6 +1098,7 @@ function toggleCustomAscii() {
   sec.style.display = show ? '' : 'none';
   if (show) cowState.useCustom = true;
   else cowState.useCustom = false;
+  if (document.getElementById('postCanvas').width > 0) generateCowsay();
 }
 
 function toggleComboMode() {
@@ -1063,6 +1107,7 @@ function toggleComboMode() {
   sec.style.display = show ? '' : 'none';
   cowState.comboMode = show;
   if (show && !document.getElementById('comboStyleGrid').children.length) initComboGrid();
+  if (document.getElementById('postCanvas').width > 0) generateCowsay();
 }
 
 function initComboGrid() {
@@ -1075,6 +1120,7 @@ function initComboGrid() {
     card.onclick = function() {
       cowState.comboStyle = s.id;
       grid.querySelectorAll('.style-card').forEach(function(c) { c.classList.toggle('active', c.dataset.id === s.id); });
+      if (document.getElementById('postCanvas').width > 0) generateCowsay();
     };
     card.innerHTML = '<span class="icon" style="font-size:18px;">' + s.icon + '</span><span class="name" style="font-size:8px;">' + s.name + '</span>';
     grid.appendChild(card);
@@ -1472,6 +1518,90 @@ crazy: function(t) { return [
 '            (__)\\       )\\/\\',
 '             U  ||----w |',
 '                ||     ||'
+].join('\n'); },
+snake: function(t) { return [
+'    ' + t,
+'     ' + t + '    ____',
+'          / . .\\',
+'          \\_____/--<',
+'          /  /  \\',
+'         /  /    \\'
+].join('\n'); },
+penguin2: function(t) { return [
+'    ' + t,
+'     ' + t + '   ._.',
+'          / _ \\',
+'         | (_) |',
+'         /|   |\\',
+'        (_|   |_)'
+].join('\n'); },
+crab: function(t) { return [
+'    ' + t,
+'     ' + t + '  ,---,',
+'         / o o \\',
+'    ----{   ^   }----',
+'         \\_____/',
+'          || ||'
+].join('\n'); },
+whale: function(t) { return [
+'    ' + t,
+'     ' + t + '       ___',
+'           .-\'   \'.',
+'          /         \\',
+'         |  O    O  |',
+'          \\  .--. /',
+'     ~~~~~~\'--\'~~~~~~'
+].join('\n'); },
+bee: function(t) { return [
+'    ' + t,
+'     ' + t + '   \\_/',
+'          >(o.o)<',
+'           /_|_\\',
+'           \\ | /',
+'           ====='
+].join('\n'); },
+dino: function(t) { return [
+'    ' + t,
+'     ' + t + '        __',
+'              / _)',
+'     _.----._/ /',
+'    /         /',
+'  _/ (  | (  |',
+' /__.-\'|_|--|_|'
+].join('\n'); },
+monkey: function(t) { return [
+'    ' + t,
+'     ' + t + '  .---.',
+'          / o o \\',
+'         (  >.<  )',
+'          /|   |\\',
+'         (_|   |_)'
+].join('\n'); },
+ghost: function(t) { return [
+'    ' + t,
+'     ' + t + '   ___',
+'          /   \\',
+'         | o o |',
+'         |  ~  |',
+'         | ___ |',
+'         |_| |_|'
+].join('\n'); },
+panda: function(t) { return [
+'    ' + t,
+'     ' + t + '  ,---.',
+'          / @ @ \\',
+'         ( \\_/ )',
+'          /|   |\\',
+'         (_|   |_)'
+].join('\n'); },
+parrot: function(t) { return [
+'    ' + t,
+'     ' + t + '    /\\',
+'           / .\\',
+'          | o  |',
+'           \\ = /',
+'           ||~||',
+'           || ||'
 ].join('\n'); },
 };
 
@@ -1881,15 +2011,18 @@ function addChatBubble(side) {
   var def = defaults[idx] || {side: side, text: ''};
   chatBubbles.push({side: side, text: def.text});
   renderChatBubbleList();
+  if (document.getElementById('postCanvas').width > 0) generateChat();
 }
 
 function removeChatBubble(idx) {
   chatBubbles.splice(idx, 1);
   renderChatBubbleList();
+  if (document.getElementById('postCanvas').width > 0) generateChat();
 }
 
 function updateChatBubble(idx, text) {
   chatBubbles[idx].text = text;
+  if (document.getElementById('postCanvas').width > 0) generateChat();
 }
 
 function renderChatBubbleList() {
@@ -1901,7 +2034,7 @@ function renderChatBubbleList() {
     var arrow = document.createElement('span');
     arrow.style.cssText = 'font-size:14px;width:20px;text-align:center;cursor:pointer;';
     arrow.textContent = b.side === 'left' ? '◀' : '▶';
-    arrow.onclick = function() { chatBubbles[i].side = b.side === 'left' ? 'right' : 'left'; renderChatBubbleList(); };
+    arrow.onclick = function() { chatBubbles[i].side = b.side === 'left' ? 'right' : 'left'; renderChatBubbleList(); if(document.getElementById('postCanvas').width>0)generateChat(); };
     var input = document.createElement('input');
     input.type = 'text';
     input.className = 'topic-input';
@@ -2144,6 +2277,33 @@ function roundRect(ctx, x, y, w, h, r) {
 // =============================================
 // MEME MODE
 // =============================================
+var memeUploadedImg = null;
+
+function handleMemeUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var img = new Image();
+    img.onload = function() {
+      memeUploadedImg = img;
+      document.getElementById('memeUploadClear').style.display = '';
+      // Deselect template grid
+      document.querySelectorAll('#memeTemplateGrid .style-card').forEach(function(c) { c.classList.remove('active'); });
+      if (document.getElementById('postCanvas').width > 0) generateMeme();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearMemeUpload() {
+  memeUploadedImg = null;
+  document.getElementById('memeUpload').value = '';
+  document.getElementById('memeUploadClear').style.display = 'none';
+  if (document.getElementById('postCanvas').width > 0) generateMeme();
+}
+
 var MEME_TEMPLATES = [
   {id:'drake',icon:'👆👇',name:'Drake',
     draw: function(ctx,w,h) {
@@ -2239,6 +2399,39 @@ var MEME_TEMPLATES = [
       ctx.font=Math.round(h*0.15)+'px sans-serif'; ctx.textAlign='center';
       ctx.fillText('🐕☕',w*0.5,h*0.7);
     }},
+  {id:'success',icon:'🏆',name:'Success Kid',draw:function(ctx,w,h){
+      ctx.fillStyle='#4caf50';ctx.fillRect(0,0,w,h);
+      ctx.font='bold '+Math.round(h*0.25)+'px sans-serif';ctx.textAlign='center';
+      ctx.fillStyle='#fff';ctx.fillText('✊😤',w*0.5,h*0.55);
+      var g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#388e3c');g.addColorStop(1,'#1b5e20');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h*0.08);ctx.fillRect(0,h*0.92,w,h*0.08);
+    }},
+  {id:'aliens',icon:'👽',name:'Aliens Guy',draw:function(ctx,w,h){
+      var g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#1a237e');g.addColorStop(1,'#000');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      ctx.font='bold '+Math.round(h*0.2)+'px sans-serif';ctx.textAlign='center';
+      ctx.fillStyle='#fff';ctx.fillText('🧑‍🔬👽',w*0.5,h*0.55);
+      // Stars
+      ctx.fillStyle='rgba(255,255,255,0.3)';
+      for(var i=0;i<30;i++){ctx.beginPath();ctx.arc(Math.random()*w,Math.random()*h,1+Math.random()*2,0,Math.PI*2);ctx.fill();}
+    }},
+  {id:'twobuttons',icon:'🔘',name:'Two Buttons',draw:function(ctx,w,h){
+      ctx.fillStyle='#f5f5f5';ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='#e53935';roundRect(ctx,w*0.1,h*0.25,w*0.35,h*0.2,12);ctx.fill();
+      ctx.fillStyle='#1e88e5';roundRect(ctx,w*0.55,h*0.25,w*0.35,h*0.2,12);ctx.fill();
+      ctx.font='bold '+Math.round(h*0.15)+'px sans-serif';ctx.textAlign='center';
+      ctx.fillStyle='#333';ctx.fillText('😰💦',w*0.5,h*0.75);
+    }},
+  {id:'stonks',icon:'📈',name:'Stonks',draw:function(ctx,w,h){
+      var g=ctx.createLinearGradient(0,h,0,0);g.addColorStop(0,'#004d40');g.addColorStop(1,'#00897b');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      // Draw stonks line
+      ctx.strokeStyle='#76ff03';ctx.lineWidth=4;ctx.beginPath();
+      ctx.moveTo(w*0.05,h*0.8);ctx.lineTo(w*0.3,h*0.6);ctx.lineTo(w*0.5,h*0.65);ctx.lineTo(w*0.95,h*0.15);
+      ctx.stroke();
+      ctx.font='bold '+Math.round(h*0.12)+'px sans-serif';ctx.textAlign='center';
+      ctx.fillStyle='#76ff03';ctx.fillText('📈',w*0.85,h*0.25);
+    }},
 ];
 
 var memeTemplateId = 'drake';
@@ -2280,8 +2473,16 @@ function generateMeme() {
   canvas.height = h;
   var ctx = canvas.getContext('2d', {willReadFrequently: true});
   
-  // Draw template background
-  template.draw(ctx, w, h);
+  // Draw template background or uploaded image
+  if (memeUploadedImg) {
+    // Draw uploaded image covering canvas
+    var iw = memeUploadedImg.width, ih = memeUploadedImg.height;
+    var scale = Math.max(w / iw, h / ih);
+    var sw = iw * scale, sh = ih * scale;
+    ctx.drawImage(memeUploadedImg, (w - sw) / 2, (h - sh) / 2, sw, sh);
+  } else {
+    template.draw(ctx, w, h);
+  }
   
   // Impact-style text rendering
   function drawMemeText(text, y, maxW) {
@@ -2376,6 +2577,7 @@ function setNotifIcon(btn, icon) {
   notifIcon = icon;
   document.querySelectorAll('#notifIconGrid .size-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
+  if (document.getElementById('postCanvas').width > 0) generateNotif();
 }
 
 function setNotifQuick(title, msg, sub) {
@@ -3260,6 +3462,198 @@ async function shareImage() {
   }
 }
 
+// --- KEYBOARD SHORTCUTS ---
+document.addEventListener('keydown', function(e) {
+  // Ctrl+Enter or Cmd+Enter to generate
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    regenerateCurrent();
+  }
+  // Ctrl+S to download
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    downloadImage();
+  }
+  // Ctrl+Shift+R to randomize
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'R') {
+    e.preventDefault();
+    randomizeCurrent();
+  }
+});
+
+// --- TEXT OVERLAY ---
+var textOverlays = [];
+var textOverlayActive = false;
+var draggingOverlay = -1;
+var overlayDragOffset = {x:0, y:0};
+
+function toggleTextOverlay() {
+  var panel = document.getElementById('textOverlayPanel');
+  var show = panel.style.display === 'none';
+  panel.style.display = show ? '' : 'none';
+  textOverlayActive = show;
+  document.getElementById('textOverlayBtn').classList.toggle('active', show);
+}
+
+function undoOverlay() {
+  if (textOverlays.length === 0) return;
+  textOverlays.pop();
+  regenerateCurrent();
+  if (textOverlays.length > 0) setTimeout(renderOverlays, 50);
+}
+
+function clearAllOverlays() {
+  textOverlays = [];
+  regenerateCurrent();
+}
+
+function applyTextOverlay() {
+  var text = document.getElementById('overlayText').value.trim();
+  if (!text) return;
+  var canvas = document.getElementById('postCanvas');
+  if (!canvas.width) return;
+  
+  textOverlays.push({
+    text: text,
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    size: parseInt(document.getElementById('overlaySize').value),
+    color: document.getElementById('overlayColor').value,
+    font: document.getElementById('overlayFont').value,
+    stroke: true
+  });
+  
+  document.getElementById('overlayText').value = '';
+  renderOverlays();
+}
+
+function renderOverlays() {
+  var canvas = document.getElementById('postCanvas');
+  var ctx = canvas.getContext('2d', {willReadFrequently: true});
+  
+  textOverlays.forEach(function(o) {
+    ctx.save();
+    ctx.font = 'bold ' + o.size + 'px ' + o.font + ', sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (o.stroke) {
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = Math.max(2, o.size * 0.08);
+      ctx.lineJoin = 'round';
+      ctx.strokeText(o.text, o.x, o.y);
+    }
+    ctx.fillStyle = o.color;
+    ctx.fillText(o.text, o.x, o.y);
+    ctx.restore();
+  });
+}
+
+function getOverlayAt(cx, cy) {
+  var canvas = document.getElementById('postCanvas');
+  var ctx = canvas.getContext('2d', {willReadFrequently: true});
+  for (var i = textOverlays.length - 1; i >= 0; i--) {
+    var o = textOverlays[i];
+    ctx.font = 'bold ' + o.size + 'px ' + o.font + ', sans-serif';
+    var tw = ctx.measureText(o.text).width;
+    if (cx > o.x - tw/2 - 10 && cx < o.x + tw/2 + 10 &&
+        cy > o.y - o.size/2 - 10 && cy < o.y + o.size/2 + 10) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+// Hook into existing canvas mouse/touch events for overlay dragging
+(function() {
+  var canvas = document.getElementById('postCanvas');
+  
+  var origMousedown = canvas.onmousedown;
+  canvas.addEventListener('mousedown', function(e) {
+    if (!textOverlayActive || textOverlays.length === 0) return;
+    var rect = canvas.getBoundingClientRect();
+    var sx = canvas.width / rect.width;
+    var cx = (e.clientX - rect.left) * sx;
+    var cy = (e.clientY - rect.top) * sx;
+    var idx = getOverlayAt(cx, cy);
+    if (idx >= 0) {
+      draggingOverlay = idx;
+      overlayDragOffset.x = cx - textOverlays[idx].x;
+      overlayDragOffset.y = cy - textOverlays[idx].y;
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, true);
+  
+  canvas.addEventListener('mousemove', function(e) {
+    if (draggingOverlay < 0) return;
+    var rect = canvas.getBoundingClientRect();
+    var sx = canvas.width / rect.width;
+    var cx = (e.clientX - rect.left) * sx;
+    var cy = (e.clientY - rect.top) * sx;
+    textOverlays[draggingOverlay].x = cx - overlayDragOffset.x;
+    textOverlays[draggingOverlay].y = cy - overlayDragOffset.y;
+    // Re-render: regenerate base + overlays
+    regenerateCurrent();
+    renderOverlays();
+    e.stopPropagation();
+    e.preventDefault();
+  }, true);
+  
+  canvas.addEventListener('mouseup', function(e) {
+    if (draggingOverlay >= 0) {
+      draggingOverlay = -1;
+      e.stopPropagation();
+    }
+  }, true);
+
+  // Touch events for mobile overlay dragging
+  canvas.addEventListener('touchstart', function(e) {
+    if (!textOverlayActive || textOverlays.length === 0) return;
+    var touch = e.touches[0];
+    var rect = canvas.getBoundingClientRect();
+    var sx = canvas.width / rect.width;
+    var cx = (touch.clientX - rect.left) * sx;
+    var cy = (touch.clientY - rect.top) * sx;
+    var idx = getOverlayAt(cx, cy);
+    if (idx >= 0) {
+      draggingOverlay = idx;
+      overlayDragOffset.x = cx - textOverlays[idx].x;
+      overlayDragOffset.y = cy - textOverlays[idx].y;
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, {capture: true, passive: false});
+
+  canvas.addEventListener('touchmove', function(e) {
+    if (draggingOverlay < 0) return;
+    var touch = e.touches[0];
+    var rect = canvas.getBoundingClientRect();
+    var sx = canvas.width / rect.width;
+    var cx = (touch.clientX - rect.left) * sx;
+    var cy = (touch.clientY - rect.top) * sx;
+    textOverlays[draggingOverlay].x = cx - overlayDragOffset.x;
+    textOverlays[draggingOverlay].y = cy - overlayDragOffset.y;
+    regenerateCurrent();
+    renderOverlays();
+    e.stopPropagation();
+    e.preventDefault();
+  }, {capture: true, passive: false});
+
+  canvas.addEventListener('touchend', function(e) {
+    if (draggingOverlay >= 0) {
+      draggingOverlay = -1;
+      e.stopPropagation();
+    }
+  }, true);
+})();
+
+// Clear overlays on mode switch
+var origSwitchMode = switchMode;
+switchMode = function(m) {
+  textOverlays = [];
+  origSwitchMode(m);
+};
+
 function downloadQR() {
   var link = document.createElement('a');
   link.download = 'workshop-diy-qrcode.png';
@@ -3273,6 +3667,10 @@ function regenerateCurrent() {
   else if (currentMode === 'chat') generateChat();
   else if (currentMode === 'meme') generateMeme();
   else if (currentMode === 'notif') generateNotif();
+  // Re-render text overlays on top
+  if (textOverlays.length > 0) {
+    setTimeout(renderOverlays, 50);
+  }
 }
 
 function randomizeCurrent() {
@@ -5273,6 +5671,11 @@ var COWSAY_ANIMALS = [
   {id:'bunny',icon:'🐰',name:'Lapin'},{id:'fox',icon:'🦊',name:'Renard'},{id:'turtle',icon:'🐢',name:'Tortue'},
   {id:'wizard',icon:'🧙',name:'Sorcier'},{id:'santa',icon:'🎅',name:'Père Noël'},
   {id:'sleeping',icon:'😴',name:'Endormi'},{id:'crazy',icon:'🤪',name:'Fou'},
+  {id:'snake',icon:'🐍',name:'Serpent'},{id:'penguin2',icon:'🐧',name:'Manchot'},
+  {id:'crab',icon:'🦀',name:'Crabe'},{id:'whale',icon:'🐋',name:'Baleine'},
+  {id:'bee',icon:'🐝',name:'Abeille'},{id:'dino',icon:'🦕',name:'Dino'},
+  {id:'monkey',icon:'🐵',name:'Singe'},{id:'ghost',icon:'👻',name:'Fantôme'},
+  {id:'panda',icon:'🐼',name:'Panda'},{id:'parrot',icon:'🦜',name:'Perroquet'},
 ];
 
 var COWSAY_BGS = [
@@ -5417,6 +5820,35 @@ document.getElementById('topicInput').addEventListener('input', function() { sav
   canvas.addEventListener('touchmove', onMove, {passive:false});
   canvas.addEventListener('touchend', onUp);
 })();
+
+// --- PWA INSTALL PROMPT ---
+var deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  var btn = document.getElementById('pwaInstallBtn');
+  if (btn) btn.style.display = '';
+});
+
+function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(result) {
+    deferredPrompt = null;
+    var btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.style.display = 'none';
+  });
+}
+
+// --- SERVICE WORKER (inline registration with cache) ---
+if ('serviceWorker' in navigator) {
+  var swCode = "var CACHE='wdiy-v4';var URLS=['./',location.href];self.addEventListener('install',function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(URLS)}))});self.addEventListener('fetch',function(e){e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.status===200){var cl=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,cl)})}return res}).catch(function(){return new Response('Offline')})}))});";
+  var swBlob = new Blob([swCode], {type: 'application/javascript'});
+  var swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl, {scope: './'}).catch(function() {
+    // SW registration from blob URL may fail on some browsers - that's OK
+  });
+}
 </script>
 </body>
 </html>

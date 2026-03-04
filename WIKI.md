@@ -1,159 +1,147 @@
-# Workshop-DIY Post Generator — Wiki
+# Workshop-DIY — Guide d'Utilisation V4.0
 
-## Guide Rapide
+## Démarrage Rapide
 
-### Premier Lancement
+1. Ouvrez `workshop-post-gen.html` dans votre navigateur (ou installez via 📲)
+2. Choisissez un mode: 🎨 Visuels, 🐄 Cowsay, 💬 Chat, 😂 Mème, 📱 Notif
+3. Modifiez le texte — l'image se met à jour en temps réel
+4. Cliquez ⬇ PNG pour télécharger ou 📤 pour partager
 
-1. Ouvrez `workshop-post-gen.html` dans votre navigateur
-2. Vous êtes sur l'onglet 🎨 Visuels par défaut
-3. Tapez un sujet dans le champ "Sujet / Idée" (ex: "Arduino pour débutants")
-4. Cliquez **GÉNÉRER LE POST**
-5. Téléchargez avec **⬇ PNG**
-
-### Changer de Mode
-
-Les 5 onglets en haut permettent de basculer entre les modes. Chaque mode a sa propre interface dans la barre latérale gauche et partage la même zone d'aperçu à droite.
+**Astuce**: Tout changement (texte, style, option) régénère instantanément l'image. Plus besoin de cliquer "Générer" après chaque modification!
 
 ## Mode par Mode
 
 ### 🎨 Visuels
-
-Le mode principal pour créer des posts Facebook professionnels.
-
-**Workflow type:**
-1. Entrez un sujet
-2. Choisissez un style dans la grille (ou cochez "Auto" pour un choix aléatoire)
-3. Cliquez Générer
-4. Naviguez avec Préc/Suiv pour revoir l'historique
-
-**Favoris:** Cliquez l'étoile ☆ en haut à droite de chaque carte de style pour le marquer comme favori. Utilisez le filtre "⭐ Favoris" pour ne voir que vos styles préférés.
-
-**Style auto:** Quand "Auto" est coché, chaque génération choisit un style aléatoire.
+- Tapez un sujet dans le champ "Thème du post"
+- Cliquez un style dans la grille (ou laissez "Auto")
+- Marquez vos favoris ⭐ et filtrez avec l'onglet "Favoris"
+- Naviguez l'historique avec Préc/Suiv (30 derniers posts)
 
 ### 🐄 Cowsay
+- Tapez votre message → preview live
+- Cliquez un animal (35 choix) et un fond (16 choix)
+- Changez bulle (Dire/Penser/Crier), format (Terminal/Git/Code/BSOD/Fortune)
+- Mode Duo: 2 animaux en conversation
+- Mode Combo: ASCII sur fond visuel
 
-**Workflow type:**
-1. Tapez un message
-2. Choisissez un animal et un arrière-plan
-3. Le post se régénère automatiquement quand vous changez d'animal ou de fond
-4. Optionnel: changez le style de bulle (Dire/Penser/Crier)
-5. Optionnel: choisissez un format spécial (Terminal, Git, Code, BSOD, Fortune)
-
-**Mode Duo:** Cliquez "🐄💬🐧 Duo" pour activer la conversation à 2 animaux. Un champ de réponse et un sélecteur de 2ème animal apparaissent.
-
-**ASCII Perso:** Cliquez "✏️ ASCII perso" pour coller votre propre art ASCII. La bulle de texte s'affiche au-dessus.
-
-**Mode Combo:** Cliquez "🎨 Combo Visuel" pour utiliser un des 58 fonds visuels au lieu des 16 fonds terminal. L'ASCII s'affiche en vert lumineux avec un overlay sombre.
-
-### 💬 Chat / SMS
-
-**Workflow type:**
-1. Les 4 messages par défaut sont pré-remplis à la première visite
-2. Modifiez les textes directement dans les champs
-3. Ajoutez des bulles avec "← Gauche" ou "Droite →"
-4. Cliquez ◀/▶ pour changer le côté d'une bulle
-5. Changez les avatars et noms des personnages en haut
-6. Choisissez un style (iMessage, WhatsApp, etc.)
-
-**Cadre téléphone:** Active/désactive le cadre iPhone avec notch autour de la conversation.
-
-**Limite:** Maximum 8 bulles par conversation.
+### 💬 Chat
+- Les 4 premières bulles sont pré-remplies
+- Ajoutez des bulles (← Gauche / Droite →), max 8
+- Tapez dans une bulle → la conversation se met à jour en direct
+- Changez les noms et avatars des personnages (live)
+- Activez/désactivez cadre iPhone et timestamps
 
 ### 😂 Mème
+- Tapez le texte haut/bas → preview live
+- Choisissez un template (12) ou uploadez votre image (📷)
+- Utilisez les textes rapides pour un mème en 1 clic
 
-**Workflow type:**
-1. Tapez le texte du haut et du bas
-2. Choisissez un template
-3. OU cliquez un texte rapide pour remplir et générer en un clic
+### 📱 Notif
+- Remplissez titre/message/sous-texte → preview live
+- Changez le style OS (6) et l'icône d'app (12)
+- Utilisez les textes rapides pour une notif en 1 clic
 
-**Textes rapides:** 8 mèmes pré-écrits sur le thème Workshop-DIY. Un clic remplit les champs ET génère l'image.
+## Texte Libre (✏️)
 
-### 📱 Notification
-
-**Workflow type:**
-1. Remplissez titre, message et sous-texte
-2. Choisissez un style OS
-3. Choisissez une icône d'app
-4. OU cliquez un texte rapide
+1. Cliquez ✏️ dans la barre d'actions
+2. Tapez votre texte, choisissez police/couleur/taille
+3. Cliquez "Appliquer" (ou Entrée)
+4. Glissez le texte sur l'image pour le positionner
+5. Ajoutez plusieurs textes, ↩ pour annuler, 🗑 pour tout effacer
 
 ## Paramètres (⚙️)
 
-Accessible via l'icône engrenage dans le header.
+- **Format**: Carré (Facebook), Paysage (link preview), Story (Instagram)
+- **Langue**: Français (30 msgs) ou Arabe (20 msgs RTL)
+- **Source**: Intégré, Manuel, Groq (IA gratuite), Claude (IA Anthropic)
 
-- **Format:** Carré (1080×1080), Paysage (1200×630), Story (1080×1920)
-- **Langue:** Français / العربية (change les messages intégrés et le rendu RTL)
-- **Source:** Intégré, Manuel, Groq (IA), Claude (IA)
+## Configuration IA
 
-## Utiliser l'IA
+### Groq (gratuit)
+1. Créez un compte sur groq.com
+2. Copiez votre clé API
+3. Collez dans Paramètres ⚙️ → Clé Groq
 
-1. Ouvrez ⚙️ Paramètres
-2. Choisissez "🤖 Groq" ou "✨ Claude"
-3. Entrez votre clé API
-4. Le bouton "✨ IA Suggérer" apparaît dans chaque mode
-5. En mode Visuels, la génération utilise l'IA automatiquement
+### Claude (Anthropic)
+1. Obtenez une clé API sur console.anthropic.com
+2. Collez dans Paramètres ⚙️ → Clé Claude
 
-**Groq est gratuit:** Créez un compte sur groq.com/console et copiez votre clé API.
+L'IA fonctionne dans les 5 modes via le bouton "✨ IA Suggérer".
 
 ## QR Code
 
-1. Dans la barre latérale (mode Visuels), cochez "☑ QR Code"
+1. Activez le toggle QR dans le panel Visuels
 2. Personnalisez l'URL, la couleur et la taille
 3. Glissez le QR sur l'image pour le positionner
-4. Le bouton "QR" apparaît dans la barre d'actions pour télécharger le QR seul
+4. Téléchargez le QR séparément via le bouton "QR"
+
+## Raccourcis Clavier
+
+- **Ctrl+Enter**: Générer/Régénérer
+- **Ctrl+S**: Télécharger PNG
+- **Ctrl+Shift+R**: Randomiser style
 
 ## Actions
 
-| Bouton | Action | Fonctionne dans |
-|--------|--------|-----------------|
-| ⬇ PNG | Télécharge l'image | Tous les modes |
-| 📤 Partager | Partage via Web Share API (mobile) ou copie dans le presse-papier | Tous |
-| 📋 Texte | Copie le texte formaté + contacts pour coller sur Facebook | Tous |
-| ↻ | Régénère avec les mêmes paramètres | Tous |
-| 🎲 | Randomise le style/animal/template | Tous |
-| 📦 | Batch export (toutes les variantes du mode) | Tous |
-| QR | Télécharge le QR code seul | Visuels |
+| Bouton | Action | Détail |
+|--------|--------|--------|
+| ⬇ PNG | Télécharger | Fichier nommé workshop-diy-{mode}-{style}-{timestamp}.png |
+| 📤 Partager | Web Share API | Mobile: partage natif / Desktop: copie clipboard |
+| 📋 Texte | Copier le texte | Format Facebook avec contacts workshop-diy.org |
+| ↻ | Régénérer | Relance le mode actif |
+| 🎲 | Aléatoire | Randomise le style |
+| ✏️ | Texte libre | Ajouter du texte draggable |
+| 📦 | Batch | Exporte tous les styles du mode |
 
-## Export Batch
+## Batch Export
 
-Le bouton 📦 exporte automatiquement toutes les variantes:
+| Mode | Nombre d'images |
+|------|-----------------|
+| Visuels | 58 (ou favoris seuls) |
+| Cowsay | 35 animaux |
+| Chat | 6 styles |
+| Mème | 12 templates |
+| Notif | 6 OS |
 
-- **Visuels:** 58 images (une par style)
-- **Cowsay:** 25 images (une par animal)
-- **Chat:** 6 images (une par style de messagerie)
-- **Mème:** 8 images (une par template)
-- **Notif:** 6 images (une par style OS)
+## Installation PWA
+
+Le bouton 📲 apparaît dans le header quand l'app est installable.
+- Android: "Ajouter à l'écran d'accueil"
+- iOS: Safari → Partager → Sur l'écran d'accueil
+- Desktop: Chrome → bouton installer
+
+L'app fonctionne hors ligne (sauf IA et QR dynamique).
 
 ## FAQ
 
-**Q: Mes paramètres sont perdus quand je ferme le navigateur?**
-Non, tout est sauvegardé en localStorage. Vos réglages, favoris, dernier post et position QR sont restaurés au prochain lancement.
+**Les paramètres sont-ils sauvegardés?**
+Oui, tout est en localStorage: thème, langue, format, favoris, QR, dernier post.
 
-**Q: L'IA ne fonctionne pas?**
-Vérifiez que votre clé API est correcte et que vous avez une connexion internet. Groq est gratuit, Claude nécessite un abonnement API.
+**Ça marche hors ligne?**
+Oui via le Service Worker (après la première visite). L'IA et les polices Google nécessitent internet.
 
-**Q: Comment ajouter un nouveau style?**
-Les styles sont définis dans le code JavaScript. Ajoutez une entrée dans le tableau STYLES et un renderer dans RENDERERS.
+**Comment partager sur Facebook?**
+⬇ PNG → Upload directement sur Facebook. Ou 📤 Partager sur mobile.
 
-**Q: Le batch export télécharge trop de fichiers?**
-Chaque fichier est téléchargé individuellement. Votre navigateur peut demander l'autorisation pour les téléchargements multiples.
+**Mon logo ne s'affiche pas?**
+Le logo est chargé depuis un SVG inline. En offline, il est déjà intégré.
 
-**Q: Comment utiliser le mode Story?**
-Ouvrez ⚙️ Paramètres, choisissez "▯ Story (1080×1920)". Le format s'applique à tous les modes.
+**Peut-on ajouter des styles personnalisés?**
+Pas encore via l'UI. Mais vous pouvez ajouter un style dans le tableau `STYLES[]` et un renderer dans `RENDERERS{}`.
 
-**Q: Puis-je utiliser cet outil hors ligne?**
-Oui, sauf pour les modes IA (Groq/Claude) et le QR code personnalisé qui nécessitent internet.
+**Le format Story, c'est quoi?**
+1080×1920 — format vertical pour Instagram/TikTok Stories.
 
-**Q: Comment partager sur Facebook?**
-Méthode 1: Téléchargez le PNG et uploadez-le manuellement.
-Méthode 2: Sur mobile, utilisez le bouton 📤 Partager.
-Méthode 3: Copiez le texte avec 📋 Texte et collez-le dans votre post.
+**Le batch export est lent?**
+Normal — chaque image est rendue en Canvas puis téléchargée. 58 images ≈ 30 secondes.
 
-**Q: Le logo ne s'affiche pas?**
-Le logo est chargé depuis abourdim.github.io. Si vous êtes hors ligne, il sera masqué automatiquement.
+**Comment utiliser l'image uploadée pour le mème?**
+Mode Mème → section "Image Perso" → cliquez "📷 Uploader une image". Le template sélectionné sera remplacé par votre image.
 
-## Raccourcis
+## Raccourcis Cachés
 
-- Cliquer sur un style/animal/template: régénère automatiquement
-- Textes rapides (Mème/Notif): remplissent ET génèrent en un clic
-- Mode Chat: première visite auto-remplit 4 messages
-- ◀/▶ sur une bulle chat: swap côté gauche/droite
+- Clic sur un style/animal/template/icône → génère automatiquement
+- Texte rapide → remplit ET génère en un clic
+- Chat: clic ◀/▶ pour swap côté d'une bulle (live)
+- Favoris ⭐ sur les visuels persistés entre sessions
+- Ctrl+Enter depuis n'importe quel champ pour régénérer
