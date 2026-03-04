@@ -1,80 +1,143 @@
 # بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
 
-# Workshop-DIY — Générateur de Posts V2.2
+# Workshop-DIY — Générateur de Posts V3.0
 
-Outil de création de visuels Facebook pour **Workshop-DIY** (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur.
+Outil multi-mode de création de visuels pour **Workshop-DIY** (Chelles 77500). Application 100% client-side, fichier HTML unique, zéro dépendance serveur.
 
-## Fonctionnalités
+## 5 Modes de Création
 
-### 58 Styles Visuels
+### 🎨 Visuels — 58 Styles
+
+Le mode principal. Génère des visuels Facebook professionnels avec texte, logo, doodles et pied de page.
 
 | Catégorie | Nb | Exemples |
 |-----------|-----|----------|
 | **Classique** | 15 | Journal, Tableau Noir, Blueprint, Polaroid, Fiche Recette... |
 | **Kiddy** | 10 | Lego, Scratch, Crayon, Comic, Puzzle, Chasse au Trésor... |
 | **Formes** | 10 | Robot, Fusée, Ampoule, Cerveau, Main, Arbre... |
-| **Andalous** | 13 | Alhambra, Arabesque, Zellige Joyeux, Astrolabe STEM, Moucharabieh Lumière... |
-| **Intense** | 10 | Acier Brossé, Flammes, Camouflage, Neon City, Béton Brut, Heure Dorée... |
+| **Andalous** | 13 | Alhambra, Arabesque, Zellige, Astrolabe, Moucharabieh... |
+| **Intense** | 10 | Acier Brossé, Flammes, Camouflage, Neon City, Béton Brut... |
+
+Fonctions: style auto/manuel, thumbnails live, filtres par catégorie, favoris ⭐, historique Préc/Suiv.
+
+### 🐄 Cowsay — ASCII Art
+
+Génère des images avec des animaux ASCII dans un style terminal/geek.
+
+- **25 animaux**: vache, tux, robot, dragon, crâne, alien, t-rex, hibou, grenouille, poulpe, mouton, chameau, éléphant, canard, souris, chauve-souris, licorne, chat, lapin, renard, tortue, sorcier, père Noël, vache endormie, vache folle
+- **16 arrière-plans**: Terminal vert, Ambre CRT, Tableau noir, Blanc, Matrix, Écran bleu, Ubuntu, Hacker, C64, Game Boy, Arcade, Blueprint, Circuit, Cahier, Post-it, Craft bois
+- **3 styles de bulle**: Dire, Penser, Crier
+- **6 formats spéciaux**: Terminal ($), Git Commit, Code Comment, BSOD, Fortune Cookie (50 citations)
+- **Mode Duo**: 2 animaux en conversation
+- **ASCII personnalisé**: Collez votre propre art
+- **Mode Combo**: Animal ASCII sur fond visuel (58 styles)
+
+### 💬 Chat / SMS
+
+Génère de fausses conversations de messagerie.
+
+- **6 styles**: iMessage, WhatsApp, Messenger, SMS, Discord, Telegram
+- **Personnages**: Avatar emoji + nom personnalisables pour chaque côté
+- **Messages**: Ajoutez jusqu'à 8 bulles, swap gauche/droite, édition en ligne
+- **Options**: Cadre téléphone (iPhone), horodatage, indicateur de frappe (...)
+- **Auto-fill**: 4 messages par défaut sur le thème Workshop-DIY
+
+### 😂 Mème
+
+Générateur de mèmes classiques avec texte Impact.
+
+- **8 templates**: Drake, Galaxy Brain, Distracted, Bouton Rouge, Scroll de Vérité, Expanding Brain, Change My Mind, This is Fine
+- **8 textes rapides**: Mèmes pré-écrits Workshop-DIY (un clic pour générer)
+- **Texte Impact**: Outline noir, auto-wrap, redimensionnement automatique
+
+### 📱 Notification
+
+Fausses notifications push réalistes.
+
+- **6 styles OS**: iOS Light, iOS Dark, Android, Android Dark, Windows 11, macOS
+- **12 icônes d'app**: 🛠️ 🤖 🚀 ⚡ 💡 🧩 🔧 🎯 📐 🔬 🎮 🏗️
+- **6 textes rapides**: Premier robot, Nouvel atelier, Niveau débloqué, Rappel, Places limitées, Impression 3D
+- **Réalisme**: Barre d'état, ombre, timestamp "maintenant", 2ème notification en fond
+
+## Fonctionnalités Transversales
 
 ### Contenu Bilingue FR/AR
 
-- 30 messages intégrés en français
-- 20 messages en arabe littéraire (فصحى)
+- 30 messages intégrés en français, 20 en arabe littéraire (فصحى)
 - Rendu RTL automatique avec police Cairo
-- Basculement via ⚙️ Paramètres
+- Basculement via Paramètres ⚙️
 
-### Sources de Contenu
+### 4 Sources de Contenu
 
-- **📦 Intégré** — Messages pré-écrits avec correspondance par sujet
-- **✏️ Manuel** — Saisie libre du titre, message et CTA
-- **🤖 Groq** — Génération IA via API Groq (clé requise)
-- **✨ Claude** — Génération IA via API Anthropic (clé requise)
+- **📦 Intégré**: Messages pré-écrits avec correspondance par sujet
+- **✏️ Manuel**: Saisie libre du titre, message et CTA
+- **🤖 Groq**: Génération IA via API Groq (clé gratuite sur groq.com)
+- **✨ Claude**: Génération IA via API Anthropic
+
+L'IA fonctionne dans les 5 modes: bouton "✨ IA Suggérer" pour cowsay, chat, mème et notif.
+
+### 3 Formats d'Export
+
+- **◻ Carré**: 1080×1080 (Facebook, Instagram)
+- **▭ Paysage**: 1200×630 (Facebook link preview)
+- **▯ Story**: 1080×1920 (Instagram/TikTok Stories)
 
 ### QR Code Intégré
 
-- Toggle on/off dans la barre latérale
-- URL personnalisable (défaut: workshop-diy.org)
-- Couleur au choix via color picker
-- Taille ajustable par slider (5%–25%)
-- Positionnement par drag and drop sur le canvas
-- Téléchargement séparé via bouton QR
-
-### Interface
-
-- Thème clair par défaut (palette teal et or, inspiration islamique)
-- Toggle clair/sombre dans le header
-- Paramètres dans modal flottant (Format, Langue, Source)
-- Barre latérale : Sujet, Générer, Styles avec thumbnails live
-- Filtres par catégorie avec accents colorés
-- Aperçu sticky à droite
-- Bismillah en calligraphie dans le header
-
-### Persistance et Historique
-
-- Tous les paramètres sauvegardés en localStorage
-- Dernier post affiché au démarrage
-- Historique de navigation Préc / Suiv (jusqu'à 30 posts)
-- Click sur un style = re-rendu automatique
-- Position et taille du QR sauvegardées
+- Toggle on/off, URL personnalisable
+- Couleur au choix, taille ajustable (5–25%)
+- Drag and drop sur le canvas
+- Téléchargement séparé
 
 ### Actions
 
-- **PNG** — Télécharger l'image
-- **Texte** — Copier le texte formaté pour Facebook (titre + message + CTA + contacts)
-- **Régénérer** — Nouveau contenu, même style
-- **Style** — Style aléatoire
-- **Batch** — Export multi-styles
-- **QR** — Télécharger le QR code seul
+- **⬇ PNG**: Télécharger (nom de fichier inclut mode + style)
+- **📤 Partager**: Web Share API (mobile) / copie clipboard (desktop)
+- **📋 Texte**: Copie formatée pour Facebook avec contacts
+- **↻ Régénérer**: Relance le mode actif
+- **🎲 Aléatoire**: Randomise le style du mode actif
+- **📦 Batch**: Export multi-styles par mode
+
+### Favoris ⭐
+
+- Étoile sur chaque style visuel
+- Onglet "Favoris" pour accès rapide
+- Persisté en localStorage
+
+### Interface
+
+- Thème clair par défaut (teal + or, inspiration islamique), toggle sombre
+- 5 onglets de mode dans le header
+- Paramètres dans modal flottant
+- Input + Générer sticky en haut de chaque mode
+- Auto-génération au clic sur style/animal/template
+- Bismillah en calligraphie dans le header
+
+### Persistance
+
+- Tous paramètres sauvegardés en localStorage
+- Dernier post affiché au démarrage
+- Historique jusqu'à 30 posts (mode Visuels)
+- Position et taille du QR sauvegardées
+- Favoris persistés
 
 ## Déploiement
 
-Fichier unique `workshop-post-gen.html` — aucune installation requise.
+Fichier unique `workshop-post-gen.html` (273 KB) — aucune installation.
 
-- **Local** : Ouvrir dans un navigateur
-- **GitHub Pages** : Copier dans le repo
-- **Claude.ai** : Fonctionne en artifact
+- **Local**: Ouvrir dans un navigateur
+- **GitHub Pages**: Copier dans le repo
+- **Claude.ai**: Fonctionne en artifact
 
-Les modes IA (Groq/Claude) nécessitent une connexion internet et une clé API.
+Les modes IA nécessitent une connexion internet et une clé API.
+
+## Statistiques
+
+- 5 modes de création
+- 58 styles visuels + 25 animaux + 16 fonds + 8 templates + 6 styles chat + 6 styles notif
+- 50 citations fortune cookie
+- ~5300 lignes, fichier unique
+- 0 dépendance serveur
 
 ## Contact
 

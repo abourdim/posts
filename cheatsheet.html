@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop-DIY V3.0 — Cheat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --teal: #0d7377;
+  --gold: #c9963b;
+  --cream: #faf6ef;
+  --dark: #1a1a2e;
+  --t2: #666;
+}
+body {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px;
+  color: var(--dark);
+  background: #fff;
+  line-height: 1.5;
+}
+@media print {
+  body { font-size: 10px; }
+  .page { page-break-after: always; padding: 8mm; }
+  .page:last-child { page-break-after: avoid; }
+  .no-print { display: none; }
+}
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.hdr {
+  background: var(--teal);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hdr h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.hdr h1 span {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px;
+  background: var(--gold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+.hdr-right { font-size: 9px; text-align: right; opacity: 0.85; }
+.gold-bar { height: 3px; background: var(--gold); border-radius: 0 0 8px 8px; margin-bottom: 12px; }
+
+/* Sections */
+.sec {
+  background: var(--teal);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 11px;
+  margin: 12px 0 8px 0;
+  letter-spacing: 0.5px;
+}
+.sec.gold { background: var(--gold); }
+.sec.dark { background: var(--dark); }
+
+/* Mode cards */
+.modes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.mode {
+  border: 1.5px solid var(--teal);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  background: #f0fafa;
+}
+.mode.alt { border-color: var(--gold); background: #fdf8ef; }
+.mode-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+.mode-title { font-weight: bold; font-size: 10px; color: var(--teal); }
+.mode.alt .mode-title { color: var(--gold); }
+.mode-desc { font-size: 8px; color: var(--t2); margin-top: 2px; }
+.mode-badge {
+  display: inline-block;
+  background: var(--teal);
+  color: #fff;
+  font-size: 7px;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+.mode.alt .mode-badge { background: var(--gold); }
+
+/* Key-value rows */
+.kv { display: flex; gap: 4px; padding: 2px 0; border-bottom: 1px solid #f0ebe3; }
+.kv:last-child { border-bottom: none; }
+.kv-k { font-weight: bold; min-width: 80px; color: var(--teal); flex-shrink: 0; }
+.kv-v { color: var(--dark); }
+
+/* Compact table */
+.ctable { width: 100%; border-collapse: collapse; margin: 4px 0; }
+.ctable th { background: var(--teal); color: #fff; padding: 4px 8px; text-align: left; font-size: 9px; }
+.ctable th.gold { background: var(--gold); }
+.ctable td { padding: 3px 8px; border-bottom: 1px solid #eee; font-size: 9px; }
+.ctable tr:nth-child(even) td { background: #fafafa; }
+
+/* Inline badge */
+.badge {
+  display: inline-block;
+  background: var(--teal);
+  color: #fff;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+.badge.gold { background: var(--gold); }
+
+/* Two columns */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Highlight box */
+.hbox {
+  background: #f0fafa;
+  border-left: 3px solid var(--teal);
+  padding: 6px 10px;
+  border-radius: 0 4px 4px 0;
+  margin: 6px 0;
+  font-size: 10px;
+}
+.hbox.gold { background: #fdf8ef; border-left-color: var(--gold); }
+
+/* Footer */
+.ftr {
+  background: var(--teal);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 9px;
+  margin-top: 12px;
+}
+
+/* Print button */
+.print-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+.print-btn:hover { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimer</button>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page">
+
+<div class="hdr">
+  <h1>WORKSHOP-DIY <span>V3.0</span></h1>
+  <div class="hdr-right">CHEAT SHEET<br>workshop-diy.org · Chelles 77500</div>
+</div>
+<div class="gold-bar"></div>
+
+<!-- 5 MODES -->
+<div class="sec">📱 5 MODES DE CRÉATION</div>
+<div class="modes">
+  <div class="mode">
+    <span class="mode-icon">🎨</span>
+    <div class="mode-title">Visuels</div>
+    <div class="mode-desc">58 styles pro<br>5 catégories</div>
+    <span class="mode-badge">58 STYLES</span>
+  </div>
+  <div class="mode">
+    <span class="mode-icon">🐄</span>
+    <div class="mode-title">Cowsay</div>
+    <div class="mode-desc">25 animaux<br>16 fonds</div>
+    <span class="mode-badge">25 ANIMAUX</span>
+  </div>
+  <div class="mode alt">
+    <span class="mode-icon">💬</span>
+    <div class="mode-title">Chat</div>
+    <div class="mode-desc">Faux SMS<br>6 apps</div>
+    <span class="mode-badge">6 STYLES</span>
+  </div>
+  <div class="mode alt">
+    <span class="mode-icon">😂</span>
+    <div class="mode-title">Mème</div>
+    <div class="mode-desc">Impact font<br>8 templates</div>
+    <span class="mode-badge">8 TEMPLATES</span>
+  </div>
+  <div class="mode">
+    <span class="mode-icon">📱</span>
+    <div class="mode-title">Notif</div>
+    <div class="mode-desc">6 styles OS<br>12 icônes</div>
+    <span class="mode-badge">6 OS</span>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="sec">⚡ BARRE D'ACTIONS</div>
+<div class="kv"><span class="kv-k">⬇ PNG</span><span class="kv-v">Télécharger l'image (nom = mode + style + timestamp)</span></div>
+<div class="kv"><span class="kv-k">📤 Partager</span><span class="kv-v">Web Share API (mobile) → WhatsApp, Facebook... | Clipboard (desktop)</span></div>
+<div class="kv"><span class="kv-k">📋 Texte</span><span class="kv-v">Copier texte formaté + contacts pour coller sur Facebook</span></div>
+<div class="kv"><span class="kv-k">↻ Régénérer</span><span class="kv-v">Relancer le mode actif avec les mêmes paramètres</span></div>
+<div class="kv"><span class="kv-k">🎲 Aléatoire</span><span class="kv-v">Style / animal / template au hasard + auto-génère</span></div>
+<div class="kv"><span class="kv-k">📦 Batch</span><span class="kv-v">Export TOUTES les variantes → Visuels=58 · Cowsay=25 · Chat=6 · Mème=8 · Notif=6</span></div>
+<div class="kv"><span class="kv-k">QR</span><span class="kv-v">Télécharger le QR code seul (visible quand QR activé)</span></div>
+
+<!-- PARAMÈTRES -->
+<div class="sec dark">⚙️ PARAMÈTRES (MODAL)</div>
+<div class="kv"><span class="kv-k">Format</span><span class="kv-v">◻ Carré 1080×1080 · ▭ Paysage 1200×630 · ▯ Story 1080×1920</span></div>
+<div class="kv"><span class="kv-k">Langue</span><span class="kv-v">🇫🇷 Français (30 msgs) · 🇲🇦 العربية (20 msgs, RTL auto)</span></div>
+<div class="kv"><span class="kv-k">Source</span><span class="kv-v">📦 Intégré · ✏️ Manuel · 🤖 Groq (gratuit!) · ✨ Claude</span></div>
+
+<!-- QR CODE -->
+<div class="sec gold">📱 QR CODE</div>
+<div class="kv"><span class="kv-k">Activer</span><span class="kv-v">☑ QR Code dans la sidebar (mode Visuels)</span></div>
+<div class="kv"><span class="kv-k">Personnaliser</span><span class="kv-v">URL + Couleur (picker) + Taille (slider 5–25%)</span></div>
+<div class="kv"><span class="kv-k">Positionner</span><span class="kv-v">Drag & drop directement sur l'image</span></div>
+
+<!-- IA -->
+<div class="sec">✨ INTELLIGENCE ARTIFICIELLE</div>
+<div class="cols">
+  <div class="hbox">
+    <strong>🤖 Groq (GRATUIT)</strong><br>
+    1. groq.com/console → créer compte<br>
+    2. Copier clé API (gsk_...)<br>
+    3. ⚙️ → Source → Groq → coller clé
+  </div>
+  <div class="hbox gold">
+    <strong>✨ Claude</strong><br>
+    1. console.anthropic.com<br>
+    2. Copier clé API (sk-ant-...)<br>
+    3. ⚙️ → Source → Claude → coller clé
+  </div>
+</div>
+<div class="hbox" style="font-size:9px;">
+  <strong>Visuels:</strong> IA auto quand Groq/Claude est sélectionné.
+  <strong>Autres modes:</strong> Bouton ✨ IA Suggérer dans la sidebar → génère cowsay, chat, mème ou notif.
+</div>
+
+<!-- RACCOURCIS -->
+<div class="sec dark">💡 RACCOURCIS & ASTUCES</div>
+<div class="kv"><span class="kv-k">Auto-generate</span><span class="kv-v">Cliquer sur un style/animal/template → régénère automatiquement</span></div>
+<div class="kv"><span class="kv-k">Texte rapide</span><span class="kv-v">Mème + Notif: un clic remplit ET génère instantanément</span></div>
+<div class="kv"><span class="kv-k">Chat auto</span><span class="kv-v">Première visite → 4 messages pré-remplis automatiquement</span></div>
+<div class="kv"><span class="kv-k">Swap bulle</span><span class="kv-v">◀/▶ à côté d'une bulle chat → swap gauche/droite</span></div>
+<div class="kv"><span class="kv-k">⭐ Favoris</span><span class="kv-v">Cliquer l'étoile sur un style → onglet "⭐ Favoris" pour accès rapide</span></div>
+<div class="kv"><span class="kv-k">Persistance</span><span class="kv-v">Tout est sauvegardé: thème, langue, format, favoris, QR, dernier post</span></div>
+<div class="kv"><span class="kv-k">Hors-ligne</span><span class="kv-v">100% fonctionnel sans internet (sauf IA et QR perso)</span></div>
+
+<div class="ftr">
+  Workshop-DIY V3.0 · workshop-diy.org · contact@workshop-diy.org · 06 19 51 51 73 · Chelles 77500 · بِسْمِ اللَّهِ
+</div>
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page">
+
+<div class="hdr">
+  <h1>WORKSHOP-DIY <span>V3.0</span></h1>
+  <div class="hdr-right">CHEAT SHEET — PAGE 2<br>Référence Complète</div>
+</div>
+<div class="gold-bar"></div>
+
+<!-- VISUELS 58 STYLES -->
+<div class="sec">🎨 VISUELS — 58 STYLES EN 5 CATÉGORIES</div>
+<table class="ctable">
+  <tr><th style="width:110px;">Catégorie</th><th>Styles</th></tr>
+  <tr><td><span class="badge gold">Classique 15</span></td><td>Journal · Tableau Noir · Blueprint · Polaroid · Recette · Vintage · Bois · Métal · Grunge · Aquarelle · Craie · Néon · Dégradé · Minimal · Rétro</td></tr>
+  <tr><td><span class="badge" style="background:#43a047;">Kiddy 10</span></td><td>Lego · Scratch · Crayon · Comic · Puzzle · Chasse au Trésor · Dino · Espace · Pirate · Cirque</td></tr>
+  <tr><td><span class="badge" style="background:#5c6bc0;">Formes 10</span></td><td>Robot · Fusée · Ampoule · Cerveau · Main · Arbre · Étoile · Cœur · Engrenage · Maison</td></tr>
+  <tr><td><span class="badge">Andalous 13</span></td><td>Alhambra · Arabesque · Zellige Joyeux · Astrolabe STEM · Moucharabieh · Minaret · Calligraphie · Mosaïque · Riad · Jardin · Lampe · Géométrique · Mashrabiya</td></tr>
+  <tr><td><span class="badge" style="background:#e65100;">Intense 10</span></td><td>Acier Brossé · Flammes · Camouflage · Neon City · Béton Brut · Lever de Soleil · Nuage · Origami · Océan · Heure Dorée</td></tr>
+</table>
+
+<!-- COWSAY -->
+<div class="sec">🐄 COWSAY — RÉFÉRENCE COMPLÈTE</div>
+
+<div style="font-size:9px;margin-bottom:6px;"><strong style="color:var(--teal);">25 ANIMAUX:</strong>
+🐄 Vache · 🐧 Tux · 🤖 Robot · 🐉 Dragon · 💀 Crâne · 👾 Alien · 🦖 T-Rex · 🦉 Hibou · 🐸 Grenouille · 🐙 Poulpe · 🐑 Mouton · 🐫 Chameau · 🐘 Éléphant · 🦆 Canard · 🐁 Souris · 🦇 Chauve-souris · 🦄 Licorne · 😺 Chat · 🐰 Lapin · 🦊 Renard · 🐢 Tortue · 🧙 Sorcier · 🎅 Père Noël · 😴 Endormi · 🤪 Fou</div>
+
+<div style="font-size:9px;margin-bottom:6px;"><strong style="color:var(--teal);">16 ARRIÈRE-PLANS:</strong>
+🖥️ Terminal vert · 🟠 Ambre CRT · 📋 Tableau (craie) · ⬜ Blanc · 🟩 Matrix (katakana) · 🟦 Écran Bleu · 🟣 Ubuntu · 🔵 Hacker (scanlines) · 🕹️ C64 · 🎮 Game Boy · 👾 Arcade (néon) · 📐 Blueprint (grille) · ⚡ Circuit (traces) · 📓 Cahier (ligné) · 📝 Post-it (jaune) · 🪵 Craft (bois)</div>
+
+<table class="ctable">
+  <tr><th style="width:100px;">Bulle</th><th>Description</th></tr>
+  <tr><td>💬 Dire</td><td>Bulle classique &lt; ... &gt; avec tail "\"</td></tr>
+  <tr><td>💭 Penser</td><td>Bulle ronde ( ... ) avec tail "o"</td></tr>
+  <tr><td>📢 Crier</td><td>Bulle avec bordure ═══ et tail "\"</td></tr>
+</table>
+
+<table class="ctable">
+  <tr><th style="width:100px;">Format Spécial</th><th>Rendu</th></tr>
+  <tr><td>$ Terminal</td><td><code>$ workshop-diy --create "msg" → [████████░░] 80% → GENIUS IN PROGRESS 🚀</code></td></tr>
+  <tr><td>Git Commit</td><td><code>commit abc123 → Author: Workshop-DIY → feat: msg → Fix: confiance ++</code></td></tr>
+  <tr><td>// Code</td><td><code>/** @project */ // TODO: msg → function apprendre() { ... }</code></td></tr>
+  <tr><td>💀 BSOD</td><td><code>PARENT_BOREDOM_OVERFLOW → STOP: 0x00000ED → Fix: workshop-diy.org</code></td></tr>
+  <tr><td>🥠 Fortune</td><td>50 citations aléatoires: maker, geek, STEM, code (français)</td></tr>
+</table>
+
+<table class="ctable">
+  <tr><th style="width:100px;">Mode Avancé</th><th>Description</th></tr>
+  <tr><td>🐄💬🐧 Duo</td><td>2 animaux en conversation — chacun a sa bulle + son animal</td></tr>
+  <tr><td>✏️ ASCII perso</td><td>Collez votre propre ASCII art — la bulle s'affiche au-dessus</td></tr>
+  <tr><td>🎨 Combo</td><td>ASCII vert lumineux (glow) sur fond visuel (58 styles) avec overlay sombre</td></tr>
+</table>
+
+<!-- CHAT -->
+<div class="sec gold">💬 CHAT / SMS</div>
+<div style="font-size:9px;margin-bottom:4px;"><strong>6 styles:</strong> 🍎 iMessage (bleu/gris) · 💚 WhatsApp (vert) · 💜 Messenger (violet) · 💬 SMS (vert/blanc) · 🎮 Discord (dark) · ✈️ Telegram (bleu clair)</div>
+<div style="font-size:9px;margin-bottom:4px;"><strong>Personnages:</strong> Avatar emoji + nom pour chaque côté · <strong>Max:</strong> 8 bulles · <strong>Options:</strong> Cadre iPhone ☑ · Timestamps ☑ · Indicateur de frappe (...)</div>
+
+<!-- MEME -->
+<div class="sec gold">😂 MÈME — 8 TEMPLATES</div>
+<div style="font-size:9px;margin-bottom:4px;">👆👇 Drake · 🧠 Galaxy Brain · 👀 Distracted · 🔴 Bouton Rouge · 📜 Scroll de Vérité · 📈 Expanding · ☕ Change My Mind · 🔥 This is Fine</div>
+<div style="font-size:9px;margin-bottom:4px;"><strong>Textes rapides (8):</strong> Quand tu découvres / souder · Personne: / Arduino 3h · Prof dit / Projet libre · One does not simply · Mon premier robot · sudo make me · Circuit marche · 404 Ennui not found</div>
+
+<!-- NOTIF -->
+<div class="sec">📱 NOTIFICATION — 6 STYLES OS</div>
+<div style="font-size:9px;margin-bottom:4px;"><strong>Styles:</strong> 🍎 iOS Light · 🌙 iOS Dark · 🤖 Android · 🌑 Android Dark · 🪟 Windows 11 · 💻 macOS</div>
+<div style="font-size:9px;margin-bottom:4px;"><strong>12 icônes:</strong> 🛠️ 🤖 🚀 ⚡ 💡 🧩 🔧 🎯 📐 🔬 🎮 🏗️</div>
+<div style="font-size:9px;margin-bottom:4px;"><strong>Textes rapides (6):</strong> Premier robot 🤖 · Nouvel atelier · Niveau débloqué 🏆 · Rappel ⏰ · Places limitées 🔥 · Impression 3D 🖨️</div>
+
+<!-- FILES -->
+<div class="sec dark">📁 FICHIERS DU PROJET</div>
+<table class="ctable">
+  <tr><th>Fichier</th><th>Description</th></tr>
+  <tr><td><strong>start_here.html</strong></td><td>Page d'accueil — liens vers tout</td></tr>
+  <tr><td><strong>workshop-post-gen.html</strong></td><td>L'application (284 KB, 5400+ lignes, fichier unique)</td></tr>
+  <tr><td><strong>README.md</strong></td><td>Documentation technique complète</td></tr>
+  <tr><td><strong>WIKI.md</strong></td><td>Guide d'utilisation détaillé + FAQ</td></tr>
+  <tr><td><strong>qr-workshop-diy.png</strong></td><td>QR code standalone (teal, transparent)</td></tr>
+</table>
+
+<div class="ftr">
+  Workshop-DIY V3.0 · 5 modes · 58 styles · 25 animaux · 50 citations · 5400 lignes · 0 serveur · الحمد لله
+</div>
+</div>
+
+</body>
+</html>
