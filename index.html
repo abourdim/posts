@@ -89,6 +89,7 @@ body::before {
   z-index: 1;
   display: grid;
   grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
   gap: 0;
   min-height: calc(100vh - 93px);
 }
@@ -101,15 +102,32 @@ body::before {
   padding: 0;
   border-right: 1px solid var(--surface2);
   overflow-y: auto;
-  max-height: calc(100vh - 93px);
+  height: calc(100vh - 93px);
   background: var(--surface);
   min-width: 300px;
   max-width: 600px;
   width: 420px;
+  min-height: 300px;
   resize: both;
+  position: relative;
+}
+.sidebar::after {
+  content: '';
+  position: sticky;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: 18px;
+  background: linear-gradient(to top, var(--surface2) 0%, transparent 100%);
+  cursor: ns-resize;
+  text-align: center;
 }
 .sidebar::-webkit-scrollbar { width: 6px; }
 .sidebar::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+.sidebar::-webkit-resizer {
+  background: var(--accent);
+  border-radius: 2px;
+}
 .sidebar-top {
   position: sticky;
   top: 0;
